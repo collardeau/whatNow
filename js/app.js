@@ -30,14 +30,38 @@ WhatNowApp.controller('WhatNowCtrl', function($scope, offlineService, firebaseSe
     $scope.addActivity = function () {
         var title = $scope.newActivity.title,
             urgency = $scope.newActivity.urgency,
-            duration = $scope.newActivity.duration;
+            duration = $scope.newActivity.duration,
+            context = [],
+            home = $scope.newActivity.home,
+            errand = $scope.newActivity.errand,
+            computer = $scope.newActivity.computer,
+            fun = $scope.newActivity.fun;
+
+            if (home){
+                context.push("home")
+            }
+
+            if (errand){
+                context.push("errand")
+            }
+
+            if (fun){
+                context.push("fun")
+            }
+
+            if (computer){
+                context.push("computer")
+            }
 
         firebaseService.add({
             title : title,
             urgency: urgency,
             duration: duration,
+            context: context,
             date: Firebase.ServerValue.TIMESTAMP
        });
+
+        $scope.activityModal.hide();
 
    };
 });
