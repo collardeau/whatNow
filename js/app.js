@@ -38,7 +38,8 @@ WhatNowApp.controller('WhatNowCtrl', function($scope, offlineService, firebaseSe
             fun = $scope.newActivity.fun,
             forUsers = [],
             evi = $scope.newActivity.evi,
-            toma = $scope.newActivity.toma;
+            toma = $scope.newActivity.toma,
+            instructions = $scope.newActivity.instructions;
 
             if (home){ context.push("home"); }
             if (errand){ context.push("errand"); }
@@ -48,14 +49,13 @@ WhatNowApp.controller('WhatNowCtrl', function($scope, offlineService, firebaseSe
             if (evi){ forUsers.push("evi"); }
             if (toma){ forUsers.push("toma"); }
 
-
-
         firebaseService.add({
             title : title,
             urgency: urgency,
             duration: duration,
             context: context,
             forUsers: forUsers,
+            instructions: instructions,
             date: Firebase.ServerValue.TIMESTAMP
        });
 
