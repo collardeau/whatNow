@@ -6,7 +6,7 @@ var WhatNowApp = angular.module('whatNow', ['ionic', 'whatNow.services']);
 
 WhatNowApp.controller('WhatNowCtrl', function($scope, offlineService, firebaseService, $ionicModal) {
 
-    $scope.activities = offlineService.activities;
+    $scope.activities = firebaseService.activities;
     $scope.newActivity = {};
 
    $ionicModal.fromTemplateUrl('new-activity.html', function(modal){

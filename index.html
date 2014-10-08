@@ -22,7 +22,7 @@
     <ion-content>
         <ion-list>
             <!--show no activities if nothing-->
-            <ion-item ng-repeat="activity in activities">
+            <ion-item ng-repeat="activity in activities | orderByPriority | orderBy: '-urgency' ">
                 {{activity.title}}
                 <span class="badge badge-light">{{activity.urgency}}</span>
             </ion-item>
