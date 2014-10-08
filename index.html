@@ -13,19 +13,106 @@
 <body ng-app="whatNow" ng-controller="WhatNowCtrl">
     <ion-header-bar class="bar-positive">
         <h1 class="title">What Now</h1>
-        <button class="button button-icon ion-lightbulb"></button>
+        <button class="button button-icon ion-lightbulb" ng-click="newActivity()"></button>
     </ion-header-bar>
 
     <ion-content>
-        <ion-list show-delete="true">
+        <ion-list>
             <!--show no activities if nothing-->
-            <ion-item ng-repeat="activity in activites">
+            <ion-item ng-repeat="activity in activities">
                 {{activity.title}}
                 <span class="badge badge-light">{{activity.urgency}}</span>
             </ion-item>
         </ion-list>
     </ion-content>
 
+    <script id="new-activity.html" type="text/ng-template">
+        <div class="modal">
+
+            <ion-header-bar class="bar-stable">
+                <h1 class="title">New Activity</h1>
+                <button class="button button-clear button-positive" ng-click="closeNewActivity()">Cancel</button>
+            </ion-header-bar>
+            <ion-content>
+                <form ng-submit="addActivity()">
+                    <div class="list">
+                        <label class="item item-input">
+                            <span class="input-label">Activity</span>
+                            <input ng-model="newActivity.title" type="text" placeholder="Action you want to take">
+                        </label>
+                        {{newTitle}}
+                        <label class="item item-input">
+                            <span class="input-label">Urgency</span>
+                            <select ng-model="newActivity.urgency">
+                                <option>3</option>
+                                <option selected>2</option>
+                                <option>1</option>
+                            </select>
+                        </label>
+                        <label class="item item-input">
+                            <span class="input-label">Duration</span>
+                            <input type="number" ng-model="newActivity.duration">
+                        </label>
+
+                        <li class="item item-divider">
+                            Context:
+                        </li>
+                        <li class="item item-checkbox">
+                            <label class="checkbox">
+                                <input type="checkbox">
+                            </label>
+                            <i class="icon ion-home"></i> At Home
+                        </li>
+
+                        <li class="item item-checkbox">
+                            <label class="checkbox">
+                                <input type="checkbox">
+                            </label>
+                            <i class="icon ion-bag"></i> Errand
+                        </li>
+
+
+                        <li class="item item-checkbox">
+                            <label class="checkbox">
+                                <input type="checkbox">
+                            </label>
+                            <i class="icon ion-happy"></i> For fun
+                        </li>
+
+                        <li class="item item-divider">
+                            For:
+                        </li>
+
+                        <li class="item item-checkbox">
+                            <label class="checkbox">
+                                <input type="checkbox">
+                            </label>
+                            <i class="icon ion-woman"></i> Evi
+                        </li>
+
+                        <li class="item item-checkbox">
+                            <label class="checkbox">
+                                <input type="checkbox">
+                            </label>
+                            <i class="icon ion-man"></i> Thomas
+                        </li>
+
+
+                        <label class="item item-input">
+                            <!--<span class="input-label">Note</span>-->
+                            <textarea placeholder="Instructions"></textarea>
+                        </label>
+
+                        <label class="item">
+                            <button class="button button-block button-positive" type="submit">Add</button>
+                        </label>
+                    </div>
+
+                </form>
+            </ion-content>
+        </div>
+
+    </script>
 
     <div class="tabs tabs-bottom tabs-icon-only tabs-assertive">
         <a class="tab-item">
