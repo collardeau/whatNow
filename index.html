@@ -22,8 +22,11 @@
     <ion-content>
         <ion-list>
             <!--show no activities if nothing-->
-            <ion-item ng-repeat="activity in activities | orderByPriority | orderBy: '-urgency' ">
+            <ion-item ng-repeat="activity in activities | orderByPriority | orderBy: '-urgency'"
+                    ng-hide="hide(activity)">
                 {{activity.title}}
+                <br />
+                {{activity.context}}
                 <span class="badge badge-light">{{activity.urgency}}</span>
             </ion-item>
         </ion-list>
@@ -123,19 +126,22 @@
 
     </script>
 
-    <div class="tabs tabs-bottom tabs-icon-only tabs-assertive">
-        <a class="tab-item">
+    <div class="tabs tabs-bottom tabs-icon-only tabs-neutral">
+        <a class="tab-item" ng-model="homeFilter" ng-click="homeFilter = !homeFilter" ng-class="{active: homeFilter}">
             <i class="icon ion-home"></i>
         </a>
-        <a class="tab-item">
+        <a class="tab-item" ng-model="errandFilter" ng-click="errandFilter = !errandFilter" ng-class="{active: errandFilter}">
             <i class="icon ion-bag"></i>
         </a>
-        <a class="tab-item">
+        <a class="tab-item" ng-model="computerFilter" ng-click="computerFilter = !computerFilter" ng-class="{active: computerFilter}">
+            <i class="icon ion-laptop"></i>
+        </a>
+        <a class="tab-item" ng-model="funFilter" ng-click="funFilter = !funFilter" ng-class="{active: funFilter}">
             <i class="icon ion-happy"></i>
         </a>
-        <a class="tab-item">
-            <i class="icon ion-pricetags"></i>
-        </a>
+        <!--<a class="tab-item">-->
+            <!--<i class="icon ion-pricetags"></i>-->
+        <!--</a>-->
     </div>
 
 </body>

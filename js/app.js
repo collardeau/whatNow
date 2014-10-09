@@ -62,5 +62,35 @@ WhatNowApp.controller('WhatNowCtrl', function($scope, offlineService, firebaseSe
         $scope.activityModal.hide();
 
    };
+
+    $scope.homeFilter = false;
+    $scope.errandFilter = false;
+
+    $scope.hide = function(activity){
+        if($scope.homeFilter && !hasContext(activity.context, "home")){
+            return true;
+        }
+        if($scope.errandFilter && !hasContext(activity.context, "errand")){
+            return true;
+        }
+        if($scope.computerFilter && !hasContext(activity.context, "computer")){
+            return true;
+        }
+        if($scope.funFilter && !hasContext(activity.context, "fun")){
+            return true;
+        }
+
+    };
+
+    var hasContext = function(contextList, context){
+        if(contextList) {
+            for (var i = 0; i < contextList.length; i++) {
+                if (contextList[i] === context) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    };
 });
 
