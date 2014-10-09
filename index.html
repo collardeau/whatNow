@@ -18,8 +18,14 @@
         <h1 class="title">What Now</h1>
         <button class="button button-icon ion-lightbulb" ng-click="newActivity()"></button>
     </ion-header-bar>
+    <div class="bar bar-subheader tabs tabs-icon-left bar-neutral">
+        <!--<a class="tab-item" >All</a>-->
+        <a class="tab-item" ng-model="eviFilter" ng-click="eviFilter = !eviFilter" ng-class="{active: eviFilter}"><i class="icon ion-woman"></i> Evi</a>
+        <a class="tab-item" ng-model="tomaFilter" ng-click="tomaFilter = !tomaFilter" ng-class="{active: tomaFilter}"><i class="icon ion-man"></i> Toma</a>
+        <!--<a class="tab-item">Momo</a>-->
+    </div>
 
-    <ion-content>
+    <ion-content class="has-header has-subheader">
         <ion-list>
             <!--show no activities if nothing-->
             <ion-item ng-repeat="activity in activities | orderByPriority | orderBy: '-urgency'"
@@ -27,6 +33,7 @@
                 {{activity.title}}
                 <br />
                 {{activity.context}}
+                {{activity.forUsers}}
                 <span class="badge badge-light">{{activity.urgency}}</span>
             </ion-item>
         </ion-list>

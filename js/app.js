@@ -65,6 +65,11 @@ WhatNowApp.controller('WhatNowCtrl', function($scope, offlineService, firebaseSe
 
     $scope.homeFilter = false;
     $scope.errandFilter = false;
+    $scope.computerFilter = false;
+    $scope.funFilter = false;
+
+    $scope.eviFilter = false;
+    $scope.tomaFilter = false;
 
     $scope.hide = function(activity){
         if($scope.homeFilter && !hasContext(activity.context, "home")){
@@ -79,6 +84,12 @@ WhatNowApp.controller('WhatNowCtrl', function($scope, offlineService, firebaseSe
         if($scope.funFilter && !hasContext(activity.context, "fun")){
             return true;
         }
+        if($scope.eviFilter && !hasUser(activity.forUsers, "evi")){
+            return true;
+        }
+        if($scope.tomaFilter && !hasUser(activity.forUsers, "toma")){
+            return true;
+        }
 
     };
 
@@ -86,6 +97,17 @@ WhatNowApp.controller('WhatNowCtrl', function($scope, offlineService, firebaseSe
         if(contextList) {
             for (var i = 0; i < contextList.length; i++) {
                 if (contextList[i] === context) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    };
+
+    var hasUser = function(userList, user){
+        if(userList) {
+            for (var i = 0; i < userList.length; i++) {
+                if (userList[i] === user) {
                     return true;
                 }
             }
