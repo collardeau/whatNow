@@ -33,7 +33,6 @@ WhatNowApp.controller('WhatNowCtrl', function($scope, offlineService, firebaseSe
        {
            scope: $scope,
            animation: 'slide-in-up'
-
         });
 
     $scope.newActivity = function(){
@@ -104,23 +103,15 @@ WhatNowApp.controller('WhatNowCtrl', function($scope, offlineService, firebaseSe
     };
 
     var hasContext = function(contextList, context){
-        if(contextList) {
-            for (var i = 0; i < contextList.length; i++) {
-                if (contextList[i] === context) {
-                    return true;
-                }
-            }
+        if (contextList[context]) {
+            return true;
         }
         return false;
     };
 
     var hasUser = function(userList, user){
-        if(userList) {
-            for (var i = 0; i < userList.length; i++) {
-                if (userList[i] === user) {
-                    return true;
-                }
-            }
+        if (userList[user]) {
+            return true;
         }
         return false;
     };
