@@ -19,6 +19,7 @@
         <div class="row" ng-show="activity.completed">
             <div class="col col-30">By:</div>
             <div class="col">
+                <!--ng-change only fires once?-->
                 <select ng-model="activity.completedBy" ng-change="saveActivity()">
                     <option value="none">Both/None</option>
                     <option value="evi">Evi</option>
