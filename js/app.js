@@ -49,23 +49,15 @@ WhatNowApp.controller('WhatNowCtrl', function($scope, offlineService, firebaseSe
         var title = $scope.newActivity.title,
             urgency = $scope.newActivity.urgency,
             duration = $scope.newActivity.duration,
-            context = [],
-            home = $scope.newActivity.home,
-            errand = $scope.newActivity.errand,
-            computer = $scope.newActivity.computer,
-            fun = $scope.newActivity.fun,
-            forUsers = [],
-            evi = $scope.newActivity.evi,
-            toma = $scope.newActivity.toma,
+            context = {};
+            context.home = $scope.newActivity.home,
+            context.errand = $scope.newActivity.errand,
+            context.computer = $scope.newActivity.computer,
+            context.fun = $scope.newActivity.fun,
+            forUsers = {},
+            forUsers.evi =  $scope.newActivity.evi,
+            forUsers.toma = $scope.newActivity.toma,
             instructions = $scope.newActivity.instructions;
-
-            if (home){ context.push("home"); }
-            if (errand){ context.push("errand"); }
-            if (fun){ context.push("fun"); }
-            if (computer){ context.push("computer"); }
-
-            if (evi){ forUsers.push("evi"); }
-            if (toma){ forUsers.push("toma"); }
 
         firebaseService.add({
             title : title,
@@ -134,15 +126,33 @@ WhatNowApp.controller('WhatNowCtrl', function($scope, offlineService, firebaseSe
     };
 });
 
-WhatNowApp.controller("SingleActivityCtrl", function($scope, $stateParams, firebaseService){
+WhatNowApp.controller("SingleActivityCtrl", function($scope, $stateParams, $ionicModal, firebaseService){
         var id = $stateParams.activityId;
         $scope.activity = firebaseService.activities[id];
-        console.log($scope.activity);
-
+//        console.log($scope.activity);
 
         $scope.saveActivity = function(){
             firebaseService.activities.$save(id);
-            console.log($scope.activity);
+//            console.log($scope.activity);
         }
+
+        $ionicModal.fromTemplateUrl('edit-activity.html', function(modal){
+            $scope.editActivityModal = modal;
+        },
+        {
+            scope: $scope,
+            animation: 'slide-in-up'
+
+        });
+
+    $scope.editActivity = function(){
+        $scope.editActivityModal.show();
+//        $scope.newActivity.urgency = 2;
+        $scope.activity.evi = true;
+    };
+
+    $scope.closeEditActivity = function(){
+        $scope.editActivityModal.hide();
+    };
 
 });
