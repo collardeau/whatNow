@@ -1,0 +1,73 @@
+<ion-header-bar class="bar-positive">
+    <a href="#"><button class="button button-icon ion-ios7-arrow-back"></button></a>
+    <h1 class="title">Activity</h1>
+    <button class="button button-icon ion-edit" ng-hide="activity.completed"></button>
+</ion-header-bar>
+
+<ion-content class="has-header padding align-center">
+
+    <div class="card">
+        <div class="item item-divider">
+            {{activity.title}}
+        </div>
+        <div class="row">
+            <div class="col col-30">Completed</div>
+            <div class="col">
+                <input type="checkbox" ng-model="activity.completed" ng-change="saveActivity()">
+            </div>
+        </div>
+        <div class="row" ng-show="activity.completed">
+            <div class="col col-30">By:</div>
+            <div class="col">
+                <select ng-model="activity.completedBy" ng-change="saveActivity()">
+                    <option value="none">Both/None</option>
+                    <option value="evi">Evi</option>
+                    <option value="toma">Toma</option>
+                </select>
+            </div>
+        </div>
+        <div ng-class="{greyOut:activity.completed}">
+            <div class="row">
+                <div class="col col-30">Urgency:</div>
+                <div class="col">{{activity.urgency}}</div>
+            </div>
+
+            <div class="row">
+                <div class="col col-30">Estimated Duration:</div>
+                <div class="col">{{activity.duration  || "not specified"}}</div>
+            </div>
+
+            <div class="row">
+                <div class="col col-30">Context:</div>
+                <div class="col">
+                    <span ng-repeat="item in activity.context">{{item}}<span ng-show="!$last ">, </span></span>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col col-30">For:</div>
+                <div class="col">
+                    <span ng-repeat="user in activity.forUsers">{{user}}<span ng-show="!$last ">, </span></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col col-30">Instructions</div>
+                <div class="col">
+                    {{ activity.instructions || "none" }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col col-30">Added on:</div>
+                <div class="col">
+                    {{activity.date  | date}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</ion-content>

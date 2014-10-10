@@ -1,4 +1,15 @@
 
+ion-nav-view {
+    background-color: white !important;
+}
+
+.greyOut {
+    color: #c0c0c0;
+}
+
+.crossedOut {
+    text-decoration: line-through;
+}
 /*#activityList .toggle {*/
     /*text-align: center;*/
     /*width: 20px;*/

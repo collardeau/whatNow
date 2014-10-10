@@ -4,6 +4,24 @@
 
 var WhatNowApp = angular.module('whatNow', ['ionic', 'whatNow.services']);
 
+WhatNowApp.config(function($stateProvider, $urlRouterProvider) {
+    $stateProvider
+
+        .state('/', {
+            url: "/",
+            templateUrl: "templates/activities.html",
+            controller: "WhatNowCtrl"
+        })
+
+        .state('activity', {
+            url: "/activity/:activityId",
+            templateUrl: "templates/activity.html",
+            controller: 'SingleActivityCtrl'
+        });
+    // if none of the above states are matched, use this as the fallback
+    $urlRouterProvider.otherwise('/');
+});
+
 WhatNowApp.controller('WhatNowCtrl', function($scope, offlineService, firebaseService, $ionicModal) {
 
     $scope.activities = firebaseService.activities;
@@ -116,3 +134,15 @@ WhatNowApp.controller('WhatNowCtrl', function($scope, offlineService, firebaseSe
     };
 });
 
+WhatNowApp.controller("SingleActivityCtrl", function($scope, $stateParams, firebaseService){
+        var id = $stateParams.activityId;
+        $scope.activity = firebaseService.activities[id];
+        console.log($scope.activity);
+
+
+        $scope.saveActivity = function(){
+            firebaseService.activities.$save(id);
+            console.log($scope.activity);
+        }
+
+});
