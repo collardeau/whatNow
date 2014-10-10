@@ -12,7 +12,7 @@
 <ion-content class="has-header has-subheader">
     <ion-list>
         <!--show no activities if nothing-->
-        <ion-item ng-repeat="activity in activities | orderByPriority | orderBy: '-urgency'"
+        <ion-item ng-repeat="activity in activities | orderBy: '-urgency'"
                   ng-hide="hide(activity)" href="#/activity/{{activity.$id}}">
             <span ng-show="activity.completed">&#10004;</span>
             <span ng-class={crossedOut:activity.completed}>{{activity.title}}</span>

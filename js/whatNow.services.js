@@ -2,9 +2,9 @@
  * Created by thomascollardeau on 10/8/14.
  */
 
-angular.module('whatNow.services', ['firebase'])
+angular.module('whatNow.services', [])
 
-.factory("firebaseService", function($firebase){
+.factory("firebaseService", function(){
         var url = 'https://what-now.firebaseio.com';
         var fireRef = new Firebase(url);
 
