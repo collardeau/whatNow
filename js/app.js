@@ -126,14 +126,28 @@ WhatNowApp.controller('WhatNowCtrl', function($scope, offlineService, firebaseSe
     };
 });
 
-WhatNowApp.controller("SingleActivityCtrl", function($scope, $stateParams, $ionicModal, firebaseService){
+WhatNowApp.controller("SingleActivityCtrl", function($scope, $state, $stateParams, $ionicModal, $ionicPopup, firebaseService){
         var id = $stateParams.activityId;
         $scope.activity = firebaseService.activities[id];
 //        console.log($scope.activity);
 
         $scope.saveActivity = function(){
             firebaseService.activities.$save(id);
-//            console.log($scope.activity);
+        };
+
+        $scope.deleteActivity = function(){
+                var confirmPopup = $ionicPopup.confirm({
+                    title: 'Delete',
+                    template: 'Are you sure you want to delete this activity?'
+                });
+                confirmPopup.then(function(res) {
+                    if(res) {
+                        firebaseService.activities.$remove(id);
+                        $state.go('/');
+                    } else {
+                        console.log('Cancel Delete');
+                    }
+                });
         }
 
         $ionicModal.fromTemplateUrl('edit-activity.html', function(modal){
@@ -147,8 +161,6 @@ WhatNowApp.controller("SingleActivityCtrl", function($scope, $stateParams, $ioni
 
     $scope.editActivity = function(){
         $scope.editActivityModal.show();
-//        $scope.newActivity.urgency = 2;
-        $scope.activity.evi = true;
     };
 
     $scope.closeEditActivity = function(){
