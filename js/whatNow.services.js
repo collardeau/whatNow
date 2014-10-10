@@ -24,48 +24,98 @@ angular.module('whatNow.services', ['firebase'])
         factory = {
             "activities" : {
                 "-JYm9Ng1wyCD2KqSReRK" : {
-                    "context" : [ "errand" ],
+                    "completed" : false,
+                    "completedBy" : "",
+                    "context" : {
+                        "computer" : false,
+                        "errand" : true,
+                        "fun" : false,
+                        "home" : false
+                    },
                     "date" : 1412812082139,
                     "duration" : 20,
-                    "forUsers" : [ "evi", "toma" ],
+                    "evi" : true,
+                    "forUsers" : {
+                        "evi" : true,
+                        "toma" : true
+                    },
                     "instructions" : "Either at Flora or Smíchov",
                     "title" : "Take clothes to Dry Cleaners",
-                    "urgency" : 2
+                    "urgency" : 3
                 },
                 "-JYm9cHBMn1OgqdRycJx" : {
-                    "context" : [ "home", "computer" ],
+                    "completed" : false,
+                    "completedBy" : "evi",
+                    "context" : {
+                        "computer" : true,
+                        "errand" : false,
+                        "fun" : false,
+                        "home" : true
+                    },
                     "date" : 1412812146049,
                     "duration" : 15,
-                    "forUsers" : [ "toma" ],
+                    "forUsers" : {
+                        "evi" : false,
+                        "toma" : true
+                    },
                     "instructions" : "Acoustic rock and rhythm",
                     "title" : "Find guitar lessons in Prague",
                     "urgency" : 2
                 },
                 "-JYm9jQAysKXGT_YouY_" : {
-                    "context" : [ "home" ],
+                    "completed" : false,
+                    "completedBy" : "none",
+                    "context" : {
+                        "computer" : false,
+                        "errand" : false,
+                        "fun" : false,
+                        "home" : true
+                    },
                     "date" : 1412812175309,
-                    "forUsers" : [ "evi" ],
+                    "forUsers" : {
+                        "evi" : true,
+                        "toma" : false
+                    },
                     "instructions" : "Kindle is in living room",
                     "title" : "Fix Kindle",
                     "urgency" : 2
                 },
-                "-JYmAHglICXzRcx85f9s" : {
-                    "context" : [ "home", "computer" ],
-                    "date" : 1412812319714,
-                    "duration" : 10,
-                    "forUsers" : [ "toma" ],
-                    "instructions" : "current is set to expire!",
-                    "title" : "Get new CC",
-                    "urgency" : "3"
-                },
                 "-JYmAXzl6S7UCe-pEv6e" : {
-                    "context" : [ "fun" ],
+                    "completed" : false,
+                    "completedBy" : "",
+                    "context" : {
+                        "computer" : true,
+                        "errand" : false,
+                        "fun" : true,
+                        "home" : false
+                    },
                     "date" : 1412812386497,
                     "duration" : 120,
-                    "forUsers" : [ "toma" ],
+                    "evi" : true,
+                    "forUsers" : {
+                        "evi" : false,
+                        "toma" : true
+                    },
                     "instructions" : "never been!",
-                    "title" : "visit prague Castle",
+                    "title" : "visit Prague Castle",
                     "urgency" : 2
+                },
+                "-JYqMfsRBhgjnn4hVDa8" : {
+                    "completed" : false,
+                    "completedBy" : "",
+                    "context" : {
+                        "computer" : false,
+                        "errand" : false,
+                        "fun" : true,
+                        "home" : false
+                    },
+                    "date" : 1412882677467,
+                    "forUsers" : {
+                        "evi" : false,
+                        "toma" : true
+                    },
+                    "title" : "visit prague cemetary",
+                    "urgency" : 1
                 }
             }
         };
