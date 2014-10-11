@@ -2,6 +2,15 @@
  * Created by thomascollardeau on 10/8/14.
  */
 
+//add completed and completedBy when adding to firebase db
+//make sure to enter integers and bool in the database where appropriate
+//add required fields (ng-pristine etc)
+//sort by duration (not necessarily urgency) -- not working?
+//with a time range?
+//bad filtering when no duration input
+//figure out points system
+//add a search field
+
 var WhatNowApp = angular.module('whatNow', ['ionic', 'whatNow.services']);
 
 WhatNowApp.config(function($stateProvider, $urlRouterProvider) {
@@ -17,6 +26,12 @@ WhatNowApp.config(function($stateProvider, $urlRouterProvider) {
             url: "/activity/:activityId",
             templateUrl: "templates/activity.html",
             controller: 'SingleActivityCtrl'
+        })
+
+        .state('done', {
+            url: "/done",
+            templateUrl: "templates/done.html",
+            controller: 'WhatNowCtrl'
         });
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/');
@@ -46,6 +61,8 @@ WhatNowApp.controller('WhatNowCtrl', function($scope, offlineService, $ionicModa
 
     $scope.addActivity = function () {
         var title = $scope.newActivity.title,
+            completed = false,
+            completedBy = "",
             urgency = $scope.newActivity.urgency,
             duration = $scope.newActivity.duration,
             context = {};
@@ -60,6 +77,8 @@ WhatNowApp.controller('WhatNowCtrl', function($scope, offlineService, $ionicModa
 
         firebaseService.add({
             title : title,
+            completed: completed,
+            completedBy: completedBy,
             urgency: urgency,
             duration: duration,
             context: context,
@@ -80,7 +99,16 @@ WhatNowApp.controller('WhatNowCtrl', function($scope, offlineService, $ionicModa
     $scope.eviFilter = false;
     $scope.tomaFilter = false;
 
+//    $scope.duration = '-duration';
+    $scope.switchSorting = function(){
+        alert('soon');
+    }
+
     $scope.hide = function(activity){
+
+        if (activity.completed){
+            return true;
+        }
         if($scope.homeFilter && !hasContext(activity.context, "home")){
             return true;
         }

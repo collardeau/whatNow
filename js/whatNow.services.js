@@ -72,6 +72,7 @@ angular.module('whatNow.services', [])
                         "home" : true
                     },
                     "date" : 1412812175309,
+                    "duration": 30,
                     "forUsers" : {
                         "evi" : true,
                         "toma" : false
@@ -110,12 +111,31 @@ angular.module('whatNow.services', [])
                         "home" : false
                     },
                     "date" : 1412882677467,
+                    "duration": 100,
                     "forUsers" : {
                         "evi" : false,
                         "toma" : true
                     },
                     "title" : "visit prague cemetary",
                     "urgency" : 1
+                },
+                "-JYqMfsRasdfasdfhVDa8" : {
+                    "completed" : true,
+                    "completedBy" : "toma",
+                    "context" : {
+                        "computer" : false,
+                        "errand" : true,
+                        "fun" : false,
+                        "home" : false
+                    },
+                    "date" : 1412882677467,
+                    "duration": 10,
+                    "forUsers" : {
+                        "evi" : true,
+                        "toma" : false
+                    },
+                    "title" : "Get Grapefruit body soap",
+                    "urgency" : 2
                 }
             }
         };
