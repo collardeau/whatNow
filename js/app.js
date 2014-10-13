@@ -37,9 +37,9 @@ WhatNowApp.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
 });
 
-WhatNowApp.controller('WhatNowCtrl', function($scope, offlineService, $ionicModal) {
+WhatNowApp.controller('WhatNowCtrl', function($scope, firebaseService, $ionicModal) {
 
-    $scope.activities = offlineService.activities;
+    $scope.activities = firebaseService.activities;
     $scope.newActivity = {};
 
    $ionicModal.fromTemplateUrl('new-activity.html', function(modal){
@@ -145,7 +145,7 @@ WhatNowApp.controller('WhatNowCtrl', function($scope, offlineService, $ionicModa
     };
 });
 
-WhatNowApp.controller("SingleActivityCtrl", function($scope, $state, $stateParams, $ionicModal, $ionicPopup){
+WhatNowApp.controller("SingleActivityCtrl", function($scope, firebaseService, $state, $stateParams, $ionicModal, $ionicPopup){
         var id = $stateParams.activityId;
         $scope.activity = firebaseService.activities[id];
 //        console.log($scope.activity);
