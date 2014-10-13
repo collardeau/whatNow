@@ -53,18 +53,32 @@ WhatNowApp.controller('WhatNowCtrl', function($scope, firebaseService, $ionicMod
     $scope.newActivity = function(){
         $scope.activityModal.show();
         $scope.newActivity.urgency = 2;
+        $scope.newActivity.duration = 0;
     };
 
     $scope.closeNewActivity = function(){
+        //reset new activity
+        $scope.newActivity.title = "";
+        $scope.newActivity.urgency = 2;
+        $scope.newActivity.duration = 0;
+        $scope.newActivity.home = false;
+        $scope.newActivity.errand = false;
+        $scope.newActivity.computer = false;
+        $scope.newActivity.fun = false;
+        $scope.newActivity.evi = false;
+        $scope.newActivity.toma = false;
+        $scope.newActivity.instructions = "";
+
         $scope.activityModal.hide();
+
     };
 
     $scope.addActivity = function () {
-        var title = $scope.newActivity.title,
+        var title = $scope.newActivity.title.trim(),
             completed = false,
             completedBy = "",
-            urgency = $scope.newActivity.urgency,
-            duration = $scope.newActivity.duration,
+            urgency = parseInt($scope.newActivity.urgency),
+            duration = parseInt($scope.newActivity.duration),
             context = {};
             context.home = $scope.newActivity.home,
             context.errand = $scope.newActivity.errand,
@@ -87,7 +101,7 @@ WhatNowApp.controller('WhatNowCtrl', function($scope, firebaseService, $ionicMod
             date: Firebase.ServerValue.TIMESTAMP
        });
 
-        $scope.activityModal.hide();
+        $scope.closeNewActivity();
 
    };
 
