@@ -25,3 +25,8 @@ ion-nav-view {
     color: #000;
     /*text-decoration: dotted;*/
 }
+
+.bar-subheader .badge {
+    position: absolute !important;
+    right: 3em !important;
+}

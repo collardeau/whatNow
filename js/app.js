@@ -160,11 +160,13 @@ WhatNowApp.controller('WhatNowCtrl', function($scope, firebaseService, $ionicMod
 });
 
 WhatNowApp.controller("SingleActivityCtrl", function($scope, firebaseService, $state, $stateParams, $ionicModal, $ionicPopup){
+
         var id = $stateParams.activityId;
         $scope.activity = firebaseService.activities[id];
-//        console.log($scope.activity);
 
         $scope.saveActivity = function(){
+//            need this first line or else activity is only saved once in db
+            firebaseService.activities[id] = $scope.activity;
             firebaseService.activities.$save(id);
         };
 

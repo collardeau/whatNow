@@ -15,6 +15,10 @@ angular.module('whatNow.services', ['firebase'])
             factory.activities.$add(newActivity);
         };
 
+//        factory.save = function(id){
+//            factory.activities.$save(id);
+//        }
+
         return factory;
 
     })

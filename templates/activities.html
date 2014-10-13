@@ -6,8 +6,16 @@
 <div class="bar bar-subheader tabs tabs-icon-left bar-neutral">
     <!--<a class="tab-item" >All</a>-->
 
-    <a class="tab-item" ng-model="eviFilter" ng-click="eviFilter = !eviFilter" ng-class="{positive: eviFilter}"><i class="icon ion-woman"></i> Evi</a>
-    <a class="tab-item" ng-model="tomaFilter" ng-click="tomaFilter = !tomaFilter" ng-class="{positive: tomaFilter}"><i class="icon ion-man"></i> Toma</a>
+    <a class="tab-item has-badge" ng-model="eviFilter" ng-click="eviFilter = !eviFilter" ng-class="{positive: eviFilter}">
+        <span class="badge badge-energized">3</span>
+        <i class="icon ion-woman"></i>Evi
+
+    </a>
+    <a class="tab-item has-badge" ng-model="tomaFilter" ng-click="tomaFilter = !tomaFilter" ng-class="{positive: tomaFilter}">
+        <i class="badge badge-energized">3</i>Toma
+        <i class="icon ion-man"></i>
+    </a>
+
     <!--most urgent and shortest-->
     <!--<a class="tab-item">Momo</a>-->
 </div>
