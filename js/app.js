@@ -52,15 +52,15 @@ WhatNowApp.controller('WhatNowCtrl', function($scope, firebaseService, $ionicMod
 
     $scope.newActivity = function(){
         $scope.activityModal.show();
-        $scope.newActivity.urgency = 2;
-        $scope.newActivity.duration = 0;
+        $scope.newActivity.urgency = 1;
+        $scope.newActivity.duration = 10;
     };
 
     $scope.closeNewActivity = function(){
         //reset new activity
         $scope.newActivity.title = "";
-        $scope.newActivity.urgency = 2;
-        $scope.newActivity.duration = 0;
+        $scope.newActivity.urgency = 1;
+        $scope.newActivity.duration = 10;
         $scope.newActivity.home = false;
         $scope.newActivity.errand = false;
         $scope.newActivity.computer = false;
@@ -75,28 +75,33 @@ WhatNowApp.controller('WhatNowCtrl', function($scope, firebaseService, $ionicMod
 
     $scope.addActivity = function () {
         var title = $scope.newActivity.title.trim(),
-            completed = false,
-            completedBy = "",
             urgency = parseInt($scope.newActivity.urgency),
             duration = parseInt($scope.newActivity.duration),
-            context = {};
-            context.home = $scope.newActivity.home,
-            context.errand = $scope.newActivity.errand,
-            context.computer = $scope.newActivity.computer,
-            context.fun = $scope.newActivity.fun,
-            forUsers = {},
-            forUsers.evi =  $scope.newActivity.evi,
-            forUsers.toma = $scope.newActivity.toma,
             instructions = $scope.newActivity.instructions;
+
+        var completed = {};
+        completed.done = false;
+        completed.by = "";
+        completed.points = 0;
+
+        var context = {};
+        context.home = $scope.newActivity.home;
+        context.errand = $scope.newActivity.errand;
+        context.computer = $scope.newActivity.computer;
+        context.fun = $scope.newActivity.fun;
+
+        var forUsers = {};
+        forUsers.evi =  $scope.newActivity.evi,
+        forUsers.toma = $scope.newActivity.toma,
+
 
         firebaseService.add({
             title : title,
-            completed: completed,
-            completedBy: completedBy,
             urgency: urgency,
             duration: duration,
             context: context,
             forUsers: forUsers,
+            completed: completed,
             instructions: instructions,
             date: Firebase.ServerValue.TIMESTAMP
        });
@@ -113,14 +118,9 @@ WhatNowApp.controller('WhatNowCtrl', function($scope, firebaseService, $ionicMod
     $scope.eviFilter = false;
     $scope.tomaFilter = false;
 
-//    $scope.duration = '-duration';
-    $scope.switchSorting = function(){
-        alert('soon');
-    }
-
     $scope.hide = function(activity){
 
-        if (activity.completed){
+        if (activity.completed.done){
             return true;
         }
         if($scope.homeFilter && !hasContext(activity.context, "home")){
@@ -160,6 +160,31 @@ WhatNowApp.controller('WhatNowCtrl', function($scope, firebaseService, $ionicMod
 
     //dealing with users and points, diff controller or custom directive?
     $scope.users = firebaseService.users;
+
+    //dealing with done page, filters to see who did what?
+
+    $scope.eviDoneFilter = false;
+    $scope.tomaDonefilter = false;
+
+    $scope.hideDoers = function(activity){
+
+        if(!activity.completed.done){
+            return true;
+        }
+
+        if(activity.completed.by == "all"){
+            return false;
+        }
+        if($scope.eviDoneFilter && activity.completed.by !== "evi" ){
+            return true;
+        }
+
+        if($scope.tomaDoneFilter && activity.completed.by !== "toma" ){
+            return true;
+        }
+
+
+    };
 
 });
 
@@ -212,52 +237,60 @@ WhatNowApp.controller("SingleActivityCtrl", function($scope, firebaseService, $s
     $scope.users = firebaseService.users;
 
     $scope.saveCompleted = function(){;
-        if(!$scope.activity.completed){
-           $scope.activity.completedBy = "";
+        if(!$scope.activity.completed.done){
+            $scope.activity.completed.by = "";
             $scope.saveDoer();
         }
         $scope.saveActivity();
 
     }
 
-    var currentDoer = $scope.activity.completedBy;
+    var currentDoer = $scope.activity.completed.by;
 
     $scope.saveDoer = function(){
 
         if(!$scope.activity.context.fun) { //don't count points if it's a fun activity
 
+            var doer = $scope.activity.completed.by;
             var points = $scope.activity.urgency;
-            var doer = $scope.activity.completedBy;
-
-            //remove points if doer was previously set to either evi and thomas
-            if (currentDoer === "evi" || currentDoer === "toma") {
-                //check if the task is only for someone else, if so double the points
-                if ($scope.activity.forUsers && !$scope.activity.forUsers[currentDoer]) {
-                    points = points * 2;
-                }
-                $scope.users[currentDoer].points -= points;
-                points = $scope.activity.urgency; //reset for 2nd part (adding points)
-            } else if (currentDoer === "all") { //if both were previously credited, remove from both
-                $scope.users.evi.points -= points;
-                $scope.users.toma.points -= points;
+            var difficultyPoints = 0;
+            if ($scope.activity.duration && angular.isNumber($scope.activity.duration)){
+                difficultyPoints = $scope.activity.duration / 10;
+                difficultyPoints = Math.round(difficultyPoints);
             }
 
-            //add the points to either evi or toma if they are the doers
-            if (doer === "evi" || doer === "toma") {
+            //remove points if the select option was already set
+            if (currentDoer === "evi" || currentDoer === "toma") { //if the doer was one of the 2 users
+                $scope.users[currentDoer].points -= $scope.activity.completed.points;
+            } else if (currentDoer === "all") { //if both were previously credited, remove from both
+                $scope.users.evi.points -= $scope.activity.completed.points;
+                $scope.users.toma.points -= $scope.activity.completed.points;
+            }
+
+            //add the points
+            if (doer === "evi" || doer === "toma") { //to either evi or toma if they are the doers
                 //double the points if activity was done for the other
                 if ($scope.activity.forUsers && !$scope.activity.forUsers[doer]) {
                     points = points * 2;
                 }
+                points += difficultyPoints;
                 $scope.users[doer].points += points;
             } else if (doer === "all") {
+                points += difficultyPoints;
                 $scope.users.evi.points += points;
                 $scope.users.toma.points += points;
             }
 
-            currentDoer = $scope.activity.completedBy;
+            currentDoer = $scope.activity.completed.by;
             firebaseService.users.$save();
         }
 
+        //store the points awarded for reference and in case of deleting
+        if($scope.activity.completed.by === "") {
+            $scope.activity.completed.points = 0;
+        }else{
+            $scope.activity.completed.points = points;
+        }
         $scope.saveActivity();
 
     }

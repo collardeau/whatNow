@@ -3,13 +3,38 @@
     <h1 class="title">Completed Activities</h1>
 </ion-header-bar>
 
-<ion-content class="has-header">
+<div class="bar bar-subheader tabs tabs-icon-left bar-neutral">
+    <!--<a class="tab-item" >All</a>-->
+    <a class="tab-item has-badge" ng-model="eviFilter" ng-click="eviDoneFilter = !eviDoneFilter" ng-class="{positive: eviDoneFilter}">
+        <span class="badge badge-energized">{{users.evi.points}}</span>
+        <i class="icon ion-woman"></i>Evi
+
+    </a>
+    <a class="tab-item has-badge" ng-model="tomaFilter" ng-click="tomaDoneFilter = !tomaDoneFilter" ng-class="{positive: tomaDoneFilter}">
+        <i class="badge badge-energized">{{users.toma.points}}</i>Toma
+        <i class="icon ion-man"></i>
+    </a>
+</div>
+
+<ion-content class="has-header has-subheader">
     <ion-list>
-        <ion-item ng-repeat="activity in activities" ng-show="activity.completed" href="#/activity/{{activity.$id}}">
+        <ion-item ng-repeat="activity in activities | orderByPriority | orderBy: '-$id'" href="#/activity/{{activity.$id}}"
+                  ng-hide="hideDoers(activity)">
             <span>&#10004;</span>
-            <span ng-class={crossedOut:activity.completed}>{{activity.title}}</span>
-            <!--<span class="badge badge-light">{{activity.urgency}}</span>-->
-            <span class="item-note">by: {{activity.completedBy}}</span>
+            <span class="crossedOut">{{activity.title}}</span>
+
+            <span class="item-note">
+                {{activity.completed.by}}
+            </span>
+            <span class="badge badge-light">
+                <span ng-show="activity.context.fun">
+                    <i class="icon ion-happy"></i>
+                </span>
+                <span ng-hide="activity.context.fun">
+                    {{ activity.completed.points}}
+                </span>
+            </span>
+
         </ion-item>
     </ion-list>
 </ion-content>

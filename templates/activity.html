@@ -1,10 +1,10 @@
 <ion-header-bar class="bar-positive">
     <a href="#"><button class="button button-icon ion-ios7-arrow-back"></button></a>
     <h1 class="title">Activity</h1>
-    <button class="button button-icon ion-edit" ng-hide="activity.completed" ng-click="editActivity()"></button>
+    <button class="button button-icon ion-edit" ng-hide="activity.completed.done" ng-click="editActivity()"></button>
 </ion-header-bar>
 
-<ion-content class="has-header padding align-center">
+<ion-content class="has-header padding">
 
     <div class="card">
         <div class="item item-divider">
@@ -14,19 +14,19 @@
             <div class="col col-30">Completed</div>
             <div class="col">
                 <label class="toggle">
-                    <input type="checkbox" ng-model="activity.completed" ng-change="saveCompleted()">
+                    <input type="checkbox" ng-model="activity.completed.done" ng-change="saveCompleted()">
                     <div class="track">
                         <div class="handle"></div>
                     </div>
                 </label>
-                <!--<input type="checkbox" ng-model="activity.completed" ng-change="saveActivity()">-->
+                <!--<input type="checkbox" ng-model="activity.completed.done" ng-change="saveActivity()">-->
             </div>
         </div>
-        <div class="row" ng-show="activity.completed">
+        <div class="row" ng-show="activity.completed.done">
             <div class="col col-30">By:</div>
             <div class="col">
                 <!--ng-change only fires once?-->
-                <select ng-model="activity.completedBy" ng-change="saveDoer()">
+                <select ng-model="activity.completed.by" ng-change="saveDoer()">
                     <option value="" disabled selected>Select a user</option>
                     <option value="all">All</option>
                     <option value="evi">Evi</option>
@@ -34,7 +34,7 @@
                 </select>
             </div>
         </div>
-        <div ng-class="{greyOut:activity.completed}">
+        <div ng-class="{greyOut:activity.completed.done}">
             <div class="row">
                 <div class="col col-30">Urgency:</div>
                 <div class="col">{{activity.urgency}}</div>
@@ -75,7 +75,7 @@
             </div>
         </div>
     </div>
-    <button class="button button-clear" ng-click="deleteActivity()">Delete</button>
+    <button class="button button-primary" ng-click="deleteActivity()">Delete</button>
 
     <div>
         <p>Evi has {{users.evi.points}} points.<br />
@@ -98,10 +98,10 @@
                         <input ng-model="activity.title" type="text" placeholder="Action you want to take">
                     </label>
                     <label class="item item-input">
-                        <span class="input-label">Urgency</span>
+                        <span class="input-label">Importance</span>
                         <select ng-model="activity.urgency">
-                            <option value=3>Urgent</option>
-                            <option value=2 selected>Needs be done</option>
+                            <option value=3>Very Important</option>
+                            <option value=2 selected>Needs to be done</option>
                             <option value=1>Not essential</option>
                         </select>
                     </label>
