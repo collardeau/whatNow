@@ -7,12 +7,12 @@
     <!--<a class="tab-item" >All</a>-->
 
     <a class="tab-item has-badge" ng-model="eviFilter" ng-click="eviFilter = !eviFilter" ng-class="{positive: eviFilter}">
-        <span class="badge badge-energized">3</span>
+        <span class="badge badge-energized">{{users.evi.points}}</span>
         <i class="icon ion-woman"></i>Evi
 
     </a>
     <a class="tab-item has-badge" ng-model="tomaFilter" ng-click="tomaFilter = !tomaFilter" ng-class="{positive: tomaFilter}">
-        <i class="badge badge-energized">3</i>Toma
+        <i class="badge badge-energized">{{users.toma.points}}</i>Toma
         <i class="icon ion-man"></i>
     </a>
 

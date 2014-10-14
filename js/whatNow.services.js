@@ -19,9 +19,12 @@ angular.module('whatNow.services', ['firebase'])
 //            factory.activities.$save(id);
 //        }
 
+        factory.users = $firebase(fireRef.child('users'));
+
         return factory;
 
     })
+
 .factory("offlineService", function() {
 
         var factory = {};
