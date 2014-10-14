@@ -168,7 +168,9 @@ WhatNowApp.controller("SingleActivityCtrl", function($scope, firebaseService, $s
         var id = $stateParams.activityId;
         $scope.activity = firebaseService.activities[id];
 
-        var saveActivity = function(){
+        $scope.saveActivity = function(){
+            $scope.activity.urgency = parseInt($scope.activity.urgency);
+            $scope.activity.duration = parseInt($scope.activity.duration);
 //            need this first line or else activity is only saved once in db
             firebaseService.activities[id] = $scope.activity;
             firebaseService.activities.$save(id);
@@ -209,43 +211,54 @@ WhatNowApp.controller("SingleActivityCtrl", function($scope, firebaseService, $s
     //dealing with users points
     $scope.users = firebaseService.users;
 
-    var currentDoer = $scope.activity.completedBy;
-
     $scope.saveCompleted = function(){;
         if(!$scope.activity.completed){
            $scope.activity.completedBy = "";
             $scope.saveDoer();
         }
-        saveActivity()
+        $scope.saveActivity();
 
     }
+
+    var currentDoer = $scope.activity.completedBy;
+
     $scope.saveDoer = function(){
-        var points = $scope.activity.urgency;
-        var doer = $scope.activity.completedBy;
-        //remove points if doer was previously set to either evi and thomas
-        if (currentDoer === "evi" || currentDoer === "toma"){
-            //check if the task is only for someone else, if so double the points
-            $scope.users[currentDoer].points -= points;
-//            firebaseService.users.$save(currentDoer);
-        }else if (currentDoer === "all"){ //if both were previously credited, remove from both
-            $scope.users.evi.points -= points;
-            $scope.users.toma.points -= points;
-        }
-        //if the doer is either evi or toma, add the points
-        if (doer === "evi" || doer === "toma") {
-            var currentPoints = $scope.users[doer].points;
-            $scope.users[doer].points = currentPoints + points;
-//            firebaseService.users.$save(doer);
-        }else if (doer === "all"){
-            $scope.users.evi.points += points;
-            $scope.users.toma.points += points;
+
+        if(!$scope.activity.context.fun) { //don't count points if it's a fun activity
+
+            var points = $scope.activity.urgency;
+            var doer = $scope.activity.completedBy;
+
+            //remove points if doer was previously set to either evi and thomas
+            if (currentDoer === "evi" || currentDoer === "toma") {
+                //check if the task is only for someone else, if so double the points
+                if ($scope.activity.forUsers && !$scope.activity.forUsers[currentDoer]) {
+                    points = points * 2;
+                }
+                $scope.users[currentDoer].points -= points;
+                points = $scope.activity.urgency; //reset for 2nd part (adding points)
+            } else if (currentDoer === "all") { //if both were previously credited, remove from both
+                $scope.users.evi.points -= points;
+                $scope.users.toma.points -= points;
+            }
+
+            //add the points to either evi or toma if they are the doers
+            if (doer === "evi" || doer === "toma") {
+                //double the points if activity was done for the other
+                if ($scope.activity.forUsers && !$scope.activity.forUsers[doer]) {
+                    points = points * 2;
+                }
+                $scope.users[doer].points += points;
+            } else if (doer === "all") {
+                $scope.users.evi.points += points;
+                $scope.users.toma.points += points;
+            }
+
+            currentDoer = $scope.activity.completedBy;
+            firebaseService.users.$save();
         }
 
-        //what if doer was unassigned ""
-
-        currentDoer = $scope.activity.completedBy;
-        saveActivity();
-        firebaseService.users.$save();
+        $scope.saveActivity();
 
     }
 
