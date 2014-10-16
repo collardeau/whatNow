@@ -5,19 +5,19 @@
 </ion-header-bar>
 <div class="bar bar-subheader tabs tabs-icon-left bar-neutral">
     <!--<a class="tab-item" >All</a>-->
-
-    <a class="tab-item has-badge" ng-model="eviFilter" ng-click="eviFilter = !eviFilter" ng-class="{positive: eviFilter}">
+    <a class="tab-item has-badge" ng-model="tomaFilter" ng-click="tomaFilter = !tomaFilter" ng-class="{energized: tomaFilter}">
+        <span class="badge badge-energized">{{users.toma.points}}</span>
+        <i class="icon ion-man"></i> Toma
+    </a>
+    <a class="tab-item has-badge" ng-model="eviFilter" ng-click="eviFilter = !eviFilter" ng-class="{energized: eviFilter}">
         <span class="badge badge-energized">{{users.evi.points}}</span>
         <i class="icon ion-woman"></i>Evi
-
     </a>
-    <a class="tab-item has-badge" ng-model="tomaFilter" ng-click="tomaFilter = !tomaFilter" ng-class="{positive: tomaFilter}">
-        <i class="badge badge-energized">{{users.toma.points}}</i>Toma
-        <i class="icon ion-man"></i>
+    <a class="tab-item has-badge">
+        <span class="badge badge-energized">0</span>
+        <i class="icon ion-ios7-paw"></i> Momo
     </a>
 
-    <!--most urgent and shortest-->
-    <!--<a class="tab-item">Momo</a>-->
 </div>
 
 <ion-content class="has-header has-subheader">
@@ -137,7 +137,7 @@
     <a class="tab-item" ng-model="computerFilter" ng-click="computerFilter = !computerFilter" ng-class="{assertive: computerFilter}">
         <i class="icon ion-laptop"></i>
     </a>
-    <a class="tab-item" ng-model="funFilter" ng-click="funFilter = !funFilter" ng-class="{assertive: funFilter}">
+    <a class="tab-item" ng-model="funFilter" ng-click="funFilter = !funFilter" ng-class="{assertive: funFilter, energized: !funFilter}">
         <i class="icon ion-happy"></i>
     </a>
     <!--<a class="tab-item">-->

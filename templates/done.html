@@ -5,15 +5,19 @@
 
 <div class="bar bar-subheader tabs tabs-icon-left bar-neutral">
     <!--<a class="tab-item" >All</a>-->
-    <a class="tab-item has-badge" ng-model="eviFilter" ng-click="eviDoneFilter = !eviDoneFilter" ng-class="{positive: eviDoneFilter}">
+    <a class="tab-item has-badge" ng-model="tomaDoneFilter" ng-click="tomaDoneFilter = !tomaDoneFilter" ng-class="{energized: tomaDoneFilter}">
+        <span class="badge badge-energized">{{users.toma.points}}</span>
+        <i class="icon ion-man"></i> Toma
+    </a>
+    <a class="tab-item has-badge" ng-model="eviDoneFilter" ng-click="eviDoneFilter = !eviDoneFilter" ng-class="{energized: eviDoneFilter}">
         <span class="badge badge-energized">{{users.evi.points}}</span>
         <i class="icon ion-woman"></i>Evi
+    </a>
+    <a class="tab-item has-badge">
+        <span class="badge badge-energized">0</span>
+        <i class="icon ion-ios7-paw"></i> Momo
+    </a>
 
-    </a>
-    <a class="tab-item has-badge" ng-model="tomaFilter" ng-click="tomaDoneFilter = !tomaDoneFilter" ng-class="{positive: tomaDoneFilter}">
-        <i class="badge badge-energized">{{users.toma.points}}</i>Toma
-        <i class="icon ion-man"></i>
-    </a>
 </div>
 
 <ion-content class="has-header has-subheader">
