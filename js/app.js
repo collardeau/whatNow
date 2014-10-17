@@ -25,7 +25,7 @@ WhatNowApp.config(function($stateProvider, $urlRouterProvider) {
         .state('activity', {
             url: "/activity/:activityId",
             templateUrl: "templates/activity.html",
-            controller: 'SingleActivityCtrl'
+            controller: 'activityCtrl'
         })
 
         .state('done', {

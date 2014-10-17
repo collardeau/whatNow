@@ -11,8 +11,8 @@ angular.module('whatNow.controllers', ['firebase'])
     $scope.activities = firebaseService.activities;
 
     //showing the new activity modal
-    $ionicModal.fromTemplateUrl('templates/new-activity.html', function(modal){
-            $scope.newActivityModal = modal;
+    $ionicModal.fromTemplateUrl('templates/add.html', function(modal){
+            $scope.addModal = modal;
         },{
             scope: $scope,
             animation: 'slide-in-up'
@@ -99,12 +99,16 @@ angular.module('whatNow.controllers', ['firebase'])
 })
 
 
-.controller('newActivityCtrl', function($scope, firebaseService){
+.controller('addActivityCtrl', function($scope, firebaseService){
+
+        console.log('add control');
 
         var initNewActivity = function() { //settings on load new activity
-            $scope.newActivity = {};
-            $scope.newActivity.urgency = 1;
-            $scope.newActivity.duration = 5;
+            console.log("initialize activity object")
+            $scope.newActivity = {
+                urgency: 1,
+                duration: 5
+            };
         };
 
         initNewActivity();
@@ -149,19 +153,23 @@ angular.module('whatNow.controllers', ['firebase'])
 
     })
 
+.controller('editActivityCtrl', function($scope, firebaseService){
 
-.controller("SingleActivityCtrl", function($scope, firebaseService, $state, $stateParams, $ionicModal, $ionicPopup) {
+        $scope.editActivity = function () {
+            $scope.activity.urgency = parseInt($scope.activity.urgency);
+            $scope.activity.duration = parseInt($scope.activity.duration);
+
+            firebaseService.activities[$scope.id] = $scope.activity;
+            firebaseService.activities.$save($scope.id);
+        };
+
+})
+
+.controller("activityCtrl", function($scope, firebaseService, $state, $stateParams, $ionicModal, $ionicPopup) {
 
     var id = $stateParams.activityId;
+    $scope.id = id;
     $scope.activity = firebaseService.activities[id];
-
-    $scope.saveActivity = function () {
-        $scope.activity.urgency = parseInt($scope.activity.urgency);
-        $scope.activity.duration = parseInt($scope.activity.duration);
-//            need this first line or else activity is only saved once in db
-        firebaseService.activities[id] = $scope.activity;
-        firebaseService.activities.$save(id);
-    };
 
     $scope.deleteActivity = function () {
         var confirmPopup = $ionicPopup.confirm({
@@ -178,8 +186,8 @@ angular.module('whatNow.controllers', ['firebase'])
         });
     }
 
-    $ionicModal.fromTemplateUrl('edit-activity.html', function (modal) {
-            $scope.editActivityModal = modal;
+    $ionicModal.fromTemplateUrl('templates/edit.html', function (modal) {
+            $scope.editModal = modal;
         },
         {
             scope: $scope,
@@ -187,16 +195,16 @@ angular.module('whatNow.controllers', ['firebase'])
 
         });
 
-    $scope.editActivity = function () {
-        $scope.editActivityModal.show();
-    };
-
-    $scope.closeEditActivity = function () {
-        $scope.editActivityModal.hide();
-    };
-
     //dealing with users points
     $scope.users = firebaseService.users;
+
+    $scope.saveActivity = function () {
+        $scope.activity.urgency = parseInt($scope.activity.urgency);
+        $scope.activity.duration = parseInt($scope.activity.duration);
+
+        firebaseService.activities[id] = $scope.activity;
+        firebaseService.activities.$save(id);
+    };
 
     $scope.saveCompleted = function () {
 

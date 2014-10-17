@@ -1,7 +1,7 @@
 <ion-header-bar class="bar-positive">
     <a href="#"><button class="button button-icon ion-ios7-arrow-back"></button></a>
     <h1 class="title">Activity</h1>
-    <button class="button button-icon ion-edit" ng-hide="activity.completed.done" ng-click="editActivity()"></button>
+    <button class="button button-icon ion-edit" ng-hide="activity.completed.done" ng-click="editModal.show()"></button>
 </ion-header-bar>
 
 <ion-content class="has-header padding">
@@ -83,96 +83,3 @@
         Toma has {{users.toma.points}} points.</p>
     </div>
 </ion-content>
-
-<script id="edit-activity.html" type="text/ng-template">
-    <div class="modal">
-
-        <ion-header-bar class="bar-stable">
-            <h1 class="title">Edit Activity</h1>
-            <button class="button button-clear button-positive" ng-click="closeEditActivity()">Cancel</button>
-        </ion-header-bar>
-        <ion-content>
-            <form ng-submit="saveActivity(); closeEditActivity()">
-                <div class="list">
-                    <label class="item item-input">
-                        <span class="input-label">Activity</span>
-                        <input ng-model="activity.title" type="text" placeholder="Action you want to take">
-                    </label>
-                    <label class="item item-input">
-                        <span class="input-label">Importance</span>
-                        <select ng-model="activity.urgency">
-                            <option value=3>Very Important</option>
-                            <option value=2 selected>Needs to be done</option>
-                            <option value=1>Not essential</option>
-                        </select>
-                    </label>
-                    <label class="item item-input">
-                        <span class="input-label">Duration</span>
-                        <input type="number" ng-model="activity.duration">
-                    </label>
-
-                    <li class="item item-divider">
-                        Context:
-                    </li>
-                    <li class="item item-checkbox">
-                        <label class="checkbox">
-                            <input type="checkbox" ng-model="activity.context.home">
-                        </label>
-                        <i class="icon ion-home"></i> At Home
-                    </li>
-
-                    <li class="item item-checkbox">
-                        <label class="checkbox">
-                            <input type="checkbox" ng-model="activity.context.errand">
-                        </label>
-                        <i class="icon ion-bag"></i> Errand
-                    </li>
-
-                    <li class="item item-checkbox">
-                        <label class="checkbox">
-                            <input type="checkbox" ng-model="activity.context.computer">
-                        </label>
-                        <i class="icon ion-laptop"></i> At Computer
-                    </li>
-
-                    <li class="item item-checkbox">
-                        <label class="checkbox">
-                            <input type="checkbox" ng-model="activity.context.fun">
-                        </label>
-                        <i class="icon ion-happy"></i> For fun
-                    </li>
-
-                    <li class="item item-divider">
-                        For:
-                    </li>
-
-                    <li class="item item-checkbox">
-                        <label class="checkbox">
-                            <input type="checkbox" ng-model="activity.forUsers.evi">
-                        </label>
-                        <i class="icon ion-woman"></i> Evi
-                    </li>
-
-                    <li class="item item-checkbox">
-                        <label class="checkbox">
-                            <input type="checkbox" ng-model="activity.forUsers.toma">
-                        </label>
-                        <i class="icon ion-man"></i> Toma
-                    </li>
-
-
-                    <label class="item item-input">
-                        <!--<span class="input-label">Note</span>-->
-                        <textarea placeholder="Instructions" ng-model="activity.instructions"></textarea>
-                    </label>
-
-                    <label class="item">
-                        <button class="button button-block button-positive" type="submit">Save</button>
-                    </label>
-                </div>
-
-            </form>
-        </ion-content>
-    </div>
-
-</script>
