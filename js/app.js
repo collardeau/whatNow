@@ -18,8 +18,7 @@ WhatNowApp.config(function($stateProvider, $urlRouterProvider) {
 
         .state('/', {
             url: "/",
-            templateUrl: "templates/activities.html",
-            controller: "WhatNowCtrl"
+            templateUrl: "templates/activities.html"
         })
 
         .state('activity', {

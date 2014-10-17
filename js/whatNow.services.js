@@ -23,5 +23,36 @@ angular.module('whatNow.services', ['firebase'])
 
         return factory;
 
-    });
+    })
+
+.factory('activityFactory', function() {
+    return {
+        test: "I am an activity",
+
+       newActivity: function(){
+            return {
+                title: undefined,
+                urgency: 3,
+                duration: 5,
+                completed: {
+                    done: false,
+                    by: undefined,
+                    points: 0
+                },
+                context: {
+                    home: false,
+                    errand: false,
+                    computer: false,
+                    fun: false
+                },
+                forUsers: {
+                    evi: false,
+                    toma: false
+                },
+                instruction: undefined
+            };
+        }
+    }
+})
+;
 

@@ -6,17 +6,54 @@
 
 angular.module('whatNow.controllers', ['firebase'])
 
-.controller('WhatNowCtrl', function($scope, firebaseService, $ionicModal) {
+.controller('WhatNowCtrl', function($scope, firebaseService, activityFactory, $ionicModal, $stateParams) {
 
     $scope.activities = firebaseService.activities;
 
-    //showing the new activity modal
-    $ionicModal.fromTemplateUrl('templates/add.html', function(modal){
-            $scope.addModal = modal;
-        },{
-            scope: $scope,
-            animation: 'slide-in-up'
-        });
+    //Add or Edit an Activity Modal
+    $ionicModal.fromTemplateUrl('templates/activity-form.html', function(modal){
+        $scope.formModal = modal;
+    },{
+        scope: $scope,
+        animation: 'slide-in-up'
+    });
+    $scope.openActivityForm = function(){
+
+        //are we creating or editing an activity?
+        if($stateParams.activityId){ //can only edit in single activity url
+            $scope.editMode = true;
+            var id = $stateParams.activityId;
+            $scope.activity = firebaseService.activities[id];
+        }else { //add new activity
+            $scope.editMode = false;
+            if(!$scope.activity) { //don't loose form on cancel
+                $scope.activity = activityFactory.newActivity();
+            }
+        }
+
+        $scope.formModal.show();
+
+        $scope.addEditActivity = function () {
+            var activity = (prepActivity($scope.activity));
+            if(!$scope.editMode) { //add new activity
+                firebaseService.add(activity);
+            }else { //edit one based on url
+                firebaseService.activities[id] = $scope.activity;
+                firebaseService.activities.$save(id);
+            }
+            $scope.formModal.hide();
+        };
+
+        var prepActivity = function(activity) {
+            activity.title = activity.title.trim();
+            activity.urgency = parseInt(activity.urgency),
+            activity.duration = parseInt(activity.duration);
+            if (!activity.date) {
+                activity.date = Firebase.ServerValue.TIMESTAMP;
+            }
+            return activity;
+        }
+    };
 
     //dealing with filtering the activities
     $scope.homeFilter = false;
@@ -98,73 +135,6 @@ angular.module('whatNow.controllers', ['firebase'])
 
 })
 
-
-.controller('addActivityCtrl', function($scope, firebaseService){
-
-        console.log('add control');
-
-        var initNewActivity = function() { //settings on load new activity
-            console.log("initialize activity object")
-            $scope.newActivity = {
-                urgency: 1,
-                duration: 5
-            };
-        };
-
-        initNewActivity();
-
-        $scope.addActivity = function () {
-            var title = $scope.newActivity.title.trim(),
-                urgency = parseInt($scope.newActivity.urgency),
-                duration = parseInt($scope.newActivity.duration),
-                instructions = $scope.newActivity.instructions;
-
-            var completed = {};
-            completed.done = false;
-            completed.by = "";
-            completed.points = 0;
-
-            var context = {};
-            context.home = $scope.newActivity.home;
-            context.errand = $scope.newActivity.errand;
-            context.computer = $scope.newActivity.computer;
-            context.fun = $scope.newActivity.fun;
-
-            var forUsers = {};
-            forUsers.evi =  $scope.newActivity.evi,
-                forUsers.toma = $scope.newActivity.toma,
-
-                firebaseService.add({
-                    title : title,
-                    urgency: urgency,
-                    duration: duration,
-                    context: context,
-                    forUsers: forUsers,
-                    completed: completed,
-                    instructions: instructions,
-                    date: Firebase.ServerValue.TIMESTAMP
-                });
-
-            initNewActivity(); //reset
-
-            $scope.newActivityModal.hide();
-
-        };
-
-    })
-
-.controller('editActivityCtrl', function($scope, firebaseService){
-
-        $scope.editActivity = function () {
-            $scope.activity.urgency = parseInt($scope.activity.urgency);
-            $scope.activity.duration = parseInt($scope.activity.duration);
-
-            firebaseService.activities[$scope.id] = $scope.activity;
-            firebaseService.activities.$save($scope.id);
-        };
-
-})
-
 .controller("activityCtrl", function($scope, firebaseService, $state, $stateParams, $ionicModal, $ionicPopup) {
 
     var id = $stateParams.activityId;
@@ -185,15 +155,6 @@ angular.module('whatNow.controllers', ['firebase'])
             }
         });
     }
-
-    $ionicModal.fromTemplateUrl('templates/edit.html', function (modal) {
-            $scope.editModal = modal;
-        },
-        {
-            scope: $scope,
-            animation: 'slide-in-up'
-
-        });
 
     //dealing with users points
     $scope.users = firebaseService.users;
@@ -300,9 +261,6 @@ angular.module('whatNow.controllers', ['firebase'])
         }
         return false;
     };
-
-    isSelfish();
-    isSelfless();
 
 });
 
