@@ -6,79 +6,19 @@
 
 angular.module('whatNow.controllers', ['firebase'])
 
-    .controller('WhatNowCtrl', function($scope, firebaseService, $ionicModal) {
+.controller('WhatNowCtrl', function($scope, firebaseService, $ionicModal) {
 
     $scope.activities = firebaseService.activities;
-    $scope.newActivity = {};
 
-    $ionicModal.fromTemplateUrl('new-activity.html', function(modal){
-            $scope.activityModal = modal;
-        },
-        {
+    //showing the new activity modal
+    $ionicModal.fromTemplateUrl('templates/new-activity.html', function(modal){
+            $scope.newActivityModal = modal;
+        },{
             scope: $scope,
             animation: 'slide-in-up'
         });
 
-    $scope.newActivity = function(){
-        $scope.activityModal.show();
-        $scope.newActivity.urgency = 1;
-        $scope.newActivity.duration = 0;
-    };
-
-    $scope.closeNewActivity = function(){
-        //reset new activity
-        $scope.newActivity.title = "";
-        $scope.newActivity.urgency = 1;
-        $scope.newActivity.duration = 0;
-        $scope.newActivity.home = false;
-        $scope.newActivity.errand = false;
-        $scope.newActivity.computer = false;
-        $scope.newActivity.fun = false;
-        $scope.newActivity.evi = false;
-        $scope.newActivity.toma = false;
-        $scope.newActivity.instructions = "";
-
-        $scope.activityModal.hide();
-
-    };
-
-    $scope.addActivity = function () {
-        var title = $scope.newActivity.title.trim(),
-            urgency = parseInt($scope.newActivity.urgency),
-            duration = parseInt($scope.newActivity.duration),
-            instructions = $scope.newActivity.instructions;
-
-        var completed = {};
-        completed.done = false;
-        completed.by = "";
-        completed.points = 0;
-
-        var context = {};
-        context.home = $scope.newActivity.home;
-        context.errand = $scope.newActivity.errand;
-        context.computer = $scope.newActivity.computer;
-        context.fun = $scope.newActivity.fun;
-
-        var forUsers = {};
-        forUsers.evi =  $scope.newActivity.evi,
-            forUsers.toma = $scope.newActivity.toma,
-
-
-            firebaseService.add({
-                title : title,
-                urgency: urgency,
-                duration: duration,
-                context: context,
-                forUsers: forUsers,
-                completed: completed,
-                instructions: instructions,
-                date: Firebase.ServerValue.TIMESTAMP
-            });
-
-        $scope.closeNewActivity();
-
-    };
-
+    //dealing with filtering the activities
     $scope.homeFilter = false;
     $scope.errandFilter = false;
     $scope.computerFilter = false;
@@ -127,7 +67,7 @@ angular.module('whatNow.controllers', ['firebase'])
         return false;
     };
 
-    //dealing with users and points, diff controller or custom directive?
+    //dealing with users and points
     $scope.users = firebaseService.users;
 
     //dealing with done page, filters to see who did what?
@@ -155,10 +95,62 @@ angular.module('whatNow.controllers', ['firebase'])
 
     };
 
+
 })
 
 
-    .controller("SingleActivityCtrl", function($scope, firebaseService, $state, $stateParams, $ionicModal, $ionicPopup) {
+.controller('newActivityCtrl', function($scope, firebaseService){
+
+        var initNewActivity = function() { //settings on load new activity
+            $scope.newActivity = {};
+            $scope.newActivity.urgency = 1;
+            $scope.newActivity.duration = 5;
+        };
+
+        initNewActivity();
+
+        $scope.addActivity = function () {
+            var title = $scope.newActivity.title.trim(),
+                urgency = parseInt($scope.newActivity.urgency),
+                duration = parseInt($scope.newActivity.duration),
+                instructions = $scope.newActivity.instructions;
+
+            var completed = {};
+            completed.done = false;
+            completed.by = "";
+            completed.points = 0;
+
+            var context = {};
+            context.home = $scope.newActivity.home;
+            context.errand = $scope.newActivity.errand;
+            context.computer = $scope.newActivity.computer;
+            context.fun = $scope.newActivity.fun;
+
+            var forUsers = {};
+            forUsers.evi =  $scope.newActivity.evi,
+                forUsers.toma = $scope.newActivity.toma,
+
+                firebaseService.add({
+                    title : title,
+                    urgency: urgency,
+                    duration: duration,
+                    context: context,
+                    forUsers: forUsers,
+                    completed: completed,
+                    instructions: instructions,
+                    date: Firebase.ServerValue.TIMESTAMP
+                });
+
+            initNewActivity(); //reset
+
+            $scope.newActivityModal.hide();
+
+        };
+
+    })
+
+
+.controller("SingleActivityCtrl", function($scope, firebaseService, $state, $stateParams, $ionicModal, $ionicPopup) {
 
     var id = $stateParams.activityId;
     $scope.activity = firebaseService.activities[id];
