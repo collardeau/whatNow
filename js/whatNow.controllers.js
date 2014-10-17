@@ -1,53 +1,22 @@
 /**
- * Created by thomascollardeau on 10/8/14.
+ * Created by thomascollardeau on 10/17/14.
  */
 
-//add completed and completedBy when adding to firebase db
-//make sure to enter integers and bool in the database where appropriate
-//add required fields (ng-pristine etc)
-//sort by duration (not necessarily urgency) -- not working?
-//with a time range?
-//bad filtering when no duration input
-//figure out points system
-//add a search field
 
-var WhatNowApp = angular.module('whatNow', ['ionic', 'whatNow.services']);
 
-WhatNowApp.config(function($stateProvider, $urlRouterProvider) {
-    $stateProvider
+angular.module('whatNow.controllers', ['firebase'])
 
-        .state('/', {
-            url: "/",
-            templateUrl: "templates/activities.html",
-            controller: "WhatNowCtrl"
-        })
-
-        .state('activity', {
-            url: "/activity/:activityId",
-            templateUrl: "templates/activity.html",
-            controller: 'SingleActivityCtrl'
-        })
-
-        .state('done', {
-            url: "/done",
-            templateUrl: "templates/done.html",
-            controller: 'WhatNowCtrl'
-        });
-    // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/');
-});
-
-WhatNowApp.controller('WhatNowCtrl', function($scope, firebaseService, $ionicModal) {
+    .controller('WhatNowCtrl', function($scope, firebaseService, $ionicModal) {
 
     $scope.activities = firebaseService.activities;
     $scope.newActivity = {};
 
-   $ionicModal.fromTemplateUrl('new-activity.html', function(modal){
-       $scope.activityModal = modal;
-       },
-       {
-           scope: $scope,
-           animation: 'slide-in-up'
+    $ionicModal.fromTemplateUrl('new-activity.html', function(modal){
+            $scope.activityModal = modal;
+        },
+        {
+            scope: $scope,
+            animation: 'slide-in-up'
         });
 
     $scope.newActivity = function(){
@@ -92,23 +61,23 @@ WhatNowApp.controller('WhatNowCtrl', function($scope, firebaseService, $ionicMod
 
         var forUsers = {};
         forUsers.evi =  $scope.newActivity.evi,
-        forUsers.toma = $scope.newActivity.toma,
+            forUsers.toma = $scope.newActivity.toma,
 
 
-        firebaseService.add({
-            title : title,
-            urgency: urgency,
-            duration: duration,
-            context: context,
-            forUsers: forUsers,
-            completed: completed,
-            instructions: instructions,
-            date: Firebase.ServerValue.TIMESTAMP
-       });
+            firebaseService.add({
+                title : title,
+                urgency: urgency,
+                duration: duration,
+                context: context,
+                forUsers: forUsers,
+                completed: completed,
+                instructions: instructions,
+                date: Firebase.ServerValue.TIMESTAMP
+            });
 
         $scope.closeNewActivity();
 
-   };
+    };
 
     $scope.homeFilter = false;
     $scope.errandFilter = false;
@@ -186,9 +155,10 @@ WhatNowApp.controller('WhatNowCtrl', function($scope, firebaseService, $ionicMod
 
     };
 
-});
+})
 
-WhatNowApp.controller("SingleActivityCtrl", function($scope, firebaseService, $state, $stateParams, $ionicModal, $ionicPopup) {
+
+    .controller("SingleActivityCtrl", function($scope, firebaseService, $state, $stateParams, $ionicModal, $ionicPopup) {
 
     var id = $stateParams.activityId;
     $scope.activity = firebaseService.activities[id];
@@ -335,3 +305,6 @@ WhatNowApp.controller("SingleActivityCtrl", function($scope, firebaseService, $s
     isSelfless();
 
 });
+
+
+console.log("end of whatNow.controllers.js");
