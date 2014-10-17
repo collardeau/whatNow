@@ -53,14 +53,14 @@ WhatNowApp.controller('WhatNowCtrl', function($scope, firebaseService, $ionicMod
     $scope.newActivity = function(){
         $scope.activityModal.show();
         $scope.newActivity.urgency = 1;
-        $scope.newActivity.duration = 10;
+        $scope.newActivity.duration = 0;
     };
 
     $scope.closeNewActivity = function(){
         //reset new activity
         $scope.newActivity.title = "";
         $scope.newActivity.urgency = 1;
-        $scope.newActivity.duration = 10;
+        $scope.newActivity.duration = 0;
         $scope.newActivity.home = false;
         $scope.newActivity.errand = false;
         $scope.newActivity.computer = false;
@@ -188,35 +188,35 @@ WhatNowApp.controller('WhatNowCtrl', function($scope, firebaseService, $ionicMod
 
 });
 
-WhatNowApp.controller("SingleActivityCtrl", function($scope, firebaseService, $state, $stateParams, $ionicModal, $ionicPopup){
+WhatNowApp.controller("SingleActivityCtrl", function($scope, firebaseService, $state, $stateParams, $ionicModal, $ionicPopup) {
 
-        var id = $stateParams.activityId;
-        $scope.activity = firebaseService.activities[id];
+    var id = $stateParams.activityId;
+    $scope.activity = firebaseService.activities[id];
 
-        $scope.saveActivity = function(){
-            $scope.activity.urgency = parseInt($scope.activity.urgency);
-            $scope.activity.duration = parseInt($scope.activity.duration);
+    $scope.saveActivity = function () {
+        $scope.activity.urgency = parseInt($scope.activity.urgency);
+        $scope.activity.duration = parseInt($scope.activity.duration);
 //            need this first line or else activity is only saved once in db
-            firebaseService.activities[id] = $scope.activity;
-            firebaseService.activities.$save(id);
-        };
+        firebaseService.activities[id] = $scope.activity;
+        firebaseService.activities.$save(id);
+    };
 
-        $scope.deleteActivity = function(){
-                var confirmPopup = $ionicPopup.confirm({
-                    title: 'Delete',
-                    template: 'Are you sure you want to delete this activity?'
-                });
-                confirmPopup.then(function(res) {
-                    if(res) {
-                        firebaseService.activities.$remove(id);
-                        $state.go('/');
-                    } else {
-                        console.log('Cancel Delete');
-                    }
-                });
-        }
+    $scope.deleteActivity = function () {
+        var confirmPopup = $ionicPopup.confirm({
+            title: 'Delete',
+            template: 'Are you sure you want to delete this activity?'
+        });
+        confirmPopup.then(function (res) {
+            if (res) {
+                firebaseService.activities.$remove(id);
+                $state.go('/');
+            } else {
+                console.log('Cancel Delete');
+            }
+        });
+    }
 
-        $ionicModal.fromTemplateUrl('edit-activity.html', function(modal){
+    $ionicModal.fromTemplateUrl('edit-activity.html', function (modal) {
             $scope.editActivityModal = modal;
         },
         {
@@ -225,21 +225,26 @@ WhatNowApp.controller("SingleActivityCtrl", function($scope, firebaseService, $s
 
         });
 
-    $scope.editActivity = function(){
+    $scope.editActivity = function () {
         $scope.editActivityModal.show();
     };
 
-    $scope.closeEditActivity = function(){
+    $scope.closeEditActivity = function () {
         $scope.editActivityModal.hide();
     };
 
     //dealing with users points
     $scope.users = firebaseService.users;
 
-    $scope.saveCompleted = function(){;
-        if(!$scope.activity.completed.done){
+    $scope.saveCompleted = function () {
+
+
+        if (!$scope.activity.completed.done) {
             $scope.activity.completed.by = "";
-            $scope.saveDoer();
+            $scope.activity.completed.on = undefined;
+            $scope.saveDoer(); //reset the points
+        } else {
+            $scope.activity.completed.on = Firebase.ServerValue.TIMESTAMP;
         }
         $scope.saveActivity();
 
@@ -247,17 +252,9 @@ WhatNowApp.controller("SingleActivityCtrl", function($scope, firebaseService, $s
 
     var currentDoer = $scope.activity.completed.by;
 
-    $scope.saveDoer = function(){
+    $scope.saveDoer = function () {
 
-        if(!$scope.activity.context.fun) { //don't count points if it's a fun activity
-
-            var doer = $scope.activity.completed.by;
-            var points = $scope.activity.urgency;
-            var difficultyPoints = 0;
-            if ($scope.activity.duration && angular.isNumber($scope.activity.duration)){
-                difficultyPoints = $scope.activity.duration / 10;
-                difficultyPoints = Math.round(difficultyPoints);
-            }
+        if (!$scope.activity.context.fun) { //don't count points if it's a fun activity
 
             //remove points if the select option was already set
             if (currentDoer === "evi" || currentDoer === "toma") { //if the doer was one of the 2 users
@@ -267,16 +264,24 @@ WhatNowApp.controller("SingleActivityCtrl", function($scope, firebaseService, $s
                 $scope.users.toma.points -= $scope.activity.completed.points;
             }
 
+            //add points
+            var doer = $scope.activity.completed.by;
+            var points = 0;
+
+            var basePoints = 2;
+            if(isSelfish()) { basePoints = 1; }
+            else if(isSelfless()){ basePoints = 3;}
+
+            var difficultyPoints = 0 //based on time required
+            if ($scope.activity.duration && angular.isNumber($scope.activity.duration)) {
+                difficultyPoints = Math.floor($scope.activity.duration / 10);
+            }
+
+            points = basePoints + difficultyPoints;
             //add the points
             if (doer === "evi" || doer === "toma") { //to either evi or toma if they are the doers
-                //double the points if activity was done for the other
-                if ($scope.activity.forUsers && !$scope.activity.forUsers[doer]) {
-                    points = points * 2;
-                }
-                points += difficultyPoints;
                 $scope.users[doer].points += points;
             } else if (doer === "all") {
-                points += difficultyPoints;
                 $scope.users.evi.points += points;
                 $scope.users.toma.points += points;
             }
@@ -286,13 +291,47 @@ WhatNowApp.controller("SingleActivityCtrl", function($scope, firebaseService, $s
         }
 
         //store the points awarded for reference and in case of deleting
-        if($scope.activity.completed.by === "") {
+        if ($scope.activity.completed.by === "") {
             $scope.activity.completed.points = 0;
-        }else{
+        } else {
             $scope.activity.completed.points = points;
         }
         $scope.saveActivity();
 
     }
+
+    var isSelfish = function () { //is the activity only for and done by self
+        var forUsers = $scope.activity.forUsers;
+        var doer = $scope.activity.completed.by; //this is a string at this point
+
+        //count element in object, bit primitive?
+        var numFor = function() {
+            var counter = 0;
+            angular.forEach(forUsers, function(){
+                counter++;
+            });
+            return counter;
+        };
+
+        if (forUsers[doer] && numFor() === 1){ //user who acted is recipient, of which there is only 1
+            console.log("This is a selfish act");
+            return true;
+        }
+        return false;
+    };
+
+    var isSelfless = function() {
+        var forUsers = $scope.activity.forUsers;
+        var doer = $scope.activity.completed.by; //this is a string at this point
+        //if doer is not listed in list
+        if(doer && !forUsers[doer] && doer !== "all"){
+            console.log("This is a selfless act");
+            return true;
+        }
+        return false;
+    };
+
+    isSelfish();
+    isSelfless();
 
 });

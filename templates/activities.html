@@ -20,7 +20,7 @@
 
 </div>
 
-<ion-content class="has-header has-subheader">
+<ion-content id="activities" class="has-header has-subheader">
     <ion-list>
         <!--<ion-item class="item item-divider sorting">-->
             <!--sorted by most urgent and <a href="" ng-click="switchSorting()">shortest</a>-->
@@ -51,13 +51,13 @@
                     <label class="item item-input">
                         <span class="input-label">Importance</span>
                         <select ng-model="newActivity.urgency">
-                            <option value=3>Very Important</option>
+                            <option value=3>Important</option>
                             <option value=2 selected>Needs to be done</option>
                             <option value=1>Not essential</option>
                         </select>
                     </label>
                     <label class="item item-input">
-                        <span class="input-label">Duration</span>
+                        <span class="input-label">Minutes</span>
                         <input type="number" ng-model="newActivity.duration">
                     </label>
 

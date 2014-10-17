@@ -11,8 +11,17 @@ ion-nav-view {
     text-decoration: line-through;
 }
 
-.badge {
+#activity .badge {
     position: relative; right: 1em !important;
+}
+
+#doneActivities .badge {
+    font-size: 1.61em !important;
+}
+
+.bar-subheader .badge {
+    position: absolute !important;
+    right: 2.6em !important;
 }
 
 .sorting {
@@ -26,7 +35,8 @@ ion-nav-view {
     /*text-decoration: dotted;*/
 }
 
-.bar-subheader .badge {
-    position: absolute !important;
-    right: 2.6em !important;
+.doneDetails {
+    font-size: 0.9em;
+    color: #666;
 }
+

@@ -20,15 +20,18 @@
 
 </div>
 
-<ion-content class="has-header has-subheader">
+<ion-content id="doneActivities" class="has-header has-subheader">
     <ion-list>
-        <ion-item ng-repeat="activity in activities | orderByPriority | orderBy: '-$id'" href="#/activity/{{activity.$id}}"
+        <ion-item ng-repeat="activity in activities | orderByPriority | orderBy: '-completed.on'" href="#/activity/{{activity.$id}}"
                   ng-hide="hideDoers(activity)">
-            <span>&#10004;</span>
-            <span class="crossedOut">{{activity.title}}</span>
 
-            <span class="item-note">
-                {{activity.completed.by}}
+            <span>&#10004; {{activity.completed.on | date:'MM/dd/yyyy @ h:mma'}}</span>
+            <span class="crossedOut">{{activity.title}}</span>
+            <br />
+            <span class="doneDetails">{{activity.completed.by}} for
+                <span ng-repeat="(user, bool) in activity.forUsers" ng-show="user">
+                    {{user}}<span ng-hide="$last">, </span>
+                </span>
             </span>
             <span class="badge badge-light">
                 <span ng-show="activity.context.fun">
