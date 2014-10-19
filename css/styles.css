@@ -16,7 +16,7 @@ ion-nav-view {
 }
 
 #doneActivities .badge {
-    font-size: 1.61em !important;
+    font-size: 1.5em !important;
 }
 
 .bar-subheader .badge {
@@ -40,3 +40,23 @@ ion-nav-view {
     color: #666;
 }
 
+.toggle {
+    margin: 1em;
+}
+
+i {
+    font-size: 1.3em;
+}
+.item-checkbox i, .item-radio i {
+    font-size: 1.61em;
+    margin-right: 0.3em;
+}
+
+.range, .range input {
+    margin-left: 0;
+    padding: 0;
+}
+
+.dateCompleted {
+    font-size: 0.8em;
+}

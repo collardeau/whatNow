@@ -22,23 +22,23 @@
 
 <ion-content id="doneActivities" class="has-header has-subheader">
     <ion-list>
-        <ion-item ng-repeat="activity in activities | orderByPriority | orderBy: '-completed.on'" href="#/activity/{{activity.$id}}"
-                  ng-hide="hideDoers(activity)">
+        <ion-item ng-repeat="activity in activities | orderByPriority | orderBy: '-completion.on'" href="#/activity/{{activity.$id}}"
+                  ng-show="activity.completion.done">
 
-            <span>&#10004; {{activity.completed.on | date:'MM/dd/yyyy @ h:mma'}}</span>
             <span class="crossedOut">{{activity.title}}</span>
             <br />
-            <span class="doneDetails">{{activity.completed.by}} for
-                <span ng-repeat="(user, bool) in activity.forUsers" ng-show="user">
+            <span class="dateCompleted">&#10004; {{activity.completion.on | date:'MM/dd/yyyy @ h:mma'}}</span>
+            <span class="doneDetails">{{activity.completion.by}} for
+                <span ng-repeat="(user, bool) in activity.owners" ng-show="user">
                     {{user}}<span ng-hide="$last">, </span>
                 </span>
             </span>
             <span class="badge badge-light">
-                <span ng-show="activity.context.fun">
+                <span ng-show="activity.context === 'fun'">
                     <i class="icon ion-happy"></i>
                 </span>
-                <span ng-hide="activity.context.fun">
-                    {{ activity.completed.points}}
+                <span ng-hide="activity.context === 'fun'">
+                    {{ activity.completion.pointsGiven || 0}}
                 </span>
             </span>
 

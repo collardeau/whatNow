@@ -1,7 +1,8 @@
 <ion-header-bar class="bar-positive">
     <a href="#"><button class="button button-icon ion-ios7-arrow-back"></button></a>
     <h1 class="title">Activity</h1>
-    <button class="button button-icon ion-edit" ng-hide="activity.completed.done" ng-click="openActivityForm()"></button>
+    <!--<button class="button button-icon ion-edit" ng-hide="activity.completion.done" ng-click="openActivityForm()"></button>-->
+    <button class="button button-icon ion-edit" ng-click="openActivityForm()"></button>
 </ion-header-bar>
 
 <ion-content class="has-header padding">
@@ -11,10 +12,10 @@
             {{activity.title}}
         </div>
         <div class="row">
-            <div class="col col-30">Completed</div>
+            <div class="col col-30">Completed</div> {{activity.completion.done}}
             <div class="col">
                 <label class="toggle">
-                    <input type="checkbox" ng-model="activity.completed.done" ng-change="saveCompleted()">
+                    <input type="checkbox" ng-model="activity.completion.done" ng-change="saveCompleted()">
                     <div class="track">
                         <div class="handle"></div>
                     </div>
@@ -22,11 +23,11 @@
                 <!--<input type="checkbox" ng-model="activity.completed.done" ng-change="saveActivity()">-->
             </div>
         </div>
-        <div class="row" ng-show="activity.completed.done">
+        <div class="row" ng-show="activity.completion.done">
             <div class="col col-30">By:</div>
             <div class="col">
                 <!--ng-change only fires once?-->
-                <select ng-model="activity.completed.by" ng-change="saveDoer()">
+                <select ng-model="activity.completion.by" ng-change="saveDoer()">
                     <option value="" disabled selected>Select a user</option>
                     <option value="all">All</option>
                     <option value="evi">Evi</option>
@@ -34,10 +35,15 @@
                 </select>
             </div>
         </div>
-        <div ng-class="{greyOut:activity.completed.done}">
+        <div ng-class="{greyOut:activity.completion.done}">
             <div class="row">
                 <div class="col col-30">Urgency:</div>
-                <div class="col">{{activity.urgency}}</div>
+                <div class="col">{{activity.urgent}}</div>
+            </div>
+
+            <div class="row">
+                <div class="col col-30">Important:</div>
+                <div class="col">{{activity.important}}</div>
             </div>
 
             <div class="row">
@@ -47,16 +53,13 @@
 
             <div class="row">
                 <div class="col col-30">Context:</div>
-                <div class="col">
-                    <span ng-repeat="(key, item) in activity.context" ng-show="item">{{key}}<span ng-show="!$last ">, </span></span>
-
-                </div>
+                <div class="col">{{activity.context}}</div>
             </div>
 
             <div class="row">
                 <div class="col col-30">For:</div>
                 <div class="col">
-                    <span ng-repeat="(key, user) in activity.forUsers" ng-show="user">{{key}}<span ng-show="!$last ">, </span></span>
+                    <span ng-repeat="(key, owner) in activity.owners" ng-show="owner">{{key}}<span ng-show="!$last ">, </span></span>
                 </div>
             </div>
 
@@ -77,9 +80,9 @@
     </div>
     <button class="button button-primary" ng-click="deleteActivity()">Delete</button>
 
-    <div>
-        <p>points given: {{activity.completed.points}}</p>
-        <p>Evi has {{users.evi.points}} points.<br />
-        Toma has {{users.toma.points}} points.</p>
-    </div>
+    <!--<div>-->
+        <!--<p>points given: {{activity.completion.points}}</p>-->
+        <!--<p>Evi has {{users.evi.points}} points.<br />-->
+        <!--Toma has {{users.toma.points}} points.</p>-->
+    <!--</div>-->
 </ion-content>

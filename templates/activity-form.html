@@ -9,76 +9,150 @@
         <form ng-submit="addEditActivity()">
             <div class="list">
                 <label class="item item-input">
-                    <span class="input-label">Activity</span>{{test}}
+                    <span class="input-label">Activity</span>
                     <input ng-model="activity.title" type="text" placeholder="Action you want to take">
                 </label>
+
                 <label class="item item-input">
-                    <span class="input-label">Importance</span>
-                    <select ng-model="activity.urgency">
-                        <option value=3>Important</option>
-                        <option value=2 selected>Needs to be done</option>
-                        <option value=1>Not essential</option>
-                    </select>
-                </label>
-                <label class="item item-input">
-                    <span class="input-label">Minutes</span>
-                    <input type="number" ng-model="activity.duration">
+                    <span class="input-label">Duration</span>
+                    <div class="range range-positive">
+                        <input type="range" ng-model="activity.duration" min="0" max="180" value="5"> {{activity.duration}} min
+                    </div>
                 </label>
 
-                <li class="item item-divider">
-                    Context:
-                </li>
-                <li class="item item-checkbox">
-                    <label class="checkbox">
-                        <input type="checkbox" ng-model="activity.context.home">
-                    </label>
-                    <i class="icon ion-home"></i> At Home
-                </li>
+                <!--<li class="item item-checkbox">-->
+                    <!--<label class="toggle">-->
+                        <!--<input type="checkbox">-->
+                        <!--<div class="track">-->
+                            <!--<div class="handle"></div>-->
+                        <!--</div>-->
+                    <!--</label>-->
+                <!--</li>-->
 
-                <li class="item item-checkbox">
-                    <label class="checkbox">
-                        <input type="checkbox" ng-model="activity.context.errand">
-                    </label>
-                    <i class="icon ion-bag"></i> Errand
-                </li>
-
-                <li class="item item-checkbox">
-                    <label class="checkbox">
-                        <input type="checkbox" ng-model="activity.context.computer">
-                    </label>
-                    <i class="icon ion-laptop"></i> At Computer
-                </li>
-
-                <li class="item item-checkbox">
-                    <label class="checkbox">
-                        <input type="checkbox" ng-model="activity.context.fun">
-                    </label>
-                    <i class="icon ion-happy"></i> For fun
-                </li>
+                <!--<label class="item item-input">-->
+                    <!--<span class="input-label">Importance</span>-->
+                    <!--<select ng-model="activity.urgency">-->
+                        <!--<option value=3>Important</option>-->
+                        <!--<option value=2 selected>Needs to be done</option>-->
+                        <!--<option value=1>Not essential</option>-->
+                    <!--</select>-->
+                <!--</label>-->
+                <!--<label class="item item-input">-->
+                    <!--<span class="input-label">Minutes</span>-->
+                    <!--<input type="number" ng-model="activity.duration">-->
+                <!--</label>-->
 
                 <li class="item item-divider">
-                    For:
+                    Best Context:
+                </li>
+
+                <label class="item item-radio">
+                    <input type="radio" name="group" value="home" ng-model="activity.context">
+                    <div class="item-content">
+                        <i class="icon ion-home"></i>  From Home
+                    </div>
+                    <i class="radio-icon ion-checkmark"></i>
+                </label>
+
+                <label class="item item-radio">
+                    <input type="radio" name="group" value="errand" ng-model="activity.context">
+                    <div class="item-content">
+                        <i class="icon ion-bag"></i> On Errands
+                    </div>
+                    <i class="radio-icon ion-checkmark"></i>
+                </label>
+
+                <label class="item item-radio">
+                    <input type="radio" name="group" value="computer" ng-model="activity.context">
+                    <div class="item-content">
+                        <i class="icon ion-monitor"></i> At Computer
+                    </div>
+                    <i class="radio-icon ion-checkmark"></i>
+                </label>
+
+                <label class="item item-radio">
+                    <input type="radio" name="group" value="fun" ng-model="activity.context">
+                    <div class="item-content">
+                        <i class="icon ion-happy"></i>  For Fun
+                    </div>
+                    <i class="radio-icon ion-happy"></i>
+                </label>
+
+
+                <!--<li class="item item-checkbox">-->
+                    <!--<label class="checkbox">-->
+                        <!--<input type="checkbox" ng-model="activity.context.home">-->
+                    <!--</label>-->
+                    <!--<i class="icon ion-home"></i> From Home-->
+                <!--</li>-->
+
+                <!--<li class="item item-checkbox">-->
+                    <!--<label class="checkbox">-->
+                        <!--<input type="checkbox" ng-model="activity.context.errand">-->
+                    <!--</label>-->
+                    <!--<i class="icon ion-bag"></i> On Errands-->
+                <!--</li>-->
+
+                <!--<li class="item item-checkbox">-->
+                    <!--<label class="checkbox">-->
+                        <!--<input type="checkbox" ng-model="activity.context.computer">-->
+                    <!--</label>-->
+                    <!--<i class="icon ion-laptop"></i> At Computer-->
+                <!--</li>-->
+
+                <!--<li class="item item-checkbox">-->
+                    <!--<label class="checkbox checkbox-energized">-->
+                        <!--<input type="checkbox" ng-model="activity.context.fun">-->
+                    <!--</label>-->
+                    <!--<i class="icon ion-happy"></i> For fun-->
+                <!--</li>-->
+
+                <li class="item item-divider">
+                    Benefits:
                 </li>
 
                 <li class="item item-checkbox">
                     <label class="checkbox">
-                        <input type="checkbox" ng-model="activity.forUsers.evi">
+                        <input type="checkbox" ng-model="activity.owners.evi">
                     </label>
                     <i class="icon ion-woman"></i> Evi
                 </li>
 
                 <li class="item item-checkbox">
                     <label class="checkbox">
-                        <input type="checkbox" ng-model="activity.forUsers.toma">
+                        <input type="checkbox" ng-model="activity.owners.toma">
                     </label>
                     <i class="icon ion-man"></i> Toma
                 </li>
-
 
                 <label class="item item-input">
                     <!--<span class="input-label">Note</span>-->
                     <textarea placeholder="Instructions" ng-model="activity.instructions"></textarea>
                 </label>
+
+                <li class="item item-item-input">
+                    <label class="toggle toggle-assertive">
+                        <input type="checkbox" ng-model="activity.urgent">
+                        <div class="track">
+                            <div class="handle"></div>
+                        </div>
+                    </label>Urgent
+                    <label class="toggle toggle-assertive">
+                        <input type="checkbox" ng-model="activity.important">
+                        <div class="track">
+                            <div class="handle"></div>
+                        </div>
+                    </label>
+                    Important
+                    <!--<br />-->
+                    <!--<label class="toggle">-->
+                    <!--<input type="checkbox" ng-model="activity.context.fun">-->
+                    <!--<div class="track">-->
+                    <!--<div class="handle"></div>-->
+                    <!--</div>-->
+                    <!--</label>-->
+                    <!--Fun-->
+                </li>
 
                 <label class="item">
                     <button ng-hide="editMode" class="button button-block button-positive" type="submit">Add</button>

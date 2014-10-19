@@ -26,9 +26,8 @@ angular.module('whatNow.controllers', ['firebase'])
             $scope.activity = firebaseService.activities[id];
         }else { //add new activity
             $scope.editMode = false;
-            if(!$scope.activity) { //don't loose form on cancel
-                $scope.activity = activityFactory.newActivity();
-            }
+            $scope.activity = activityFactory.newActivity();
+
         }
 
         $scope.formModal.show();
@@ -39,6 +38,7 @@ angular.module('whatNow.controllers', ['firebase'])
                 firebaseService.add(activity);
             }else { //edit one based on url
                 firebaseService.activities[id] = $scope.activity;
+//                firebaseService.add(activity); //TEMP for rebuilding database
                 firebaseService.activities.$save(id);
             }
             $scope.formModal.hide();
@@ -46,11 +46,15 @@ angular.module('whatNow.controllers', ['firebase'])
 
         var prepActivity = function(activity) {
             activity.title = activity.title.trim();
-            activity.urgency = parseInt(activity.urgency),
             activity.duration = parseInt(activity.duration);
             if (!activity.date) {
                 activity.date = Firebase.ServerValue.TIMESTAMP;
             }
+            //cleansing old activities
+//            delete activity.urgency;
+//            delete activity.completed;
+//            delete activity.completedBy;
+//            delete activity.forUsers;
             return activity;
         }
     };
@@ -170,18 +174,18 @@ angular.module('whatNow.controllers', ['firebase'])
     $scope.saveCompleted = function () {
 
 
-        if (!$scope.activity.completed.done) {
-            $scope.activity.completed.by = "";
-            $scope.activity.completed.on = undefined;
-            $scope.saveDoer(); //reset the points
+        if (!$scope.activity.completion.done) {
+            $scope.activity.completion.by = "";
+            $scope.activity.completion.on = undefined;
+            //$scope.saveDoer(); //reset the points
         } else {
-            $scope.activity.completed.on = Firebase.ServerValue.TIMESTAMP;
+            $scope.activity.completion.on = Firebase.ServerValue.TIMESTAMP;
         }
         $scope.saveActivity();
 
     }
 
-    var currentDoer = $scope.activity.completed.by;
+//    var currentDoer = $scope.activity.completion.by;
 
     $scope.saveDoer = function () {
 

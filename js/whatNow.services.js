@@ -32,24 +32,20 @@ angular.module('whatNow.services', ['firebase'])
        newActivity: function(){
             return {
                 title: undefined,
-                urgency: 3,
+                urgent: false,
+                important: false,
                 duration: 5,
-                completed: {
+                completion: {
                     done: false,
                     by: undefined,
-                    points: 0
+                    ptsGiven: 0
                 },
-                context: {
-                    home: false,
-                    errand: false,
-                    computer: false,
-                    fun: false
-                },
-                forUsers: {
+                context: undefined,
+                owners: {
                     evi: false,
                     toma: false
                 },
-                instruction: undefined
+                instructions: undefined
             };
         }
     }
