@@ -59,55 +59,6 @@ angular.module('whatNow.controllers', ['firebase'])
         }
     };
 
-    //dealing with filtering the activities
-    $scope.homeFilter = false;
-    $scope.errandFilter = false;
-    $scope.computerFilter = false;
-    $scope.funFilter = false;
-
-    $scope.eviFilter = false;
-    $scope.tomaFilter = false;
-
-    $scope.hide = function(activity){
-
-        if (activity.completed.done){
-            return true;
-        }
-        if($scope.homeFilter && !hasContext(activity.context, "home")){
-            return true;
-        }
-        if($scope.errandFilter && !hasContext(activity.context, "errand")){
-            return true;
-        }
-        if($scope.computerFilter && !hasContext(activity.context, "computer")){
-            return true;
-        }
-        if($scope.funFilter && !hasContext(activity.context, "fun")){
-            return true;
-        }
-        if($scope.eviFilter && !hasUser(activity.forUsers, "evi")){
-            return true;
-        }
-        if($scope.tomaFilter && !hasUser(activity.forUsers, "toma")){
-            return true;
-        }
-
-    };
-
-    var hasContext = function(contextList, context){
-        if (contextList[context]) {
-            return true;
-        }
-        return false;
-    };
-
-    var hasUser = function(userList, user){
-        if (userList[user]) {
-            return true;
-        }
-        return false;
-    };
-
     //dealing with users and points
     $scope.users = firebaseService.users;
 
@@ -139,7 +90,8 @@ angular.module('whatNow.controllers', ['firebase'])
 
 })
 
-.controller("activityCtrl", function($scope, firebaseService, $state, $stateParams, $ionicModal, $ionicPopup) {
+.controller("ActivityCtrl", function($scope, firebaseService, $state, $stateParams, $ionicModal, $ionicPopup) {
+
 
     var id = $stateParams.activityId;
     $scope.id = id;
@@ -266,7 +218,27 @@ angular.module('whatNow.controllers', ['firebase'])
         return false;
     };
 
-});
+})
+
+.controller("TabCtrl", function($scope, tagFactory){
+
+        $scope.contexts = tagFactory.contexts;
+        $scope.contextFilter;
+
+        $scope.setContext = function(context){
+            if($scope.contextFilter === context) { //toggle off
+                $scope.contextFilter = undefined;
+            }else{
+                $scope.contextFilter = context;
+            }
+        };
+
+        $scope.eviFilter = false;
+        $scope.tomaFilter = false;
+
+    })
+
+;
 
 
 console.log("end of whatNow.controllers.js");

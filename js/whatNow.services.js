@@ -29,6 +29,7 @@ angular.module('whatNow.services', ['firebase'])
     return {
         test: "I am an activity",
 
+       //should call new on it, proper function class?
        newActivity: function(){
             return {
                 title: undefined,
@@ -50,5 +51,29 @@ angular.module('whatNow.services', ['firebase'])
         }
     }
 })
-;
+
+    .factory('tagFactory', function() {
+        return {
+            contexts: [
+                {name: 'home', icon: 'ion-disc'},
+                {name: 'errand', icon: 'ion-bag'},
+                {name: 'computer', icon: 'ion-monitor'},
+                {name: 'fun', icon: 'ion-happy'}
+            ],
+            getContextNames : function (){
+                var names = [];
+                angular.forEach(this.contexts, function(context){
+                    names.push(context.name);
+                });
+                return names;
+            },
+            getContextIcons : function (){
+                var icons = [];
+                angular.forEach(this.contexts, function(context){
+                    icons.push(context.icon);
+                });
+                return icons;
+            }
+        }
+    });
 

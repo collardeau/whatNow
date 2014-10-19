@@ -18,6 +18,8 @@
         <i class="icon ion-ios7-paw"></i> Momo
     </a>
 
+
+
 </div>
 
 <ion-content id="activities" class="has-header has-subheader">
@@ -25,7 +27,7 @@
         <!--<ion-item class="item item-divider sorting">-->
             <!--sorted by most urgent and <a href="" ng-click="switchSorting()">shortest</a>-->
         <!--</ion-item>-->
-        <ion-item ng-repeat="activity in activities | orderByPriority | orderBy: ['-urgent', '-important', 'duration']"
+        <ion-item ng-repeat="activity in activities | orderByPriority | orderBy: ['-urgent', '-important', 'duration'] | context: contextFilter"
                   ng-hide="activity.completion.done" href="#/activity/{{activity.$id}}">
             <span ng-show="activity.important && activity.urgent"><i class='icon ion-fireball'></i></span>
             <span ng-show="activity.important && !activity.urgent"><i class='icon ion-flame'></i></span>
@@ -36,17 +38,5 @@
     </ion-list>
 </ion-content>
 
-<!--<div class="tabs tabs-bottom tabs-icon-only tabs-neutral">-->
-    <!--<a class="tab-item" ng-model="homeFilter" ng-click="homeFilter = !homeFilter" ng-class="{assertive: homeFilter}">-->
-        <!--<i class="icon ion-home"></i>-->
-    <!--</a>-->
-    <!--<a class="tab-item" ng-model="errandFilter" ng-click="errandFilter = !errandFilter" ng-class="{assertive: errandFilter}">-->
-        <!--<i class="icon ion-bag"></i>-->
-    <!--</a>-->
-    <!--<a class="tab-item" ng-model="computerFilter" ng-click="computerFilter = !computerFilter" ng-class="{assertive: computerFilter}">-->
-        <!--<i class="icon ion-laptop"></i>-->
-    <!--</a>-->
-    <!--<a class="tab-item" ng-model="funFilter" ng-click="funFilter = !funFilter" ng-class="{assertive: funFilter, energized: !funFilter}">-->
-        <!--<i class="icon ion-happy"></i>-->
-    <!--</a>-->
-<!--</div>-->
+<tab-bar></tab-bar>
+

@@ -11,7 +11,7 @@
 //figure out points system
 //add a search field
 
-var WhatNowApp = angular.module('whatNow', ['ionic', 'whatNow.controllers', 'whatNow.services']);
+var WhatNowApp = angular.module('whatNow', ['ionic', 'whatNow.controllers', 'whatNow.services', 'myFilters']);
 
 WhatNowApp.config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
@@ -24,24 +24,24 @@ WhatNowApp.config(function($stateProvider, $urlRouterProvider) {
         .state('activity', {
             url: "/activity/:activityId",
             templateUrl: "templates/activity.html",
-            controller: 'activityCtrl'
+            controller: 'ActivityCtrl'
         })
 
         .state('done', {
             url: "/done",
-            templateUrl: "templates/done.html",
-            controller: 'WhatNowCtrl'
+            templateUrl: "templates/done.html"
         });
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/');
 })
 
-//.directive('newActivityPanel', function() {
-//        return {
-//            restrict: 'E',
-//            templateUrl: 'templates/new-activity.html'
-//        };
-//    })
-//
+.directive('tabBar', function() {
+        return {
+            restrict: 'E',
+            templateUrl: 'templates/tab-bar.html',
+            controller: "TabCtrl"
+        };
+    })
+
 
 ;
