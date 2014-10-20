@@ -3,31 +3,16 @@
     <h1 class="title">What Now</h1>
     <button class="button button-icon ion-compose" ng-click="openActivityForm()"></button>
 </ion-header-bar>
-<div class="bar bar-subheader tabs tabs-icon-left bar-neutral">
-    <!--<a class="tab-item" >All</a>-->
-    <a class="tab-item has-badge" ng-model="tomaFilter" ng-click="tomaFilter = !tomaFilter" ng-class="{energized: tomaFilter}">
-        <span class="badge badge-energized">{{users.toma.points}}</span>
-        <i class="icon ion-man"></i> Toma
-    </a>
-    <a class="tab-item has-badge" ng-model="eviFilter" ng-click="eviFilter = !eviFilter" ng-class="{energized: eviFilter}">
-        <span class="badge badge-energized">{{users.evi.points}}</span>
-        <i class="icon ion-woman"></i>Evi
-    </a>
-    <a class="tab-item has-badge">
-        <span class="badge badge-energized">0</span>
-        <i class="icon ion-ios7-paw"></i> Momo
-    </a>
 
-
-
-</div>
+<user-bar></user-bar>
 
 <ion-content id="activities" class="has-header has-subheader">
     <ion-list>
         <!--<ion-item class="item item-divider sorting">-->
             <!--sorted by most urgent and <a href="" ng-click="switchSorting()">shortest</a>-->
         <!--</ion-item>-->
-        <ion-item ng-repeat="activity in activities | orderByPriority | orderBy: ['-urgent', '-important', 'duration'] | context: contextFilter"
+        <ion-item ng-repeat="activity in activities | orderByPriority | orderBy: ['-urgent', '-important', 'duration']
+                  | contextMatch: contextFilter | userMatch: userFilter"
                   ng-hide="activity.completion.done" href="#/activity/{{activity.$id}}">
             <span ng-show="activity.important && activity.urgent"><i class='icon ion-fireball'></i></span>
             <span ng-show="activity.important && !activity.urgent"><i class='icon ion-flame'></i></span>

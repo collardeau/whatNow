@@ -222,23 +222,32 @@ angular.module('whatNow.controllers', ['firebase'])
 
 .controller("TabCtrl", function($scope, tagFactory){
 
-        $scope.contexts = tagFactory.contexts;
-        $scope.contextFilter;
+    $scope.contexts = tagFactory.contexts;
+    $scope.contextFilter;
 
-        $scope.setContext = function(context){
-            if($scope.contextFilter === context) { //toggle off
-                $scope.contextFilter = undefined;
-            }else{
-                $scope.contextFilter = context;
-            }
-        };
+    $scope.pickContext = function(context){
+        if($scope.contextFilter === context) { //toggle off
+            $scope.contextFilter = undefined;
+        }else{
+            $scope.contextFilter = context;
+        }
+    };
 
-        $scope.eviFilter = false;
-        $scope.tomaFilter = false;
+})
 
-    })
+.controller("userCtrl", function($scope) {
+    $scope.userFilter = [];
+
+    $scope.toggleUser = function(user){
+        var toggle = $scope.userFilter.indexOf(user);
+        if(toggle > -1) {
+            $scope.userFilter.splice(toggle, 1);
+        }else{
+            $scope.userFilter.push(user);
+        }
+    };
+})
 
 ;
-
 
 console.log("end of whatNow.controllers.js");

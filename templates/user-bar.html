@@ -1,0 +1,15 @@
+<div class="bar bar-subheader tabs tabs-icon-left bar-neutral">
+    <!--<a class="tab-item" >All</a>-->
+    <a ng-repeat="user in users" class="tab-item has-badge"
+       ng-click="$parent.toggleUser(user.name)"
+        ng-class="{calm: $parent.userFilter.indexOf(user.name) > -1}">
+        <span class="badge badge-energized">{{user.points}}</span>
+        <i class="icon ion-{{user.icon}}"></i> {{user.name}}
+    </a>
+
+    <a class="tab-item has-badge">
+        <span class="badge badge-energized">0</span>
+        <i class="icon ion-ios7-paw"></i> Momo
+    </a>
+
+</div>

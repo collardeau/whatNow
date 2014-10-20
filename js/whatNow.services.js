@@ -21,14 +21,13 @@ angular.module('whatNow.services', ['firebase'])
 
         factory.users = $firebase(fireRef.child('users'));
 
+
         return factory;
 
     })
 
 .factory('activityFactory', function() {
     return {
-        test: "I am an activity",
-
        //should call new on it, proper function class?
        newActivity: function(){
             return {

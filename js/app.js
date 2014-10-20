@@ -43,5 +43,12 @@ WhatNowApp.config(function($stateProvider, $urlRouterProvider) {
         };
     })
 
+    .directive('userBar', function() {
+        return {
+            restrict: 'E',
+            templateUrl: 'templates/user-bar.html',
+            controller: "userCtrl"
+        };
+    })
 
 ;
