@@ -93,9 +93,8 @@ angular.module('whatNow.controllers', ['firebase'])
     $scope.id = id;
     $scope.activity = firebaseService.activities[id];
 //    $scope.activity = activityFactory.newActivity(); //for developing
-    $scope.status = "completed";
-//    $scope.status = activityFactory.getStatus($scope.activity);
-
+//    $scope.status = "completed";
+    $scope.status = activityFactory.getStatus($scope.activity);
 
     $scope.saveActivity = function () {
         firebaseService.activities[id] = $scope.activity;
@@ -143,6 +142,7 @@ angular.module('whatNow.controllers', ['firebase'])
                 if (res) {
                     $scope.activity.completion = null;
                     $scope.saveActivity();
+                    $scope.status = activityFactory.getStatus($scope.activity);
                 } else {
 //                    console.log('Cancel Delete');
                 }

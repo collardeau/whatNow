@@ -34,12 +34,24 @@
             </div>
         </div>
 
-        <!--<div class="row status">-->
-            <!--<div class="col col-30"><b ng-class="{balanced: status==='completed', assertive: status!=='open'}">{{status}}</b></div>-->
-        <!--</div>-->
-        <div class="completionDetails" ng-show="activity.completion.done">
+        <div class="item">
+            <div class="row status">
+                <div class="col col-25">
+                    Status:
+                </div>
+                <div class="col">
+                    <span ng-show="status === 0">Open</span>
+                    <span ng-show="status === 1" class="balanced">Completed</span>
+                    <span ng-show="status === 2" class="assertive">Urgent</span>
+                    <span ng-show="status === 3" class="assertive">Important</span>
+                    <span ng-show="status === 4" class="assertive">Urgent & Important</span>
+                </div>
+                <!--<div class="col"></div>-->
+            </div>
+        </div>
+        <div class="item completionDetails" ng-show="activity.completion.done">
             <div class="row doers">
-                <div class="col col-20">
+                <div class="col col-25">
                     By:
                 </div>
                 <div class="col">
@@ -50,45 +62,56 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col col-20">
+                <div class="col col-25">
                     On:
                 </div>
                 <div class="col">
                     {{activity.completion.on | date}}
                 </div>
             </div>
-
-
-
-        </div>
-
-        <div class="item" ng-class="{greyOut:activity.completion.done}">
             <div class="row">
-                <div class="col col-100"><b>Instructions:</b></div>
-            </div>
-            <div class="row">
-                <div class="col col-100">{{ activity.instructions || "none" }}</div>
-            </div>
-        </div>
-
-        <div class="item" ng-class="{greyOut:activity.completion.done}">
-
-            <div class="row">
-                <div class="col col-30">Duration:</div>
-                <div class="col">{{activity.duration  || "not specified"}} minutes</div>
-            </div>
-
-            <div class="row">
-                <div class="col col-30">Context:</div>
-                <div class="col">{{activity.context}}</div>
-            </div>
-
-            <div class="row">
-                <div class="col col-30">Added on:</div>
+                <div class="col col-25">
+                    Karma:
+                </div>
                 <div class="col">
-                    {{activity.date | date}}
+                    Coming Soon
                 </div>
             </div>
+
+
+        </div>
+
+        <div class="activityDetails" ng-class="{greyOut: status===1}">
+
+            <div class="item" ng-hide="!activity.instructions">
+                <div class="row">
+                    <div class="col col-100"><b>Instructions:</b></div>
+                </div>
+                <div class="row">
+                    <div class="col col-100">{{ activity.instructions || "none" }}</div>
+                </div>
+            </div>
+
+            <div class="item">
+
+                <div class="row">
+                    <div class="col col-25">Duration:</div>
+                    <div class="col">{{activity.duration  || "not specified"}} minutes</div>
+                </div>
+
+                <div class="row">
+                    <div class="col col-25">Context:</div>
+                    <div class="col">{{activity.context}}</div>
+                </div>
+
+                <div class="row">
+                    <div class="col col-25">Added on:</div>
+                    <div class="col">
+                        {{activity.date | date}}
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
     <!--<div>-->

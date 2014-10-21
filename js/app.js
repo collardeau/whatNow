@@ -2,13 +2,9 @@
  * Created by thomascollardeau on 10/8/14.
  */
 
-//add completed and completedBy when adding to firebase db
-//make sure to enter integers and bool in the database where appropriate
-//add required fields (ng-pristine etc)
-//sort by duration (not necessarily urgency) -- not working?
-//with a time range?
-//bad filtering when no duration input
+
 //figure out points system
+//change time range input
 //add a search field
 
 var WhatNowApp = angular.module('whatNow', ['ionic', 'whatNow.controllers', 'whatNow.services', 'myFilters']);

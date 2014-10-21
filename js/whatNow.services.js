@@ -47,19 +47,23 @@ angular.module('whatNow.services', ['firebase'])
             };
         },
         getStatus: function(activity){
-
+            //0: open
+            //1: completed
+            //2: urgent
+            //3: important
+            //4: urgent and important
             if(angular.isObject(activity.completion) && activity.completion.done){
-                return "completed";
+                return 1;
             }
             else if(activity.urgent || activity.important) {
-                if(activity.urgent && !activity.important){
-                    return "urgent";
+                if(!activity.important){
+                    return 2;
                 }else if (!activity.urgent && activity.important){
-                    return "important";
+                    return 3;
                 }
-                return "urgent and important";
+                return 4;
             }
-            return("open");
+            return 0;
         }
     }
 })

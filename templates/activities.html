@@ -14,6 +14,7 @@
         <ion-item ng-repeat="activity in activities | orderByPriority | orderBy: ['-urgent', '-important', 'duration']
                   | contextMatch: contextFilter | userMatch: userFilter"
                   ng-hide="activity.completion.done" href="#/activity/{{activity.$id}}">
+
             <span ng-show="activity.important && activity.urgent"><i class='icon ion-fireball'></i></span>
             <span ng-show="activity.important && !activity.urgent"><i class='icon ion-flame'></i></span>
             <span ng-show="activity.urgent && !activity.important"><i class='icon ion-ios7-timer'></i></span>

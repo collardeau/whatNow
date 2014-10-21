@@ -25,19 +25,18 @@
         <ion-item ng-repeat="activity in activities | orderByPriority | orderBy: '-completion.on'" href="#/activity/{{activity.$id}}"
                   ng-show="activity.completion.done">
 
-            <span class="crossedOut">{{activity.title}}</span>
+            <span>{{activity.title}}</span>
             <br />
-            <span class="dateCompleted">&#10004; {{activity.completion.on | date:'MM/dd/yyyy @ h:mma'}}</span>
-            <br />
-            <span class="doneDetails">
-                <!--{{activity.completion.by}} for-->
-                <span ng-repeat="(user, bool) in activity.completion.by" ng-show="activity.completion.by[user]">
-                    {{user}}<span ng-hide="$last">and </span>
-                </span>
-                for
-                <span ng-repeat="(user, bool) in activity.owners" ng-show="user">
-                    {{user}}<span ng-hide="$last">and </span>
-                </span>
+            <span class="dateCompleted"><span class="balanced">&#10004;</span>
+             <span ng-repeat="(user, bool) in activity.completion.by" ng-show="activity.completion.by[user]">
+                    <b>{{user}}</b><span ng-hide="$last"> and </span>
+            </span>
+
+            <!--<br />-->
+            for
+            <span ng-repeat="(user, bool) in activity.owners" ng-show="user">
+                {{user}}<span ng-hide="$last"> and </span>
+            </span>
             </span>
             <span class="badge badge-light">
                 <span ng-show="activity.context === 'fun'">
