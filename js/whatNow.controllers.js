@@ -135,7 +135,7 @@ angular.module('whatNow.controllers', ['firebase'])
         }else {//reopening a done activity
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Completion',
-                template: 'Are you sure-open this activity?',
+                template: 'Re-open this activity?',
                 scope: $scope
             });
             confirmPopup.then(function (res) {
@@ -149,10 +149,6 @@ angular.module('whatNow.controllers', ['firebase'])
             });
         }
     };
-
-
-
-
 
 //    var currentDoer = $scope.activity.completion.by;
 
@@ -252,7 +248,7 @@ angular.module('whatNow.controllers', ['firebase'])
 
 })
 
-.controller("userCtrl", function($scope) {
+.controller("userCtrl", function($scope, $ionicPopup) {
     $scope.userFilter = [];
 
     $scope.toggleUser = function(user){
@@ -262,6 +258,19 @@ angular.module('whatNow.controllers', ['firebase'])
         }else{
             $scope.userFilter.push(user);
         }
+    };
+
+    $scope.showMomo = function(){
+        var myPopup = $ionicPopup.show({
+            template: '<img src="img/momo.jpg" width="100%" height="auto"/>',
+            title: 'Master of Stinky Saliva',
+//            subTitle: 'Please use normal things',
+            scope: $scope,
+            buttons: [
+                { text: 'I love Momo!' }
+            ]
+        });
+        myPopup();
     };
 })
 
