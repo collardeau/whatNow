@@ -92,11 +92,18 @@ angular.module('whatNow.controllers', ['firebase'])
 
 .controller("ActivityCtrl", function($scope, activityFactory, firebaseService, $state, $stateParams, $ionicModal, $ionicPopup) {
 
-        //dealing with users points
-//        $scope.users = firebaseService.users;
     var id = $stateParams.activityId;
     $scope.id = id;
     $scope.activity = firebaseService.activities[id];
+//    $scope.activity = activityFactory.newActivity(); //for developing
+    $scope.status = "completed";
+//    $scope.status = activityFactory.getStatus($scope.activity);
+
+
+    $scope.saveActivity = function () {
+        firebaseService.activities[id] = $scope.activity;
+        firebaseService.activities.$save(id);
+    };
 
     $scope.deleteActivity = function () {
         var confirmPopup = $ionicPopup.confirm({
@@ -111,37 +118,39 @@ angular.module('whatNow.controllers', ['firebase'])
                 console.log('Cancel Delete');
             }
         });
-    }
-
-
-
-    $scope.saveActivity = function () {
-        //prep it (this is also in the form?)
-//        $scope.activity.urgency = parseInt($scope.activity.urgency);
-//        $scope.activity.duration = parseInt($scope.activity.duration);
-
-        firebaseService.activities[id] = $scope.activity;
-        firebaseService.activities.$save(id);
     };
 
-    //add a popup to confirm reopening an activity
-    $scope.saveCompletion = function () {
-        if (!$scope.activity.completion.done) { //completion is being turned off
-            //so reset other completion fields - who did it, how many points were distributed
-//            $scope.activity.completion.by = "";
-//            $scope.activity.completion.on = undefined;
-            //$scope.saveDoer(); //reset the points
-        } else {
-            //add a new completion date
-            $scope.activity.completion.on = Firebase.ServerValue.TIMESTAMP;
+    $scope.toggleCompletion = function() {
+        if($scope.activity.completion.done) { //newly done activity
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Nice!',
+                templateUrl: 'templates/complete-form.html',
+                scope: $scope
+            });
+            confirmPopup.then(function (res) {
+                if (res) {
+                    $scope.activity.completion.on = Firebase.ServerValue.TIMESTAMP;
+                    $scope.saveActivity();
+                } else {
+                    $scope.activity.completion = null;
+                }
+            });
+        }else {//reopening a done activity
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Completion',
+                template: 'Are you sure-open this activity?',
+                scope: $scope
+            });
+            confirmPopup.then(function (res) {
+                if (res) {
+                    $scope.activity.completion = null;
+                    $scope.saveActivity();
+                } else {
+//                    console.log('Cancel Delete');
+                }
+            });
         }
-        $scope.saveActivity();
-
-    }
-
-
-
-    $scope.status = activityFactory.getStatus($scope.activity);
+    };
 
 
 

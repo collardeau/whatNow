@@ -24,7 +24,7 @@
                 </div>
                 <div class="col col-20">
                     <label class="toggle toggle-balanced">
-                        <input type="checkbox" ng-model="activity.completion.done" ng-change="saveCompletion()">
+                        <input type="checkbox" ng-model="activity.completion.done" ng-change="toggleCompletion()">
                         <div class="track">
                             <div class="handle"></div>
                         </div>
@@ -34,26 +34,36 @@
             </div>
         </div>
 
-        <div class="row status">
-            <div class="col col-30"><b ng-class="{balanced: status==='completed', assertive: status!=='open'}">{{status}}</b></div>
-        </div>
-        <!--<div class="row" ng-show="activity.completion.done">-->
-            <!--<div class="col col-30">By:</div>-->
-            <!--<div class="col">-->
-                <!--&lt;!&ndash;ng-change only fires once?&ndash;&gt;-->
-                <!--<select ng-model="activity.completion.by" ng-change="saveDoer()">-->
-                    <!--<option value="" disabled selected>Select a user</option>-->
-                    <!--<option value="all">All</option>-->
-                    <!--<option value="evi">Evi</option>-->
-                    <!--<option value="toma">Toma</option>-->
-                <!--</select>-->
-            <!--</div>-->
+        <!--<div class="row status">-->
+            <!--<div class="col col-30"><b ng-class="{balanced: status==='completed', assertive: status!=='open'}">{{status}}</b></div>-->
         <!--</div>-->
+        <div class="completionDetails" ng-show="activity.completion.done">
+            <!--<div class="row">-->
+                <!--<div class="col col-30">By:</div>-->
+                <!--<div class="col">-->
+                    <!--on {{activity.completion.on | date}}-->
+                <!--</div>-->
+            <!--</div>-->
+            <div class="row">
+                <span class="item" ng-repeat="(name, user) in users" ng-show="activity.completion.by[name]">
+                    <i class="icon ion-checkmark-round"></i>{{name}}
+                </span>
+            </div>
+        </div>
+
+        <div class="item" ng-class="{greyOut:activity.completion.done}">
+            <div class="row">
+                <div class="col col-100"><b>Instructions:</b></div>
+            </div>
+            <div class="row">
+                <div class="col col-100">{{ activity.instructions || "none" }}</div>
+            </div>
+        </div>
+
         <div class="item" ng-class="{greyOut:activity.completion.done}">
 
-
             <div class="row">
-                <div class="col col-30">Duration:</div>
+                <div class="col col-30">Est. Duration:</div>
                 <div class="col">{{activity.duration  || "not specified"}} minutes</div>
             </div>
 
@@ -69,15 +79,6 @@
                 </div>
             </div>
         </div>
-        <div class="item" ng-class="{greyOut:activity.completion.done}">
-            <div class="row">
-                <div class="col col-100"><b>Instructions:</b></div>
-            </div>
-            <div class="row">
-                <div class="col col-100">{{ activity.instructions || "none" }}</div>
-            </div>
-        </div>
-
     </div>
     <!--<div>-->
         <!--<p>points given: {{activity.completion.points}}</p>-->

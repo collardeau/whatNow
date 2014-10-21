@@ -11,6 +11,8 @@ angular.module('whatNow.services', ['firebase'])
         var factory = {};
         factory.activities = $firebase(fireRef.child('activities'));
 
+        factory.users = $firebase(fireRef.child('users'));
+
         factory.add = function(newActivity){
             factory.activities.$add(newActivity);
         };
@@ -18,10 +20,6 @@ angular.module('whatNow.services', ['firebase'])
 //        factory.save = function(id){
 //            factory.activities.$save(id);
 //        }
-
-        factory.users = $firebase(fireRef.child('users'));
-
-
         return factory;
 
     })
@@ -66,28 +64,28 @@ angular.module('whatNow.services', ['firebase'])
     }
 })
 
-    .factory('tagFactory', function() {
-        return {
-            contexts: [
-                {name: 'home', icon: 'ion-disc'},
-                {name: 'errand', icon: 'ion-bag'},
-                {name: 'computer', icon: 'ion-monitor'},
-                {name: 'fun', icon: 'ion-happy'}
-            ],
-            getContextNames : function (){
-                var names = [];
-                angular.forEach(this.contexts, function(context){
-                    names.push(context.name);
-                });
-                return names;
-            },
-            getContextIcons : function (){
-                var icons = [];
-                angular.forEach(this.contexts, function(context){
-                    icons.push(context.icon);
-                });
-                return icons;
-            }
+.factory('tagFactory', function() {
+    return {
+        contexts: [
+            {name: 'home', icon: 'ion-disc'},
+            {name: 'errand', icon: 'ion-bag'},
+            {name: 'computer', icon: 'ion-monitor'},
+            {name: 'fun', icon: 'ion-happy'}
+        ],
+        getContextNames : function (){
+            var names = [];
+            angular.forEach(this.contexts, function(context){
+                names.push(context.name);
+            });
+            return names;
+        },
+        getContextIcons : function (){
+            var icons = [];
+            angular.forEach(this.contexts, function(context){
+                icons.push(context.icon);
+            });
+            return icons;
         }
-    });
+    }
+});
 
