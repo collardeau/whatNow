@@ -1,8 +1,12 @@
 <ion-header-bar class="bar-positive">
-    <a href="#"><button class="button button-icon ion-ios7-arrow-back"></button></a>
+    <div class="buttons">
+        <a href="#"><button class="button button-icon ion-ios7-arrow-back"></button></a>
+    </div>
     <h1 class="title">Activity</h1>
-    <!--<button class="button button-icon ion-edit" ng-hide="activity.completion.done" ng-click="openActivityForm()"></button>-->
-    <button class="button button-icon ion-edit" ng-click="openActivityForm()"></button>
+    <div class="buttons">
+        <button class="button button-icon ion-trash-b" ng-click="deleteActivity()"></button>
+        <button class="button button-icon ion-edit" ng-click="openActivityForm()"></button>
+    </div>
 </ion-header-bar>
 
 <ion-content class="has-header padding">
@@ -78,8 +82,6 @@
             </div>
         </div>
     </div>
-    <button class="button button-primary" ng-click="deleteActivity()">Delete</button>
-
     <!--<div>-->
         <!--<p>points given: {{activity.completion.points}}</p>-->
         <!--<p>Evi has {{users.evi.points}} points.<br />-->
