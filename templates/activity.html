@@ -1,9 +1,9 @@
 <ion-header-bar class="bar-positive">
     <div class="buttons">
-        <a href="#"><button class="button button-icon ion-ios7-arrow-back"></button></a>
+        <a href="#"><button class="button button-icon ion-earth"></button></a>
     </div>
     <h1 class="title">Activity</h1>
-    <div class="buttons">
+    <div class="completion buttons">
         <button class="button button-icon ion-trash-b" ng-click="deleteActivity()"></button>
         <button class="button button-icon ion-edit" ng-click="openActivityForm()"></button>
     </div>
@@ -13,19 +13,29 @@
 
     <div class="card">
         <div class="item item-divider">
-            {{activity.title}}
-        </div>
-        <div class="row">
-            <div class="col col-30">Completed</div>
-            <div class="col">
-                <label class="toggle">
-                    <input type="checkbox" ng-model="activity.completion.done" ng-change="saveCompletion()">
-                    <div class="track">
-                        <div class="handle"></div>
+
+            <div class="row">
+                <div class="col-80">
+                    <h2>{{activity.title}}</h2>
+                    <div class="activityUserDetails">
+                        for
+                        <span ng-repeat="(key, owner) in activity.owners" ng-show="owner"> {{key}}<span ng-show="!$last "> and </span></span>
                     </div>
-                </label>
-                <!--<input type="checkbox" ng-model="activity.completed.done" ng-change="saveActivity()">-->
+                </div>
+                <div class="col col-20">
+                    <label class="toggle toggle-balanced">
+                        <input type="checkbox" ng-model="activity.completion.done" ng-change="saveCompletion()">
+                        <div class="track">
+                            <div class="handle"></div>
+                        </div>
+                    </label>
+                </div>
+
             </div>
+        </div>
+
+        <div class="row status">
+            <div class="col col-30"><b ng-class="{balanced: status==='completed', assertive: status!=='open'}">{{status}}</b></div>
         </div>
         <!--<div class="row" ng-show="activity.completion.done">-->
             <!--<div class="col col-30">By:</div>-->
@@ -39,39 +49,17 @@
                 <!--</select>-->
             <!--</div>-->
         <!--</div>-->
-        <div ng-class="{greyOut:activity.completion.done}">
-            <div class="row">
-                <div class="col col-30">Urgency:</div>
-                <div class="col">{{activity.urgent}}</div>
-            </div>
+        <div class="item" ng-class="{greyOut:activity.completion.done}">
+
 
             <div class="row">
-                <div class="col col-30">Important:</div>
-                <div class="col">{{activity.important}}</div>
-            </div>
-
-            <div class="row">
-                <div class="col col-30">Estimated Duration:</div>
-                <div class="col">{{activity.duration  || "not specified"}}</div>
+                <div class="col col-30">Duration:</div>
+                <div class="col">{{activity.duration  || "not specified"}} minutes</div>
             </div>
 
             <div class="row">
                 <div class="col col-30">Context:</div>
                 <div class="col">{{activity.context}}</div>
-            </div>
-
-            <div class="row">
-                <div class="col col-30">For:</div>
-                <div class="col">
-                    <span ng-repeat="(key, owner) in activity.owners" ng-show="owner">{{key}}<span ng-show="!$last ">, </span></span>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col col-30">Instructions</div>
-                <div class="col">
-                    {{ activity.instructions || "none" }}
-                </div>
             </div>
 
             <div class="row">
@@ -81,6 +69,15 @@
                 </div>
             </div>
         </div>
+        <div class="item" ng-class="{greyOut:activity.completion.done}">
+            <div class="row">
+                <div class="col col-100"><b>Instructions:</b></div>
+            </div>
+            <div class="row">
+                <div class="col col-100">{{ activity.instructions || "none" }}</div>
+            </div>
+        </div>
+
     </div>
     <!--<div>-->
         <!--<p>points given: {{activity.completion.points}}</p>-->

@@ -90,9 +90,10 @@ angular.module('whatNow.controllers', ['firebase'])
 
 })
 
-.controller("ActivityCtrl", function($scope, firebaseService, $state, $stateParams, $ionicModal, $ionicPopup) {
+.controller("ActivityCtrl", function($scope, activityFactory, firebaseService, $state, $stateParams, $ionicModal, $ionicPopup) {
 
-
+        //dealing with users points
+//        $scope.users = firebaseService.users;
     var id = $stateParams.activityId;
     $scope.id = id;
     $scope.activity = firebaseService.activities[id];
@@ -112,8 +113,7 @@ angular.module('whatNow.controllers', ['firebase'])
         });
     }
 
-    //dealing with users points
-    $scope.users = firebaseService.users;
+
 
     $scope.saveActivity = function () {
         //prep it (this is also in the form?)
@@ -124,6 +124,7 @@ angular.module('whatNow.controllers', ['firebase'])
         firebaseService.activities.$save(id);
     };
 
+    //add a popup to confirm reopening an activity
     $scope.saveCompletion = function () {
         if (!$scope.activity.completion.done) { //completion is being turned off
             //so reset other completion fields - who did it, how many points were distributed
@@ -137,6 +138,14 @@ angular.module('whatNow.controllers', ['firebase'])
         $scope.saveActivity();
 
     }
+
+
+
+    $scope.status = activityFactory.getStatus($scope.activity);
+
+
+
+
 
 //    var currentDoer = $scope.activity.completion.by;
 

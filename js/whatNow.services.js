@@ -47,6 +47,21 @@ angular.module('whatNow.services', ['firebase'])
                 },
                 instructions: undefined
             };
+        },
+        getStatus: function(activity){
+
+            if(angular.isObject(activity.completion) && activity.completion.done){
+                return "completed";
+            }
+            else if(activity.urgent || activity.important) {
+                if(activity.urgent && !activity.important){
+                    return "urgent";
+                }else if (!activity.urgent && activity.important){
+                    return "important";
+                }
+                return "urgent and important";
+            }
+            return("open");
         }
     }
 })
