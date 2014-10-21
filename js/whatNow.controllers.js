@@ -83,10 +83,7 @@ angular.module('whatNow.controllers', ['firebase'])
         if($scope.tomaDoneFilter && activity.completed.by !== "toma" ){
             return true;
         }
-
-
     };
-
 
 })
 
@@ -131,6 +128,7 @@ angular.module('whatNow.controllers', ['firebase'])
                 if (res) {
                     $scope.activity.completion.on = Firebase.ServerValue.TIMESTAMP;
                     $scope.saveActivity();
+                    $state.go("done");
                 } else {
                     $scope.activity.completion = null;
                 }

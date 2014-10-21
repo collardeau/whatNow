@@ -38,17 +38,28 @@
             <!--<div class="col col-30"><b ng-class="{balanced: status==='completed', assertive: status!=='open'}">{{status}}</b></div>-->
         <!--</div>-->
         <div class="completionDetails" ng-show="activity.completion.done">
-            <!--<div class="row">-->
-                <!--<div class="col col-30">By:</div>-->
-                <!--<div class="col">-->
-                    <!--on {{activity.completion.on | date}}-->
-                <!--</div>-->
-            <!--</div>-->
-            <div class="row">
-                <span class="item" ng-repeat="(name, user) in users" ng-show="activity.completion.by[name]">
-                    <i class="icon ion-checkmark-round"></i>{{name}}
-                </span>
+            <div class="row doers">
+                <div class="col col-20">
+                    By:
+                </div>
+                <div class="col">
+                    <i class="icon ion-checkmark-round balanced"></i>
+                    <span ng-repeat="(name, user) in activity.completion.by" ng-show="activity.completion.by[name]">
+                        {{name}}<span ng-hide="$last"> and </span>
+                    </span>
+                </div>
             </div>
+            <div class="row">
+                <div class="col col-20">
+                    On:
+                </div>
+                <div class="col">
+                    {{activity.completion.on | date}}
+                </div>
+            </div>
+
+
+
         </div>
 
         <div class="item" ng-class="{greyOut:activity.completion.done}">
@@ -63,7 +74,7 @@
         <div class="item" ng-class="{greyOut:activity.completion.done}">
 
             <div class="row">
-                <div class="col col-30">Est. Duration:</div>
+                <div class="col col-30">Duration:</div>
                 <div class="col">{{activity.duration  || "not specified"}} minutes</div>
             </div>
 
