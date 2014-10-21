@@ -11,30 +11,30 @@
         <div class="item item-divider">
             {{activity.title}}
         </div>
-        <!--<div class="row">-->
-            <!--<div class="col col-30">Completed</div> {{activity.completion.done}}-->
-            <!--<div class="col">-->
-                <!--<label class="toggle">-->
-                    <!--<input type="checkbox" ng-model="activity.completion.done" ng-change="saveCompleted()">-->
-                    <!--<div class="track">-->
-                        <!--<div class="handle"></div>-->
-                    <!--</div>-->
-                <!--</label>-->
-                <!--&lt;!&ndash;<input type="checkbox" ng-model="activity.completed.done" ng-change="saveActivity()">&ndash;&gt;-->
-            <!--</div>-->
-        <!--</div>-->
-        <div class="row" ng-show="activity.completion.done">
-            <div class="col col-30">By:</div>
+        <div class="row">
+            <div class="col col-30">Completed</div>
             <div class="col">
-                <!--ng-change only fires once?-->
-                <select ng-model="activity.completion.by" ng-change="saveDoer()">
-                    <option value="" disabled selected>Select a user</option>
-                    <option value="all">All</option>
-                    <option value="evi">Evi</option>
-                    <option value="toma">Toma</option>
-                </select>
+                <label class="toggle">
+                    <input type="checkbox" ng-model="activity.completion.done" ng-change="saveCompletion()">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+                <!--<input type="checkbox" ng-model="activity.completed.done" ng-change="saveActivity()">-->
             </div>
         </div>
+        <!--<div class="row" ng-show="activity.completion.done">-->
+            <!--<div class="col col-30">By:</div>-->
+            <!--<div class="col">-->
+                <!--&lt;!&ndash;ng-change only fires once?&ndash;&gt;-->
+                <!--<select ng-model="activity.completion.by" ng-change="saveDoer()">-->
+                    <!--<option value="" disabled selected>Select a user</option>-->
+                    <!--<option value="all">All</option>-->
+                    <!--<option value="evi">Evi</option>-->
+                    <!--<option value="toma">Toma</option>-->
+                <!--</select>-->
+            <!--</div>-->
+        <!--</div>-->
         <div ng-class="{greyOut:activity.completion.done}">
             <div class="row">
                 <div class="col col-30">Urgency:</div>

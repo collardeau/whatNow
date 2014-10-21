@@ -5,7 +5,7 @@
         <h1 ng-show="editMode" class="title">Edit Activity</h1>
         <button class="button button-clear button-positive" ng-click="formModal.hide()">Cancel</button>
     </ion-header-bar>
-    <ion-content>
+    <ion-content id="activityForm">
         <form name="activityForm" ng-submit="activityForm.$valid && addEditActivity()" novalidate>
             <div class="list">
                 <label class="item item-input">

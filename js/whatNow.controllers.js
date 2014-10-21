@@ -116,21 +116,22 @@ angular.module('whatNow.controllers', ['firebase'])
     $scope.users = firebaseService.users;
 
     $scope.saveActivity = function () {
-        $scope.activity.urgency = parseInt($scope.activity.urgency);
-        $scope.activity.duration = parseInt($scope.activity.duration);
+        //prep it (this is also in the form?)
+//        $scope.activity.urgency = parseInt($scope.activity.urgency);
+//        $scope.activity.duration = parseInt($scope.activity.duration);
 
         firebaseService.activities[id] = $scope.activity;
         firebaseService.activities.$save(id);
     };
 
-    $scope.saveCompleted = function () {
-
-
-        if (!$scope.activity.completion.done) {
-            $scope.activity.completion.by = "";
-            $scope.activity.completion.on = undefined;
+    $scope.saveCompletion = function () {
+        if (!$scope.activity.completion.done) { //completion is being turned off
+            //so reset other completion fields - who did it, how many points were distributed
+//            $scope.activity.completion.by = "";
+//            $scope.activity.completion.on = undefined;
             //$scope.saveDoer(); //reset the points
         } else {
+            //add a new completion date
             $scope.activity.completion.on = Firebase.ServerValue.TIMESTAMP;
         }
         $scope.saveActivity();
