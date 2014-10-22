@@ -261,10 +261,11 @@ angular.module('whatNow.controllers', ['firebase'])
     };
 
     $scope.showMomo = function(){
+        var random = Math.floor((Math.random() * 8) + 1);
         var myPopup = $ionicPopup.show({
-            template: '<img src="img/momo.jpg" width="100%" height="auto"/>',
-            title: 'Master of Stinky Saliva',
-//            subTitle: 'Please use normal things',
+            template: '<img src="img/momo-' + random + '.jpg" width="100%" height="auto"/>',
+            title: 'Master',
+            subTitle: 'of Stinky Saliva',
             scope: $scope,
             buttons: [
                 { text: 'I love Momo!' }
