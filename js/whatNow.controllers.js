@@ -9,6 +9,7 @@ angular.module('whatNow.controllers', ['firebase'])
 .controller('WhatNowCtrl', function($scope, firebaseService, activityFactory, $ionicModal, $stateParams) {
 
     $scope.activities = firebaseService.activities;
+    $scope.users = firebaseService.users;
 
     //Add or Edit an Activity Modal
     $ionicModal.fromTemplateUrl('templates/activity-form.html', function(modal){
@@ -33,7 +34,7 @@ angular.module('whatNow.controllers', ['firebase'])
         $scope.formModal.show();
 
         $scope.addEditActivity = function () {
-            var activity = (prepActivity($scope.activity));
+            var activity = (activityFactory.prep($scope.activity));
             if(!$scope.editMode) { //add new activity
                 firebaseService.add(activity);
             }else { //edit one based on url
@@ -43,27 +44,9 @@ angular.module('whatNow.controllers', ['firebase'])
             }
             $scope.formModal.hide();
         };
-
-        var prepActivity = function(activity) {
-            activity.title = activity.title.trim();
-            activity.duration = parseInt(activity.duration);
-            if (!activity.date) {
-                activity.date = Firebase.ServerValue.TIMESTAMP;
-            }
-            //cleansing old activities
-//            delete activity.urgency;
-//            delete activity.completed;
-//            delete activity.completedBy;
-//            delete activity.forUsers;
-            return activity;
-        }
     };
 
-    //dealing with users and points
-    $scope.users = firebaseService.users;
-
     //dealing with done page, filters to see who did what?
-
     $scope.eviDoneFilter = false;
     $scope.tomaDonefilter = false;
 
@@ -163,17 +146,6 @@ angular.module('whatNow.controllers', ['firebase'])
         });
     };
 
-    var resetPoints = function(){
-        //when user reopens and activity, subtract the points already assigned
-        var points = $scope.activity.completion.ptsGiven;
-        angular.forEach($scope.activity.completion.by, function(user, name){
-            if(user){
-                $scope.users[name].points -= points;
-                firebaseService.users.$save();
-            }
-        });
-    };
-
     var determinePoints = function(){ //this should be in in the activity service
         if(activityFactory.isFun($scope.activity)){
             return 0;
@@ -193,28 +165,7 @@ angular.module('whatNow.controllers', ['firebase'])
         }
 
         //difficulty
-        var dur = $scope.activity.duration;
-        if(dur < 6){
-            difficultyPoints = 0;
-        }else if(dur<15) {
-            difficultyPoints = 1;
-        }else if(dur<30) {
-            difficultyPoints = 2;
-        }else if(dur<45) {
-            difficultyPoints = 3;
-        }else if(dur<60) {
-            difficultyPoints = 4;
-        }else if(dur<75) {
-            difficultyPoints = 5;
-        }else if(dur<90) {
-            difficultyPoints = 6;
-        }else if(dur<105) {
-            difficultyPoints = 7;
-        }else if(dur<120) {
-            difficultyPoints = 8;
-        }else{
-            difficultyPoints = 9;
-        }
+        var difficultyPoints = $scope.activity.duration;
 
         //extra (important + urgency)
         if($scope.activity.important && $scope.activity.urgent){
@@ -226,6 +177,17 @@ angular.module('whatNow.controllers', ['firebase'])
 
         var points = basePoints + difficultyPoints + extraPoints;
         return points;
+    };
+
+    var resetPoints = function(){
+        //when user reopens and activity, subtract the points already assigned
+        var points = $scope.activity.completion.ptsGiven;
+        angular.forEach($scope.activity.completion.by, function(user, name){
+            if(user){
+                $scope.users[name].points -= points;
+                firebaseService.users.$save();
+            }
+        });
     };
 
 })

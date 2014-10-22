@@ -16,7 +16,7 @@
                 <label class="item item-input">
                     <span class="input-label">Duration</span>
                     <div class="range range-positive">
-                        <input type="range" ng-model="activity.duration" min="0" max="180" value="5"> {{activity.duration}} min
+                        <input type="range" ng-model="activity.duration" min="0" max="8" value="1"> {{activity.duration * 15}}<span ng-show="activity.duration == 8">+ </span> min
                     </div>
                 </label>
 

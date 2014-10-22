@@ -19,7 +19,7 @@
             <span ng-show="activity.important && !activity.urgent"><i class='icon ion-flame'></i></span>
             <span ng-show="activity.urgent && !activity.important"><i class='icon ion-ios7-timer'></i></span>
             <span> {{activity.title}}</span>
-            <span class="item-note">{{activity.duration || ""}} min</span>
+            <span class="item-note">{{activity.duration * 15}} min</span>
         </ion-item>
     </ion-list>
 </ion-content>

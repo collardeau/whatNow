@@ -32,7 +32,7 @@ angular.module('whatNow.services', ['firebase'])
                 title: undefined,
                 urgent: false,
                 important: false,
-                duration: 5,
+                duration: 1, //15 minutes increments
                 completion: {
                     done: false,
                     by: undefined,
@@ -45,6 +45,20 @@ angular.module('whatNow.services', ['firebase'])
                 },
                 instructions: undefined
             };
+        },
+
+        prep: function(activity){
+            activity.title = activity.title.trim();
+            activity.duration = parseInt(activity.duration);
+            if (!activity.date) {
+                activity.date = Firebase.ServerValue.TIMESTAMP;
+            }
+            //cleansing old activities
+//            delete activity.urgency;
+//            delete activity.completed;
+//            delete activity.completedBy;
+//            delete activity.forUsers;
+            return activity;
         },
 
         getStatus: function(activity){
