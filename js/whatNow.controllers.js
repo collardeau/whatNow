@@ -125,9 +125,11 @@ angular.module('whatNow.controllers', ['firebase'])
             });
             confirmPopup.then(function (res) {
                 if (res) {
+                    assignPoints();
                     $scope.activity.completion.on = Firebase.ServerValue.TIMESTAMP;
-                    $scope.saveActivity();
-                    $state.go("done");
+                    $scope.status = activityFactory.getStatus($scope.activity);
+//                    $scope.saveActivity();
+//                    $state.go("done");
                 } else {
                     $scope.activity.completion = null;
                 }
@@ -140,14 +142,56 @@ angular.module('whatNow.controllers', ['firebase'])
             });
             confirmPopup.then(function (res) {
                 if (res) {
+                    resetPoints();
                     $scope.activity.completion = null;
-                    $scope.saveActivity();
+//                    $scope.saveActivity();
                     $scope.status = activityFactory.getStatus($scope.activity);
                 } else {
 //                    console.log('Cancel Delete');
                 }
             });
         }
+    };
+
+    var assignPoints = function(){
+        angular.forEach($scope.activity.completion.by, function(user, name){
+            if(user){
+                var points = determinePoints();
+                $scope.activity.completion.ptsGiven = points;
+                $scope.users[name].points += points;
+                firebaseService.users.$save(); //saving all the users in db
+            }
+        });
+    };
+
+    var resetPoints = function(){
+        //when user reopens and activity, subtract the points already assigned
+        var points = $scope.activity.completion.ptsGiven;
+        angular.forEach($scope.activity.completion.by, function(user, name){
+            if(user){
+                $scope.users[name].points -= points;
+                firebaseService.users.$save(name);
+            }
+        });
+    };
+
+    var determinePoints = function(){
+        if(isFun()){
+            return 0;
+        }
+        var basePoints = 1;
+        var difficultyPoints = 0;
+        var extraPoints = 0;
+
+        var points = basePoints + difficultyPoints + extraPoints;
+        return points;
+    };
+
+    var isFun = function(){
+        if($scope.activity.context === "fun"){
+            return true;
+        }
+        return false;
     };
 
 //    var currentDoer = $scope.activity.completion.by;
