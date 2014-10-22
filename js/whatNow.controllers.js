@@ -93,7 +93,6 @@ angular.module('whatNow.controllers', ['firebase'])
     $scope.id = id;
     $scope.activity = firebaseService.activities[id];
 //    $scope.activity = activityFactory.newActivity(); //for developing
-//    $scope.status = "completed";
     $scope.status = activityFactory.getStatus($scope.activity);
 
     $scope.saveActivity = function () {
@@ -128,7 +127,7 @@ angular.module('whatNow.controllers', ['firebase'])
                     assignPoints();
                     $scope.activity.completion.on = Firebase.ServerValue.TIMESTAMP;
                     $scope.status = activityFactory.getStatus($scope.activity);
-//                    $scope.saveActivity();
+                    $scope.saveActivity();
 //                    $state.go("done");
                 } else {
                     $scope.activity.completion = null;
@@ -142,9 +141,9 @@ angular.module('whatNow.controllers', ['firebase'])
             });
             confirmPopup.then(function (res) {
                 if (res) {
-                    resetPoints();
+//                    resetPoints();
                     $scope.activity.completion = null;
-//                    $scope.saveActivity();
+                    $scope.saveActivity();
                     $scope.status = activityFactory.getStatus($scope.activity);
                 } else {
 //                    console.log('Cancel Delete');
@@ -170,109 +169,63 @@ angular.module('whatNow.controllers', ['firebase'])
         angular.forEach($scope.activity.completion.by, function(user, name){
             if(user){
                 $scope.users[name].points -= points;
-                firebaseService.users.$save(name);
+                firebaseService.users.$save();
             }
         });
     };
 
-    var determinePoints = function(){
-        if(isFun()){
+    var determinePoints = function(){ //this should be in in the activity service
+        if(activityFactory.isFun($scope.activity)){
             return 0;
         }
-        var basePoints = 1;
+
+        var basePoints = 0;
         var difficultyPoints = 0;
         var extraPoints = 0;
 
+        //intent
+        if(activityFactory.isSelfless($scope.activity)){
+            basePoints = 3;
+        }else if (activityFactory.isSelfish($scope.activity)){
+            basePoints = 0;
+        }else {
+            basePoints = 1;
+        }
+
+        //difficulty
+        var dur = $scope.activity.duration;
+        if(dur < 6){
+            difficultyPoints = 0;
+        }else if(dur<15) {
+            difficultyPoints = 1;
+        }else if(dur<30) {
+            difficultyPoints = 2;
+        }else if(dur<45) {
+            difficultyPoints = 3;
+        }else if(dur<60) {
+            difficultyPoints = 4;
+        }else if(dur<75) {
+            difficultyPoints = 5;
+        }else if(dur<90) {
+            difficultyPoints = 6;
+        }else if(dur<105) {
+            difficultyPoints = 7;
+        }else if(dur<120) {
+            difficultyPoints = 8;
+        }else{
+            difficultyPoints = 9;
+        }
+
+        //extra (important + urgency)
+        if($scope.activity.important && $scope.activity.urgent){
+            extraPoints = 2;
+        }else if ($scope.activity.important || $scope.activity.urgent){
+            extraPoints = 1;
+        }
+
+
         var points = basePoints + difficultyPoints + extraPoints;
         return points;
-    };
-
-    var isFun = function(){
-        if($scope.activity.context === "fun"){
-            return true;
-        }
-        return false;
-    };
-
-//    var currentDoer = $scope.activity.completion.by;
-
-    $scope.saveDoer = function () {
-
-        if (!$scope.activity.context.fun) { //don't count points if it's a fun activity
-
-            //remove points if the select option was already set
-            if (currentDoer === "evi" || currentDoer === "toma") { //if the doer was one of the 2 users
-                $scope.users[currentDoer].points -= $scope.activity.completed.points;
-            } else if (currentDoer === "all") { //if both were previously credited, remove from both
-                $scope.users.evi.points -= $scope.activity.completed.points;
-                $scope.users.toma.points -= $scope.activity.completed.points;
-            }
-
-            //add points
-            var doer = $scope.activity.completed.by;
-            var points = 0;
-
-            var basePoints = 2;
-            if(isSelfish()) { basePoints = 1; }
-            else if(isSelfless()){ basePoints = 3;}
-
-            var difficultyPoints = 0 //based on time required
-            if ($scope.activity.duration && angular.isNumber($scope.activity.duration)) {
-                difficultyPoints = Math.floor($scope.activity.duration / 10);
-            }
-
-            points = basePoints + difficultyPoints;
-            //add the points
-            if (doer === "evi" || doer === "toma") { //to either evi or toma if they are the doers
-                $scope.users[doer].points += points;
-            } else if (doer === "all") {
-                $scope.users.evi.points += points;
-                $scope.users.toma.points += points;
-            }
-
-            currentDoer = $scope.activity.completed.by;
-            firebaseService.users.$save();
-        }
-
-        //store the points awarded for reference and in case of deleting
-        if ($scope.activity.completed.by === "") {
-            $scope.activity.completed.points = 0;
-        } else {
-            $scope.activity.completed.points = points;
-        }
-        $scope.saveActivity();
-
-    }
-
-    var isSelfish = function () { //is the activity only for and done by self
-        var forUsers = $scope.activity.forUsers;
-        var doer = $scope.activity.completed.by; //this is a string at this point
-
-        //count element in object, bit primitive?
-        var numFor = function() {
-            var counter = 0;
-            angular.forEach(forUsers, function(){
-                counter++;
-            });
-            return counter;
-        };
-
-        if (forUsers[doer] && numFor() === 1){ //user who acted is recipient, of which there is only 1
-            console.log("This is a selfish act");
-            return true;
-        }
-        return false;
-    };
-
-    var isSelfless = function() {
-        var forUsers = $scope.activity.forUsers;
-        var doer = $scope.activity.completed.by; //this is a string at this point
-        //if doer is not listed in list
-        if(doer && !forUsers[doer] && doer !== "all"){
-            console.log("This is a selfless act");
-            return true;
-        }
-        return false;
     };
 
 })
@@ -308,8 +261,8 @@ angular.module('whatNow.controllers', ['firebase'])
         var random = Math.floor((Math.random() * 8) + 1);
         var myPopup = $ionicPopup.show({
             template: '<img src="img/momo-' + random + '.jpg" width="100%" height="auto"/>',
-            title: 'Master',
-            subTitle: 'of Stinky Saliva',
+            title: 'The Master of Stinky Saliva',
+            subTitle: 'has no points!',
             scope: $scope,
             buttons: [
                 { text: 'I love Momo!' }

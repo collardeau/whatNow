@@ -26,8 +26,8 @@ angular.module('whatNow.services', ['firebase'])
 
 .factory('activityFactory', function() {
     return {
-       //should call new on it, proper function class?
-       newActivity: function(){
+         //should call new on it, proper function class?
+        newActivity: function(){
             return {
                 title: undefined,
                 urgent: false,
@@ -46,6 +46,7 @@ angular.module('whatNow.services', ['firebase'])
                 instructions: undefined
             };
         },
+
         getStatus: function(activity){
             //0: open
             //1: completed
@@ -64,7 +65,54 @@ angular.module('whatNow.services', ['firebase'])
                 return 4;
             }
             return 0;
+        },
+
+        isFun : function(activity){
+            if(activity.context === "fun"){
+                return true;
+            }
+            return false;
+        },
+
+        isSelfish: function(activity){
+            var owners = this.getTrueKeys(activity.owners);
+            if (owners.length === 1 && angular.equals(activity.owners, activity.completion.by)) {
+                console.log("is selfish");
+                return true;
+            }
+            return false;
+        },
+
+        isSelfless: function(activity){
+            //if a doer
+            var owners = this.getTrueKeys(activity.owners);
+            var doers = this.getTrueKeys(activity.completion.by);
+
+            for(var i=0; i<doers.length;i++){
+                for(var j=0; j<owners.length; j++){
+                    if(doers[i] === owners[j]){
+                        console.log("is not selfless");
+                        return false;
+                    }
+                }
+            }
+
+            console.log("is selfless");
+            return true;
+        },
+
+        getTrueKeys: function(object){
+            var keys = [];
+            if(angular.isObject(object)) {
+                angular.forEach(object, function (value, key) {
+                    if(value) {
+                        keys.push(key);
+                    }
+                });
+            }
+            return keys;
         }
+
     }
 })
 
