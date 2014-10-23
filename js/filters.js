@@ -1,5 +1,12 @@
 angular.module('myFilters', [])
 
+
+.filter('sort', function() {
+    return function(input) {
+        return input.sort();
+    }
+})
+
 .filter('contextMatch', function () {
     return function (items, context) {
         if(context) {

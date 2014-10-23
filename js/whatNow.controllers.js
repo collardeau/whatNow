@@ -6,17 +6,63 @@
 
 angular.module('whatNow.controllers', ['firebase'])
 
-.controller('WhatNowCtrl', function($scope, firebaseService, activityFactory, $ionicModal, $stateParams) {
+.controller('WhatNowCtrl', function($scope, firebaseService, activityFactory, $ionicModal, $stateParams, $filter) {
 
     $scope.activities = firebaseService.activities;
     $scope.users = firebaseService.users;
 
     $scope.activityOrdering = ['-urgent', '-important', 'duration'];
+    $scope.filtersSelected = {
+        users: [],
+        context: undefined
+    };
+//    $scope.filtersSelected.users = [];
+//    $scope.filtersSelected.context = "";
     $scope.activitiesFilterFn = function(item){
-        if(item.important) {
-            return true;
+
+        //hide done activities -- they should probably be moved to another table
+        if(angular.isObject(item.completion) && item.completion.done) {
+            return false;
         }
-    }
+
+        var numUsersFiltered = $scope.filtersSelected.users.length;
+        var owners = activityFactory.getTrueKeys(item.owners);
+
+        switch(numUsersFiltered) {
+            case 0: // if not users are selected, hide personal
+                if (angular.isDefined(item.personal) && item.personal) {
+                    return false;
+                }
+                break;
+            case 1: //hide if the user is not in filtered array
+                var matched = false;
+                //make this a filter?
+                angular.forEach(owners, function(owner) {
+                    if(owner === $scope.filtersSelected.users[0]){ //we know only 1 user
+                        matched = true;
+                        return;
+                    }
+                });
+                if(!matched){
+                    return false;
+                }
+                break;
+            default:  //activities in common
+                var owners = $filter('sort')(owners);
+                var filteredOwners = $filter('sort')($scope.filtersSelected.users);
+                if(!angular.equals(owners, filteredOwners)){
+                    return false;
+                }
+        }
+
+        //deal with the context\
+        if($scope.filtersSelected.context) {
+            if (!angular.equals($scope.filtersSelected.context, item.context)) {
+                return false;
+            }
+        }
+        return true;
+    };
 
     //Add or Edit an Activity Modal
     $ionicModal.fromTemplateUrl('templates/activity-form.html', function(modal){
@@ -204,27 +250,26 @@ angular.module('whatNow.controllers', ['firebase'])
 .controller("TabCtrl", function($scope, tagFactory){
 
     $scope.contexts = tagFactory.contexts;
-    $scope.contextFilter;
 
     $scope.pickContext = function(context){
-        if($scope.contextFilter === context) { //toggle off
-            $scope.contextFilter = undefined;
+        if($scope.filtersSelected.context === context) { //toggle off
+            $scope.filtersSelected.context = undefined;
         }else{
-            $scope.contextFilter = context;
+            $scope.filtersSelected.context = context;
         }
     };
 
 })
 
 .controller("userCtrl", function($scope, $ionicPopup) {
-    $scope.userFilter = [];
+//    $scope.userFilter = [];
 
     $scope.toggleUser = function(user){
-        var toggle = $scope.userFilter.indexOf(user);
+        var toggle = $scope.filtersSelected.users.indexOf(user);
         if(toggle > -1) {
-            $scope.userFilter.splice(toggle, 1);
+            $scope.filtersSelected.users.splice(toggle, 1);
         }else{
-            $scope.userFilter.push(user);
+            $scope.filtersSelected.users.push(user);
         }
     };
 

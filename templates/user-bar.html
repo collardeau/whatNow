@@ -2,7 +2,7 @@
     <!--<a class="tab-item" >All</a>-->
     <a ng-repeat="user in users" class="tab-item has-badge"
        ng-click="$parent.toggleUser(user.name)"
-        ng-class="{energized: $parent.userFilter.indexOf(user.name) > -1}">
+        ng-class="{energized: filtersSelected.users.indexOf(user.name) > -1}">
         <span class="badge badge-energized">{{user.points}}</span>
         <i class="icon ion-{{user.icon}}"></i> {{user.name}}
     </a>

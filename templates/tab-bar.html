@@ -1,7 +1,7 @@
 <div class="tabs tabs-bottom tabs-icon-only tabs-balanced">
     <a ng-repeat='context in contexts' class="tab-item"
        ng-click="$parent.pickContext(context.name)"
-       ng-class="{positive: $parent.contextFilter===context.name}">
+       ng-class="{positive: $parent.filtersSelected.context===context.name}">
         <i class="icon {{context.icon}}"></i>
     </a>
 </div>
