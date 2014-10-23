@@ -5,11 +5,11 @@
 
 <div class="bar bar-subheader tabs tabs-icon-left bar-neutral">
     <!--<a class="tab-item" >All</a>-->
-    <a class="tab-item has-badge" ng-model="tomaDoneFilter" ng-click="tomaDoneFilter = !tomaDoneFilter" ng-class="{energized: tomaDoneFilter}">
+    <a class="tab-item has-badge" ng-click="toggleDoneFilter('toma')" ng-class="{energized: doneFilter.indexOf('toma') > -1}">
         <span class="badge badge-energized">{{users.toma.points}}</span>
         <i class="icon ion-man"></i> Toma
     </a>
-    <a class="tab-item has-badge" ng-model="eviDoneFilter" ng-click="eviDoneFilter = !eviDoneFilter" ng-class="{energized: eviDoneFilter}">
+    <a class="tab-item has-badge" ng-click="toggleDoneFilter('evi')" ng-class="{energized: doneFilter.indexOf('evi') > -1}">
         <span class="badge badge-energized">{{users.evi.points}}</span>
         <i class="icon ion-woman"></i>Evi
     </a>
@@ -17,10 +17,9 @@
 
 <ion-content id="doneActivities" class="has-header has-subheader">
     <ion-list>
-        <ion-item ng-repeat="activity in activities | orderByPriority | orderBy: '-completion.on'" href="#/activity/{{activity.$id}}"
-                  ng-show="activity.completion.done">
+        <ion-item ng-repeat="activity in activities | orderByPriority | orderBy: '-completion.on' | filter: doneFilterFn" href="#/activity/{{activity.$id}}">
 
-            <h2 class="crossedOut">{{activity.title}}</h2>
+            <span class="crossedOut">{{activity.title}}</span>
             <div class="row">
                 <div class="col col-10">
                     <i class="icon ion-checkmark balanced"></i>
