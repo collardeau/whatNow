@@ -46,6 +46,10 @@ angular.module('whatNow.controllers', ['firebase'])
         };
     };
 
+    //done page stuff
+    $scope.isSelfless = function(activity){
+        return activityFactory.isSelfless(activity);
+    }
     //dealing with done page, filters to see who did what?
     $scope.eviDoneFilter = false;
     $scope.tomaDonefilter = false;
@@ -147,6 +151,7 @@ angular.module('whatNow.controllers', ['firebase'])
     };
 
     var determinePoints = function(){ //this should be in in the activity service
+
         if(activityFactory.isFun($scope.activity)){
             return 0;
         }
@@ -173,7 +178,6 @@ angular.module('whatNow.controllers', ['firebase'])
         }else if ($scope.activity.important || $scope.activity.urgent){
             extraPoints = 1;
         }
-
 
         var points = basePoints + difficultyPoints + extraPoints;
         return points;
@@ -219,18 +223,26 @@ angular.module('whatNow.controllers', ['firebase'])
         }
     };
 
+    $scope.momo = 0;
+
     $scope.showMomo = function(){
-        var random = Math.floor((Math.random() * 8) + 1);
-        var myPopup = $ionicPopup.show({
+        var random = Math.floor((Math.random() * 15) + 1);
+        var myPopup = $ionicPopup.confirm({
             template: '<img src="img/momo-' + random + '.jpg" width="100%" height="auto"/>',
-            title: 'The Master of Stinky Saliva',
-            subTitle: 'has no points!',
+            title: 'The Great Momo',
+            subTitle: 'Master of Stinky Saliva',
             scope: $scope,
             buttons: [
                 { text: 'I love Momo!' }
             ]
         });
-        myPopup();
+        myPopup.then(function (res) {
+            if (!res) {
+                $scope.momo += 1;
+            } else {
+                console.log("give Momo no point");
+            }
+        });
     };
 })
 

@@ -101,7 +101,6 @@ angular.module('whatNow.services', ['firebase'])
             //if a doer
             var owners = this.getTrueKeys(activity.owners);
             var doers = this.getTrueKeys(activity.completion.by);
-
             for(var i=0; i<doers.length;i++){
                 for(var j=0; j<owners.length; j++){
                     if(doers[i] === owners[j]){

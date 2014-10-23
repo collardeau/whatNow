@@ -18,7 +18,7 @@ ion-nav-view {
 }
 
 #doneActivities .badge {
-    font-size: 1.5em !important;
+    font-size: 1.1em !important;
 }
 
 .bar-subheader .badge {
@@ -46,7 +46,7 @@ ion-nav-view {
     margin: 1em;
 }
 
-i {
+#activities i {
     font-size: 1.3em;
 }
 
@@ -63,6 +63,10 @@ i {
 .dateCompleted, .activityUserDetails {
     font-size: 0.8em;
     font-weight: normal;
+}
+
+#doneActivities h2 {
+    font-size: 1.1em;
 }
 
 

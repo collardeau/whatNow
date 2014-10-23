@@ -13,11 +13,6 @@
         <span class="badge badge-energized">{{users.evi.points}}</span>
         <i class="icon ion-woman"></i>Evi
     </a>
-    <!--<a class="tab-item has-badge">-->
-        <!--<span class="badge badge-energized">0</span>-->
-        <!--<i class="icon ion-ios7-paw"></i> Momo-->
-    <!--</a>-->
-
 </div>
 
 <ion-content id="doneActivities" class="has-header has-subheader">
@@ -25,20 +20,38 @@
         <ion-item ng-repeat="activity in activities | orderByPriority | orderBy: '-completion.on'" href="#/activity/{{activity.$id}}"
                   ng-show="activity.completion.done">
 
-            <span>{{activity.title}}</span>
-            <br />
-            <span class="dateCompleted"><span class="balanced">&#10004;</span>
-             <span ng-repeat="(user, bool) in activity.completion.by" ng-show="activity.completion.by[user]">
-                    <b>{{user}}</b><span ng-hide="$last"> and </span>
-            </span>
+            <h2 class="crossedOut">{{activity.title}}</h2>
+            <div class="row">
+                <div class="col col-10">
+                    <i class="icon ion-checkmark balanced"></i>
+                </div>
+                <div class="col col-90">
+                     by <span ng-repeat="(user, bool) in activity.completion.by" ng-show="activity.completion.by[user]">
+                            <b>{{user}}</b><span ng-hide="$last"> & </span></span>
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-10">
 
-            <!--<br />-->
-            for
-            <span ng-repeat="(user, bool) in activity.owners" ng-show="user">
-                {{user}}<span ng-hide="$last"> and </span>
-            </span>
-            </span>
-            <span class="badge badge-light">
+                </div>
+                <div class="col col-90">
+                    for <span ng-repeat="(user, bool) in activity.owners" ng-show="bool">
+                        {{user}}
+                        <span ng-hide="$last"> & </span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="row" ng-show="isSelfless(activity)">
+                <div class="col col-10">
+                </div>
+                <div class="col col-90 assertive">
+                    Wow, a selfless act!
+                </div>
+            </div>
+
+            <span class="badge badge-energized">
                 <span ng-show="activity.context === 'fun'">
                     <i class="icon ion-happy"></i>
                 </span>
