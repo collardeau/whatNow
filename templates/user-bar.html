@@ -1,6 +1,6 @@
 <div class="bar bar-subheader tabs tabs-icon-left bar-neutral">
     <!--<a class="tab-item" >All</a>-->
-    <a ng-repeat="user in users" class="tab-item has-badge"
+    <a ng-repeat="user in users | orderByPriority | orderBy: '-points'" class="tab-item has-badge"
        ng-click="$parent.toggleUser(user.name)"
         ng-class="{energized: filtersSelected.users.indexOf(user.name) > -1}">
         <span class="badge badge-energized">{{user.points}}</span>

@@ -32,6 +32,7 @@ angular.module('whatNow.services', ['firebase'])
                 title: undefined,
                 urgent: false,
                 important: false,
+                private: false,
                 duration: 1, //15 minutes increments
                 completion: {
                     done: false,

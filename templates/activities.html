@@ -15,6 +15,7 @@
         <!--| contextMatch: contextFilter | userMatch: userFilter"-->
         <ion-item ng-repeat="activity in activities | orderByPriority | orderBy: activityOrdering | filter:activitiesFilterFn" href="#/activity/{{activity.$id}}">
 
+            <span ng-show="activity.personal"><i class='icon ion-key'></i></span>
             <span ng-show="activity.important && activity.urgent"><i class='icon ion-fireball'></i></span>
             <span ng-show="activity.important && !activity.urgent"><i class='icon ion-flame'></i></span>
             <span ng-show="activity.urgent && !activity.important"><i class='icon ion-ios7-timer'></i></span>
