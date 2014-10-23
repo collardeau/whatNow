@@ -1,6 +1,7 @@
 <ion-header-bar class="bar-positive">
-    <a href="#"><button class="button button-icon ion-ios7-arrow-back"></button></a>
+    <a href="#"><button class="button button-icon ion-home"></button></a>
     <h1 class="title">Completed Activities</h1>
+    <button class="button button-icon ion-compose" ng-click="openActivityForm()"></button>
 </ion-header-bar>
 
 <div class="bar bar-subheader tabs tabs-icon-left bar-neutral">
@@ -20,27 +21,33 @@
         <ion-item ng-repeat="activity in activities | orderByPriority | orderBy: '-completion.on' | filter: doneFilterFn" href="#/activity/{{activity.$id}}">
 
             <span class="crossedOut">{{activity.title}}</span>
+
             <div class="row">
                 <div class="col col-10">
                     <i class="icon ion-checkmark balanced"></i>
                 </div>
                 <div class="col col-90">
-                     by <span ng-repeat="(user, bool) in activity.completion.by" ng-show="activity.completion.by[user]">
-                            <b>{{user}}</b><span ng-hide="$last"> & </span></span>
+                     <span ng-repeat="(user, bool) in activity.completion.by" ng-show="activity.completion.by[user]">
+                            <b>{{user}}</b><span ng-hide="$last"> & </span>
                     </span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col col-10">
-
-                </div>
-                <div class="col col-90">
-                    for <span ng-repeat="(user, bool) in activity.owners" ng-show="bool">
+                    for
+                    <span ng-repeat="(user, bool) in activity.owners" ng-show="bool">
                         {{user}}
                         <span ng-hide="$last"> & </span>
                     </span>
                 </div>
             </div>
+            <!--<div class="row">-->
+                <!--<div class="col col-10">-->
+
+                <!--</div>-->
+                <!--<div class="col col-90">-->
+                    <!--for <span ng-repeat="(user, bool) in activity.owners" ng-show="bool">-->
+                        <!--{{user}}-->
+                        <!--<span ng-hide="$last"> & </span>-->
+                    <!--</span>-->
+                <!--</div>-->
+            <!--</div>-->
 
             <div class="row" ng-show="isSelfless(activity)">
                 <div class="col col-10">
@@ -50,7 +57,7 @@
                 </div>
             </div>
 
-            <span class="badge badge-energized">
+            <span class="badge badge-light">
                 <span ng-show="activity.context === 'fun'">
                     <i class="icon ion-happy"></i>
                 </span>

@@ -238,7 +238,7 @@ angular.module('whatNow.controllers', ['firebase'])
 
     var determinePoints = function(){ //this should be in in the activity service
 
-        if(activityFactory.isFun($scope.activity)){
+        if(activityFactory.isFun($scope.activity) || $scope.activity.personal){
             return 0;
         }
 
