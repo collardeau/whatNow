@@ -11,6 +11,13 @@ angular.module('whatNow.controllers', ['firebase'])
     $scope.activities = firebaseService.activities;
     $scope.users = firebaseService.users;
 
+    $scope.activityOrdering = ['-urgent', '-important', 'duration'];
+    $scope.activitiesFilterFn = function(item){
+        if(item.important) {
+            return true;
+        }
+    }
+
     //Add or Edit an Activity Modal
     $ionicModal.fromTemplateUrl('templates/activity-form.html', function(modal){
         $scope.formModal = modal;
@@ -46,10 +53,8 @@ angular.module('whatNow.controllers', ['firebase'])
         };
     };
 
-    //done page stuff
-    $scope.isSelfless = function(activity){
-        return activityFactory.isSelfless(activity);
-    }
+
+
     //dealing with done page, filters to see who did what?
     $scope.eviDoneFilter = false;
     $scope.tomaDonefilter = false;
