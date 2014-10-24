@@ -1,7 +1,7 @@
 <div class="bar bar-subheader tabs tabs-icon-left bar-neutral">
     <!--<a class="tab-item" >All</a>-->
     <a ng-repeat="user in users | orderByPriority | orderBy: '-points'" class="tab-item has-badge"
-       ng-click="$parent.toggleUser(user.name)"
+       ng-click="$parent.toggleSelected(user.name)"
         ng-class="{positive: filtersSelected.users.indexOf(user.name) > -1}">
         <span class="badge badge-energized">{{user.points}}</span>
         <i class="icon ion-{{user.icon}}"></i> {{user.name}}
@@ -14,3 +14,13 @@
 
 </div>
 
+<!--<div class="bar bar-subheader tabs tabs-icon-left bar-neutral">-->
+    <!--<a class="tab-item has-badge" ng-click="toggleDoneFilter('toma')" ng-class="{energized: doneFilter.indexOf('toma') > -1}">-->
+        <!--<span class="badge badge-energized">{{users.toma.points}}</span>-->
+        <!--<i class="icon ion-man"></i> Toma-->
+    <!--</a>-->
+    <!--<a class="tab-item has-badge" ng-click="toggleDoneFilter('evi')" ng-class="{energized: doneFilter.indexOf('evi') > -1}">-->
+        <!--<span class="badge badge-energized">{{users.evi.points}}</span>-->
+        <!--<i class="icon ion-woman"></i>Evi-->
+    <!--</a>-->
+<!--</div>-->

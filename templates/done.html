@@ -4,17 +4,7 @@
     <button class="button button-icon ion-compose" ng-click="openActivityForm()"></button>
 </ion-header-bar>
 
-<div class="bar bar-subheader tabs tabs-icon-left bar-neutral">
-    <!--<a class="tab-item" >All</a>-->
-    <a class="tab-item has-badge" ng-click="toggleDoneFilter('toma')" ng-class="{energized: doneFilter.indexOf('toma') > -1}">
-        <span class="badge badge-energized">{{users.toma.points}}</span>
-        <i class="icon ion-man"></i> Toma
-    </a>
-    <a class="tab-item has-badge" ng-click="toggleDoneFilter('evi')" ng-class="{energized: doneFilter.indexOf('evi') > -1}">
-        <span class="badge badge-energized">{{users.evi.points}}</span>
-        <i class="icon ion-woman"></i>Evi
-    </a>
-</div>
+<user-bar></user-bar>
 
 <ion-content id="doneActivities" class="has-header has-subheader">
     <ion-list>
