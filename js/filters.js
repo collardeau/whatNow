@@ -41,6 +41,37 @@ angular.module('myFilters', [])
         }
         return items;
     };
-});
+})
+
+.filter('completed', function () {
+    return function (items) {
+        console.log("is completed");
+        var filtered = [];
+        for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            if (angular.isObject(item.completion) && item.completion.done){
+                filtered.push(item);
+            }
+        }
+        return filtered;
+    };
+})
+
+.filter('uncompleted', function () {
+    return function (items) {
+        console.log("is completed");
+        var filtered = [];
+        for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            if (!angular.isObject(item.completion) || !item.completion.done){
+                filtered.push(item);
+            }
+        }
+        return filtered;
+    };
+})
+
+
+;
 
 

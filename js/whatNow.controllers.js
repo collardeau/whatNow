@@ -16,41 +16,19 @@ angular.module('whatNow.controllers', ['firebase'])
         context: undefined
     };
     $scope.selection = [];
+
     $scope.activitiesFilterFn = function(item){
 
-        //hide done activities -- they should probably be moved to another table
-        if(angular.isObject(item.completion) && item.completion.done) {
-            return false;
-        }
         var selected = $scope.selection;
-        var numUsersFiltered = selected.length;
         var owners = activityFactory.getTrueKeys(item.owners);
+        var personal = false;
+        if(angular.isDefined(item.personal) && item.personal){
+            personal = true;
+        }
 
-        switch(numUsersFiltered) {
-            case 0: // if not users are selected, hide personal
-                if (angular.isDefined(item.personal) && item.personal) {
-                    return false;
-                }
-                break;
-            case 1: //hide if the user is not in filtered array
-                var matched = false;
-                //make this a filter?
-                angular.forEach(owners, function(owner) {
-                    if(owner === selected[0]){ //we know only 1 user
-                        matched = true;
-                        return;
-                    }
-                });
-                if(!matched){
-                    return false;
-                }
-                break;
-            default:  //activities in common
-                var owners = $filter('sort')(owners);
-                var filteredOwners = $filter('sort')(selected);
-                if(!angular.equals(owners, filteredOwners)){
-                    return false;
-                }
+        var match = compareArrays(owners, selected, personal);
+        if(!match){
+            return false;
         }
 
         //deal with the context\
@@ -59,6 +37,62 @@ angular.module('whatNow.controllers', ['firebase'])
                 return false;
             }
         }
+
+        return true;
+    };
+
+    var compareArrays = function(users, filters, isPersonal){
+            var numFiltered = filters.length;
+            switch(numFiltered) {
+                case 0: // if not users are selected, hide personal
+                    if (isPersonal) {
+                        return false;
+                    }
+                    break;
+                case 1: //hide if the user is not in filtered array
+                    var matched = false;
+                    //make this a filter?
+                    angular.forEach(users, function(user) {
+                        if(user === filters[0]){ //we know only 1 user
+                            matched = true;
+                            return;
+                        }
+                    });
+                    if(!matched){
+                        return false;
+                    }
+                    break;
+                default:  //activities in common
+                    var users = $filter('sort')(users);
+                    var filters = $filter('sort')(filters);
+                    if(!angular.equals(users, filters)){
+                        return false;
+                    }
+            }
+            return true;
+        };
+
+    //this filter function is almost like the open activity one!
+    $scope.doneFilterFn = function(item){
+
+        var selected = $scope.selection;
+        var doers = activityFactory.getTrueKeys(item.completion.by);
+        var personal = false;
+        if(angular.isDefined(item.personal) && item.personal){
+            personal = true;
+        }
+
+        var match = compareArrays(doers, selected, personal);
+        if(!match){
+            return false;
+        }
+
+        //deal with the context\
+//        if($scope.filtersSelected.context) {
+//            if (!angular.equals($scope.filtersSelected.context, item.context)) {
+//                return false;
+//            }
+//        }
         return true;
     };
 
@@ -100,61 +134,17 @@ angular.module('whatNow.controllers', ['firebase'])
 
 
     //dealing with done page, filters to see who did what?
-    $scope.doneFilter = [];
-
     $scope.isSelfless = function(activity){
         return activityFactory.isSelfless(activity);
     }
 
     $scope.toggleDoneFilter = function(user){
-        console.log("booy");
         var toggle = $scope.doneFilter.indexOf(user);
         if(toggle > -1) {
             $scope.doneFilter.splice(toggle, 1);
         }else{
             $scope.doneFilter.push(user);
         }
-        console.log($scope.doneFilter);
-    };
-
-   //this filter function is almost like the open activity one!
-    $scope.doneFilterFn = function(item){
-        //hide open activities -- they should probably be moved to another table
-        if(!angular.isObject(item.completion) ||  !item.completion.done) {
-            return false;
-        }
-
-        var numUsersFiltered = $scope.doneFilter.length;
-        var doers = activityFactory.getTrueKeys(item.completion.by);
-
-
-        switch(numUsersFiltered) {
-            case 0: // if not users are selected, hide personal
-                if (angular.isDefined(item.personal) && item.personal) {
-                    return false;
-                }
-                break;
-            case 1: //hide if the user is not in filtered array
-                var matched = false;
-                //make this a filter?
-                angular.forEach(doers, function(doer) {
-                    if(doer === $scope.doneFilter[0]){ //we know only 1 user
-                        matched = true;
-                        return;
-                    }
-                });
-                if(!matched){
-                    return false;
-                }
-                break;
-            default:  //activities in common
-                var doers = $filter('sort')(doers);
-                var filteredUsers = $filter('sort')($scope.doneFilter);
-                if(!angular.equals(doers, filteredUsers)){
-                    return false;
-                }
-        }
-        return true;
     };
 
 })

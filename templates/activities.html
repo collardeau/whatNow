@@ -9,12 +9,11 @@
 <ion-content id="activities" class="has-header has-subheader">
     <!--<p><input type="text" ng-model="test"></p>-->
     <ion-list>
-        {{selected}}
         <!--<ion-item class="item item-divider sorting">-->
             <!--sorted by most urgent and <a href="" ng-click="switchSorting()">shortest</a>-->
         <!--</ion-item>-->
         <!--| contextMatch: contextFilter | userMatch: userFilter"-->
-        <ion-item ng-repeat="activity in activities | orderByPriority | orderBy: activityOrdering | filter:activitiesFilterFn" href="#/activity/{{activity.$id}}">
+        <ion-item ng-repeat="activity in activities | orderByPriority | uncompleted | filter: activitiesFilterFn | orderBy: activityOrdering" href="#/activity/{{activity.$id}}">
 
             <span ng-show="activity.personal"><i class='icon ion-key'></i></span>
             <span ng-show="activity.important && activity.urgent"><i class='icon ion-fireball'></i></span>
