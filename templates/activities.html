@@ -1,14 +1,15 @@
 <ion-header-bar class="bar-positive">
     <a href="#/done"><button class="button button-icon ion-checkmark"></button></a>
     <h1 class="title">What Now</h1>
-    <button class="button button-icon ion-compose" ng-click="openActivityForm()"></button>
+       <button class="button button-icon ion-compose" ng-click="openActivityForm()"></button>
 </ion-header-bar>
 
-<user-bar></user-bar>
+<user-bar users="users" selection="selection"></user-bar>
 
 <ion-content id="activities" class="has-header has-subheader">
     <!--<p><input type="text" ng-model="test"></p>-->
     <ion-list>
+        {{selected}}
         <!--<ion-item class="item item-divider sorting">-->
             <!--sorted by most urgent and <a href="" ng-click="switchSorting()">shortest</a>-->
         <!--</ion-item>-->

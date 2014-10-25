@@ -13,18 +13,17 @@ angular.module('whatNow.controllers', ['firebase'])
 
     $scope.activityOrdering = ['-urgent', '-important', 'duration'];
     $scope.filtersSelected = {
-        users: [],
         context: undefined
     };
-
+    $scope.selection = [];
     $scope.activitiesFilterFn = function(item){
 
         //hide done activities -- they should probably be moved to another table
         if(angular.isObject(item.completion) && item.completion.done) {
             return false;
         }
-
-        var numUsersFiltered = $scope.filtersSelected.users.length;
+        var selected = $scope.selection;
+        var numUsersFiltered = selected.length;
         var owners = activityFactory.getTrueKeys(item.owners);
 
         switch(numUsersFiltered) {
@@ -37,7 +36,7 @@ angular.module('whatNow.controllers', ['firebase'])
                 var matched = false;
                 //make this a filter?
                 angular.forEach(owners, function(owner) {
-                    if(owner === $scope.filtersSelected.users[0]){ //we know only 1 user
+                    if(owner === selected[0]){ //we know only 1 user
                         matched = true;
                         return;
                     }
@@ -48,7 +47,7 @@ angular.module('whatNow.controllers', ['firebase'])
                 break;
             default:  //activities in common
                 var owners = $filter('sort')(owners);
-                var filteredOwners = $filter('sort')($scope.filtersSelected.users);
+                var filteredOwners = $filter('sort')(selected);
                 if(!angular.equals(owners, filteredOwners)){
                     return false;
                 }
