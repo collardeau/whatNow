@@ -13,7 +13,8 @@
             <!--sorted by most urgent and <a href="" ng-click="switchSorting()">shortest</a>-->
         <!--</ion-item>-->
         <!--| contextMatch: contextFilter | userMatch: userFilter"-->
-        <ion-item ng-repeat="activity in activities | orderByPriority | actie:false:selection | orderBy: activityOrdering" href="#/activity/{{activity.$id}}">
+        {{selection}}
+        <ion-item ng-repeat="activity in activities | orderByPriority | uncomplete | activities:selection | orderBy: activityOrdering" href="#/activity/{{activity.$id}}">
 
             <span ng-show="activity.personal"><i class='icon ion-key'></i></span>
             <span ng-show="activity.important && activity.urgent"><i class='icon ion-fireball'></i></span>

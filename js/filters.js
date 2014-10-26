@@ -1,4 +1,24 @@
-angular.module('myFilters', [])
+angular.module('whatNowFilters', [])
+
+.filter('activities', function ($filter) {
+    return function (items, tags) {
+        var filtered = items;
+
+        //user tag filtering
+        var numUsersSelected = tags.length;
+        switch(numUsersSelected) {
+            case 0: //hide the personal activities if no users are selected
+                filtered = $filter('personal')(filtered);
+                break;
+            case 1: //show the person being filtered is an owner of the activity
+                filtered = $filter('userInFilter')(filtered, tags[0]);
+                break;
+            default:  //show all in common
+                filtered = $filter('arrayMatch')(filtered, tags);
+        }
+        return filtered;
+    };
+})
 
 
 .filter('sort', function() {
@@ -7,20 +27,38 @@ angular.module('myFilters', [])
     }
 })
 
-.filter('contextMatch', function () {
-    return function (items, context) {
-        if(context) {
-            var filtered = [];
-            for (var i = 0; i < items.length; i++) {
-                var item = items[i];
-                if (item.context === context) {
-                    filtered.push(item);
+.filter('getTrueKeys', function(){
+    return function(object){
+        var keys = [];
+        console.log("getting true keys");
+        if(angular.isObject(object)) {
+            angular.forEach(object, function (value, key) {
+                if(value) {
+                    keys.push(key);
                 }
-            }
-            return filtered;
+            });
         }
-        return items;
-    };
+        return keys;
+    }
+})
+
+.filter('arrayMatch', function($filter){
+    return function(activities, filters){
+        var filtered = [];
+        var sortedFilters = $filter('sort')(filters);
+        console.log("the sorted filters: " + sortedFilters);
+        angular.forEach(activities, function(activity){
+            console.log(activity.owners);
+            var owners = $filter('getTrueKeys')(activity.owners);
+            var sortedOwners = $filter('sort')(owners);
+
+            if(angular.equals(sortedOwners, sortedFilters)){
+                filtered.push(activity);
+            }
+
+        });
+        return filtered;
+    }
 })
 
 .filter('completed', function () {
@@ -36,7 +74,7 @@ angular.module('myFilters', [])
     };
 })
 
-.filter('uncompleted', function () {
+.filter('uncomplete', function () {
     return function (items) {
         var filtered = [];
         for (var i = 0; i < items.length; i++) {
@@ -79,63 +117,21 @@ angular.module('myFilters', [])
     };
 })
 
-.filter('actie', function ($filter) {
-    return function (items, complete, userFilter) {
-        var filtered = [];
-        if(complete){
-            filtered = $filter('completed')(items);
-        }else{
-            filtered = $filter('uncompleted')(items);
+.filter('contextMatch', function () {
+    return function (items, context) {
+        if(context) {
+            var filtered = [];
+            for (var i = 0; i < items.length; i++) {
+                var item = items[i];
+                if (item.context === context) {
+                    filtered.push(item);
+                }
+            }
+            return filtered;
         }
-
-        //user tag filtering
-        var numUsersSelected = userFilter.length;
-
-        switch(numUsersSelected) {
-            case 0: // if no users are selected, hide personal
-                filtered = $filter('personal')(filtered);
-                break;
-            case 1:
-                filtered = $filter('userInFilter')(filtered, userFilter[0]);
-                break;
-            default:  //activities in common
-                //something
-        }
-        return filtered;
+        return items;
     };
 })
 
 ;
-
-
-var compareArrays = function(users, filters, isPersonal){
-    var numFiltered = filters.length;
-    switch(numFiltered) {
-        case 0: // if not users are selected, hide personal
-            if (isPersonal) {
-                return false;
-            }
-            break;
-        case 1: //hide if the user is not in filtered array
-            var matched = false;
-            //make this a filter?
-            angular.forEach(users, function(user) {
-                if(user === filters[0]){ //we know only 1 user
-                    matched = true;
-                    return;
-                }
-            });
-            if(!matched){
-                return false;
-            }
-            break;
-        default:  //activities in common
-            var users = $filter('sort')(users);
-            var filters = $filter('sort')(filters);
-            if(!angular.equals(users, filters)){
-                return false;
-            }
-    }
-    return true;
-};
 

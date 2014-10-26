@@ -11,7 +11,7 @@
 //change time range input
 //add a search field
 
-var WhatNowApp = angular.module('whatNow', ['ionic', 'whatNow.controllers', 'whatNow.services', 'myFilters']);
+var WhatNowApp = angular.module('whatNow', ['ionic', 'whatNow.controllers', 'whatNow.services', 'whatNowFilters']);
 
 WhatNowApp.config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
