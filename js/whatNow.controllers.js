@@ -17,8 +17,7 @@ angular.module('whatNow.controllers', ['firebase'])
     };
     $scope.selection = [];
 
-    $scope.activitiesFilterFn = function(item){
-
+    $scope.selectActies = function(item){
         var selected = $scope.selection;
         var owners = activityFactory.getTrueKeys(item.owners);
         var personal = false;
@@ -42,35 +41,35 @@ angular.module('whatNow.controllers', ['firebase'])
     };
 
     var compareArrays = function(users, filters, isPersonal){
-            var numFiltered = filters.length;
-            switch(numFiltered) {
-                case 0: // if not users are selected, hide personal
-                    if (isPersonal) {
-                        return false;
+        var numFiltered = filters.length;
+        switch(numFiltered) {
+            case 0: // if not users are selected, hide personal
+                if (isPersonal) {
+                    return false;
+                }
+                break;
+            case 1: //hide if the user is not in filtered array
+                var matched = false;
+                //make this a filter?
+                angular.forEach(users, function(user) {
+                    if(user === filters[0]){ //we know only 1 user
+                        matched = true;
+                        return;
                     }
-                    break;
-                case 1: //hide if the user is not in filtered array
-                    var matched = false;
-                    //make this a filter?
-                    angular.forEach(users, function(user) {
-                        if(user === filters[0]){ //we know only 1 user
-                            matched = true;
-                            return;
-                        }
-                    });
-                    if(!matched){
-                        return false;
-                    }
-                    break;
-                default:  //activities in common
-                    var users = $filter('sort')(users);
-                    var filters = $filter('sort')(filters);
-                    if(!angular.equals(users, filters)){
-                        return false;
-                    }
-            }
-            return true;
-        };
+                });
+                if(!matched){
+                    return false;
+                }
+                break;
+            default:  //activities in common
+                var users = $filter('sort')(users);
+                var filters = $filter('sort')(filters);
+                if(!angular.equals(users, filters)){
+                    return false;
+                }
+        }
+        return true;
+    };
 
     //this filter function is almost like the open activity one!
     $scope.doneFilterFn = function(item){
@@ -203,7 +202,7 @@ angular.module('whatNow.controllers', ['firebase'])
             });
             confirmPopup.then(function (res) {
                 if (res) {
-//                    resetPoints();
+                    resetPoints();
                     $scope.activity.completion = null;
                     $scope.saveActivity();
                     $scope.status = activityFactory.getStatus($scope.activity);
