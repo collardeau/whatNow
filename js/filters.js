@@ -23,26 +23,6 @@ angular.module('myFilters', [])
     };
 })
 
-.filter('userMatch', function () { //check if any item in array matches any key as true in an object
-    return function (items, users) {
-        if(angular.isDefined(users) && users.length > 0) {
-            var filtered = [];
-            for (var i = 0; i < items.length; i++) { //each item
-                var item = items[i];
-                for (var y = 0; y < users.length; y++) { //each filter
-                    var filter = users[y];
-                    if (item.owners[filter]) { //the owner of the item match the filtered item
-                        filtered.push(item);
-                        break;
-                    }
-                }
-            }
-            return filtered;
-        }
-        return items;
-    };
-})
-
 .filter('completed', function () {
     return function (items) {
         var filtered = [];
@@ -82,6 +62,23 @@ angular.module('myFilters', [])
     };
 })
 
+.filter('userInFilter', function(){ //is the 1 filtered user in the owners array
+    return function(items, userInFilter) {
+        var filtered = [];
+        if(angular.isArray(items) && angular.isString(userInFilter)) {
+            angular.forEach(items, function (item) { //each item
+                angular.forEach(item.owners, function (owner, name) {
+                    if (name === userInFilter && owner) {
+                        filtered.push(item);
+                        return;
+                    }
+                })
+            });
+        }
+        return filtered;
+    };
+})
+
 .filter('actie', function ($filter) {
     return function (items, complete, userFilter) {
         var filtered = [];
@@ -97,6 +94,9 @@ angular.module('myFilters', [])
         switch(numUsersSelected) {
             case 0: // if no users are selected, hide personal
                 filtered = $filter('personal')(filtered);
+                break;
+            case 1:
+                filtered = $filter('userInFilter')(filtered, userFilter[0]);
                 break;
             default:  //activities in common
                 //something
