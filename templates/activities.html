@@ -13,8 +13,8 @@
             <!--sorted by most urgent and <a href="" ng-click="switchSorting()">shortest</a>-->
         <!--</ion-item>-->
         <!--| contextMatch: contextFilter | userMatch: userFilter"-->
-        {{userTags}}
-        <ion-item ng-repeat="activity in activities | orderByPriority | uncomplete | acties:'benefactors':userTags | orderBy: actieOrdering" href="#/activity/{{activity.$id}}">
+        {{userTags}} {{contextTag}}
+        <ion-item ng-repeat="activity in activities | orderByPriority | uncomplete | acties:'benefactors':userTags | context:contextTag | orderBy: actieOrdering" href="#/activity/{{activity.$id}}">
 
             <span ng-show="activity.personal"><i class='icon ion-key'></i></span>
             <span ng-show="activity.important && activity.urgent"><i class='icon ion-fireball'></i></span>
@@ -24,11 +24,12 @@
             <span> {{activity.title}}</span>
             <span class="item-note">{{activity.duration * 15}} min</span>
             <br />for {{activity.users}}<br />
+            context: {{activity.context}}
             <!--status {{activity.status}}<br />-->
 
         </ion-item>
     </ion-list>
 </ion-content>
 
-<tab-bar></tab-bar>
+<tab-bar tagged="contextTag"></tab-bar>
 

@@ -35,12 +35,5 @@ WhatNowApp.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
 })
 
-.directive('tabBar', function() {
-        return {
-            restrict: 'E',
-            templateUrl: 'templates/tab-bar.html',
-            controller: "TabCtrl"
-        };
-    })
 ;
 

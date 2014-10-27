@@ -12,10 +12,9 @@ angular.module('whatNow.controllers', ['firebase'])
     $scope.users = firebaseService.users;
 
     $scope.actieOrdering = ['-urgent', '-important', 'duration'];
-    $scope.filtersSelected = {
-        context: undefined
-    };
+    //for filtering
     $scope.userTags = [];
+    $scope.contextTag = undefined;
 
     //Add or Edit an Activity Modal
     $ionicModal.fromTemplateUrl('templates/activity-form.html', function(modal){
@@ -219,18 +218,6 @@ angular.module('whatNow.controllers', ['firebase'])
 
 })
 
-.controller("TabCtrl", function($scope, tagFactory){
-
-    $scope.contexts = tagFactory.contexts;
-
-    $scope.pickContext = function(context){
-        if($scope.filtersSelected.context === context) { //toggle off
-            $scope.filtersSelected.context = undefined;
-        }else{
-            $scope.filtersSelected.context = context;
-        }
-    };
-
-});
+;
 
 console.log("end of whatNow.controllers.js");

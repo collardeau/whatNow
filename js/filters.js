@@ -31,6 +31,22 @@ angular.module('whatNowFilters', [])
     };
 })
 
+.filter('context', function () {
+    return function (items, context) {
+        if(context) {
+            var filtered = [];
+            for (var i = 0; i < items.length; i++) {
+                var item = items[i];
+                if (item.context === context) {
+                    filtered.push(item);
+                }
+            }
+            return filtered;
+        }
+        return items;
+    };
+})
+
 .filter('stringInArray', function(){ //is the 1 filtered user in the owners array
     return function(items, string, objKey) {
         var filtered = [];
@@ -194,22 +210,6 @@ angular.module('whatNowFilters', [])
 //        return filtered;
 //    };
 //})
-
-.filter('contextMatch', function () {
-    return function (items, context) {
-        if(context) {
-            var filtered = [];
-            for (var i = 0; i < items.length; i++) {
-                var item = items[i];
-                if (item.context === context) {
-                    filtered.push(item);
-                }
-            }
-            return filtered;
-        }
-        return items;
-    };
-})
 
 ;
 

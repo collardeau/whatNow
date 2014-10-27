@@ -47,4 +47,4 @@ WhatNowApp.directive('userBar', function() {
 //    };
 //
 //
-    })
+    });
