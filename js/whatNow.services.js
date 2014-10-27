@@ -9,7 +9,7 @@ angular.module('whatNow.services', ['firebase'])
         var fireRef = new Firebase(url);
 
         var factory = {};
-        factory.activities = $firebase(fireRef.child('activities'));
+        factory.activities = $firebase(fireRef.child('acties'));
 
         factory.users = $firebase(fireRef.child('users'));
 
@@ -30,20 +30,17 @@ angular.module('whatNow.services', ['firebase'])
         newActivity: function(){
             return {
                 title: undefined,
+                status: 0,
                 urgent: false,
                 important: false,
                 private: false,
                 duration: 1, //15 minutes increments
                 completion: {
-                    done: false,
-                    by: undefined,
+                    doers: undefined, //should be an array
                     ptsGiven: 0
                 },
                 context: undefined,
-                owners: {
-                    evi: false,
-                    toma: false
-                },
+                users: [],
                 instructions: undefined
             };
         },
@@ -54,6 +51,7 @@ angular.module('whatNow.services', ['firebase'])
             if (!activity.date) {
                 activity.date = Firebase.ServerValue.TIMESTAMP;
             }
+            activity.status  = this.getStatus(activity);
             //cleansing old activities
 //            delete activity.urgency;
 //            delete activity.completed;

@@ -61,18 +61,13 @@
                     Benefits:
                 </li>
 
-                <li class="item item-checkbox">
-                    <label class="checkbox">
-                        <input type="checkbox" ng-model="activity.owners.evi">
-                    </label>
-                    <i class="icon ion-woman"></i> Evi
-                </li>
+                {{activity.users}}
 
-                <li class="item item-checkbox">
+                <li class="item item-checkbox" ng-repeat="user in users">
                     <label class="checkbox">
-                        <input type="checkbox" ng-model="activity.owners.toma">
+                        <input type="checkbox" ng-change="toggleUser(user.name)" ng-model="forUsers[user.name]">
                     </label>
-                    <i class="icon ion-man"></i> Toma
+                    <i class="icon ion-{{user.icon}}"></i> {{user.name}}
                 </li>
 
                 <label class="item item-input">

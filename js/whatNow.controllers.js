@@ -53,6 +53,10 @@ angular.module('whatNow.controllers', ['firebase'])
     };
 
 
+    $scope.forUsers = []; //grabbing owners of the task
+    $scope.toggleUser = function(user){
+        $scope.activity.users = toggleInArray($scope.forUsers, user);
+    };
 
     //dealing with done page, filters to see who did what?
     $scope.isSelfless = function(activity){
@@ -66,6 +70,16 @@ angular.module('whatNow.controllers', ['firebase'])
         }else{
             $scope.doneFilter.push(user);
         }
+    };
+
+    var toggleInArray= function(array, string){
+        var pos = array.indexOf(string);
+        if(pos > -1) { //selection exists in the array
+            array.splice(pos, 1);
+        }else{
+            array.push(string);
+        }
+        return array;
     };
 
 })
