@@ -1,7 +1,7 @@
 <div class="bar bar-subheader tabs tabs-icon-left bar-neutral">
     <!--<a class="tab-item" >All</a>-->
     <a ng-repeat="user in users | orderByPriority | orderBy: '-points'" class="tab-item has-badge"
-       ng-click="toggleSelected(user.name)"
+       ng-click="toggleUserTag(user.name)"
         ng-class="{positive: selection.indexOf(user.name) > -1}">
         <span class="badge badge-energized">{{user.points}}</span>
         <i class="icon ion-{{user.icon}}"></i> {{user.name}}

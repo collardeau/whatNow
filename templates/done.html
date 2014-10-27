@@ -9,8 +9,7 @@
 <ion-content id="doneActivities" class="has-header has-subheader">
     <ion-list>
         {{selection}}
-        <ion-item ng-repeat="activity in activities | orderByPriority | orderBy: '-completion.on' | filter:{completion: {done:true}} | filter: doneFilterFn" href="#/activity/{{activity.$id}}">
-
+        <ion-item ng-repeat="activity in activities | orderByPriority | orderBy: '-completion.on' | filter:{completion: {done:true}} " href="#/activity/{{activity.$id}}">
             <span class="crossedOut">{{activity.title}}</span>
 
             <div class="row">

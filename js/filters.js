@@ -1,8 +1,8 @@
 angular.module('whatNowFilters', [])
 
 .filter('activities', function ($filter) {
-    return function (items, tags) {
-        var filtered = items;
+    return function (activities, filterGroup, tags) {
+        var filtered = activities;
 
         //user tag filtering
         var numUsersSelected = tags.length;
@@ -11,7 +11,7 @@ angular.module('whatNowFilters', [])
                 filtered = $filter('personal')(filtered);
                 break;
             case 1: //show the person being filtered is an owner of the activity
-                filtered = $filter('userInFilter')(filtered, tags[0]);
+                filtered = $filter('stringInObj')(filtered, tags[0], filterGroup);
                 break;
             default:  //show all in common
                 filtered = $filter('arrayMatch')(filtered, tags);
@@ -61,7 +61,7 @@ angular.module('whatNowFilters', [])
     }
 })
 
-.filter('completed', function () {
+.filter('complete', function () {
     return function (items) {
         var filtered = [];
         for (var i = 0; i < items.length; i++) {
@@ -100,13 +100,14 @@ angular.module('whatNowFilters', [])
     };
 })
 
-.filter('userInFilter', function(){ //is the 1 filtered user in the owners array
-    return function(items, userInFilter) {
+.filter('stringInObj', function(){ //is the 1 filtered user in the owners array
+    return function(items, string, objLoc) {
         var filtered = [];
-        if(angular.isArray(items) && angular.isString(userInFilter)) {
-            angular.forEach(items, function (item) { //each item
-                angular.forEach(item.owners, function (owner, name) {
-                    if (name === userInFilter && owner) {
+        if(angular.isArray(items) && angular.isString(string)) {
+
+            angular.forEach(items, function (item) {
+                angular.forEach(item[objLoc], function (toggle, name) {
+                    if (name === string && toggle) {
                         filtered.push(item);
                         return;
                     }

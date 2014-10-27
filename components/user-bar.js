@@ -6,7 +6,7 @@ WhatNowApp.directive('userBar', function() {
         templateUrl: 'templates/user-bar.html',
         scope: {
             users: '&',
-            selection: '='
+            tagged: '=selection'
         },
         controller: "userBarCtrl"
     };
@@ -15,12 +15,12 @@ WhatNowApp.directive('userBar', function() {
     .controller("userBarCtrl", function($scope) {  // , $ionicPopup
         $scope.users = $scope.users(); //getter
 
-        $scope.toggleSelected = function(selection){
-            var pos = $scope.selection.indexOf(selection);
+        $scope.toggleUserTag = function(tag){
+            var pos = $scope.tagged.indexOf(tag);
             if(pos > -1) { //selection exists in the array
-                $scope.selection.splice(pos, 1);
+                $scope.tagged.splice(pos, 1);
             }else{
-                $scope.selection.push(selection);
+                $scope.tagged.push(tag);
             }
         };
 //
