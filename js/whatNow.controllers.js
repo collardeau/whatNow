@@ -11,7 +11,7 @@ angular.module('whatNow.controllers', ['firebase'])
     $scope.activities = firebaseService.activities;
     $scope.users = firebaseService.users;
 
-    $scope.activityOrdering = ['-urgent', '-important', 'duration'];
+    $scope.actieOrdering = ['-urgent', '-important', 'duration'];
     $scope.filtersSelected = {
         context: undefined
     };

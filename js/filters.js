@@ -1,16 +1,16 @@
 angular.module('whatNowFilters', [])
 
 .filter('acties', function ($filter) {
-    return function (activities, tags, criteria) {
+    return function (activities, filterType, tags) {
         var filtered = activities;
-        if(angular.isObject(activities) && angular.isArray(tags) && angular.isString(criteria)) {
+        if(angular.isObject(activities) && angular.isArray(tags) && angular.isString(filterType)) {
 
-            //who to filter against (benefactors or doers)
+            //location of user list to filter against (benefactors or doers)
             var objKey;
-            if (criteria === "doers"){
+            if (filterType === "doers"){
                 objKey = "completion.by"; //nested object
             }else {
-                objKey = criteria;
+                objKey = "users"; //owner of the activity
             }
             //user filtering
             var numUsersSelected = tags.length;
@@ -35,12 +35,18 @@ angular.module('whatNowFilters', [])
     return function(items, string, objKey) {
         var filtered = [];
         if (angular.isArray(items) && angular.isString(string) && angular.isString(objKey)) {
-            //if objKey is a substring, say 'completion.by', decompose object into array
-            var subkeys = objKey.split('.');
+
+            //in case of nested object key
+            var deep_value = function(obj, path){
+                for (var i=0, path=path.split('.'), len=path.length; i<len; i++){
+                    obj = obj[path[i]];
+                };
+                return obj;
+            };
 
             angular.forEach(items, function (item) {
-                //only accepting one object depth
-                angular.forEach(item[subkeys[0]][subkeys[1]] || item[subkeys[0]], function (arrayString) {
+                var arrayToCompare = deep_value(item, objKey);
+                angular.forEach(arrayToCompare, function (arrayString) {
                     if (string === arrayString) {
                         filtered.push(item);[0]
                         return;
@@ -55,19 +61,26 @@ angular.module('whatNowFilters', [])
     };
 })
 
-
 .filter('arrayMatch', function($filter){
-    return function(items, filters,  objKey){
+    return function(items, tags,  objKey){
         var filtered = [];
-        if(angular.isArray(items) && angular.isArray(filters) && angular.isString(objKey)){
+        if(angular.isArray(items) && angular.isArray(tags) && angular.isString(objKey)){
 
-            var subkeys = objKey.split('.');
-            var sortedFilters = $filter('sort')(filters);
+            //in case of nested object key
+            var deep_value = function(obj, path){
+                for (var i=0, path=path.split('.'), len=path.length; i<len; i++){
+                    obj = obj[path[i]];
+                };
+                return obj;
+            };
+
+            var sortedTags = $filter('sort')(tags);
+
             angular.forEach(items, function (item) {
-                var arrayToCompare = item[subkeys[0]][subkeys[1]] || item[subkeys[0]];
+                var arrayToCompare = deep_value(item,objKey);
                 var sortedArray = $filter('sort')(arrayToCompare);
 
-                if (angular.equals(sortedArray, sortedFilters)) {
+                if (angular.equals(sortedArray, sortedTags)) {
                     filtered.push(item);
                 }
 

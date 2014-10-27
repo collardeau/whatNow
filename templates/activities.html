@@ -14,7 +14,7 @@
         <!--</ion-item>-->
         <!--| contextMatch: contextFilter | userMatch: userFilter"-->
         {{userTags}}
-        <ion-item ng-repeat="activity in activities | orderByPriority | uncomplete | acties:userTags:'users' | orderBy: activityOrdering" href="#/activity/{{activity.$id}}">
+        <ion-item ng-repeat="activity in activities | orderByPriority | uncomplete | acties:'benefactors':userTags | orderBy: actieOrdering" href="#/activity/{{activity.$id}}">
 
             <span ng-show="activity.personal"><i class='icon ion-key'></i></span>
             <span ng-show="activity.important && activity.urgent"><i class='icon ion-fireball'></i></span>
