@@ -5,13 +5,13 @@ angular.module('whatNowFilters', [])
         var filtered = activities;
         if(angular.isObject(activities) && angular.isArray(tags) && angular.isString(criteria)) {
 
-            //who to filter against (beneficiaries or the doers)
-            if(criteria === "benefactors"){
-                criteria = "users"
-            }else if (criteria === "doers"){
-                criteria = "completion[by]"; //will this work
+            //who to filter against (benefactors or doers)
+            var objKey;
+            if (criteria === "doers"){
+                objKey = "completion.by"; //nested object
+            }else {
+                objKey = criteria;
             }
-
             //user filtering
             var numUsersSelected = tags.length;
             switch (numUsersSelected) {
@@ -19,10 +19,10 @@ angular.module('whatNowFilters', [])
                     filtered = $filter('personal')(filtered);
                     break;
                 case 1: //show if user being filtered is an owner of the activity
-                    filtered = $filter('stringInArray')(filtered, tags[0], criteria);
+                    filtered = $filter('stringInArray')(filtered, tags[0], objKey);
                     break;
                 default:  //show all in common
-                    filtered = $filter('arrayMatch')(filtered, tags, criteria);
+                    filtered = $filter('arrayMatch')(filtered, tags, objKey);
             }
             return filtered;
         }else{
@@ -32,14 +32,17 @@ angular.module('whatNowFilters', [])
 })
 
 .filter('stringInArray', function(){ //is the 1 filtered user in the owners array
-    return function(items, string, arrayKey) {
+    return function(items, string, objKey) {
         var filtered = [];
-        if (angular.isArray(items) && angular.isString(string)) {
+        if (angular.isArray(items) && angular.isString(string) && angular.isString(objKey)) {
+            //if objKey is a substring, say 'completion.by', decompose object into array
+            var subkeys = objKey.split('.');
 
             angular.forEach(items, function (item) {
-                angular.forEach(item[arrayKey], function (arrayString) {
+                //only accepting one object depth
+                angular.forEach(item[subkeys[0]][subkeys[1]] || item[subkeys[0]], function (arrayString) {
                     if (string === arrayString) {
-                        filtered.push(item);
+                        filtered.push(item);[0]
                         return;
                     }
                 })
@@ -58,9 +61,10 @@ angular.module('whatNowFilters', [])
         var filtered = [];
         if(angular.isArray(items) && angular.isArray(filters) && angular.isString(objKey)){
 
+            var subkeys = objKey.split('.');
             var sortedFilters = $filter('sort')(filters);
             angular.forEach(items, function (item) {
-                var arrayToCompare = item[objKey];
+                var arrayToCompare = item[subkeys[0]][subkeys[1]] || item[subkeys[0]];
                 var sortedArray = $filter('sort')(arrayToCompare);
 
                 if (angular.equals(sortedArray, sortedFilters)) {
@@ -102,7 +106,6 @@ angular.module('whatNowFilters', [])
 
 .filter('personal', function () {
     return function (items) {
-        console.log("hello");
         var filtered = [];
         for (var i = 0; i < items.length; i++) {
             var item = items[i];

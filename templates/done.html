@@ -17,11 +17,11 @@
                     <i class="icon ion-checkmark balanced"></i>
                 </div>
                 <div class="col col-90">
-                     <span ng-repeat="(user, bool) in activity.completion.by" ng-show="activity.completion.by[user]">
+                     <span ng-repeat="user in activity.completion.by">
                             <b>{{user}}</b><span ng-hide="$last"> & </span>
                     </span>
                     for
-                    <span ng-repeat="(user, bool) in activity.owners" ng-show="bool">
+                    <span ng-repeat="user in activity.users">
                         {{user}}
                         <span ng-hide="$last"> & </span>
                     </span>
