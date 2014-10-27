@@ -1,20 +1,21 @@
 angular.module('whatNowFilters', [])
 
-.filter('activities', function ($filter) {
-    return function (activities, filterGroup, tags) {
+.filter('acties', function ($filter) {
+    return function (activities, tags) {
         var filtered = activities;
 
         //user tag filtering
         var numUsersSelected = tags.length;
+        console.log(tags);
         switch(numUsersSelected) {
             case 0: //hide the personal activities if no users are selected
                 filtered = $filter('personal')(filtered);
                 break;
-            case 1: //show the person being filtered is an owner of the activity
-                filtered = $filter('stringInObj')(filtered, tags[0], filterGroup);
-                break;
+//            case 1: //show the person being filtered is an owner of the activity
+//                filtered = $filter('stringInObj')(filtered, tags[0], filterGroup);
+//                break;
             default:  //show all in common
-                filtered = $filter('arrayMatch')(filtered, tags);
+//                filtered = $filter('arrayMatch')(filtered, tags);
         }
         return filtered;
     };
@@ -89,10 +90,11 @@ angular.module('whatNowFilters', [])
 
 .filter('personal', function () {
     return function (items) {
+        console.log("hello");
         var filtered = [];
         for (var i = 0; i < items.length; i++) {
             var item = items[i];
-            if (!angular.isDefined(item.personal) || !item.personal){
+            if (!angular.isDefined(item.private) || !item.private){
                 filtered.push(item);
             }
         }

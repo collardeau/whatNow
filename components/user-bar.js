@@ -6,7 +6,7 @@ WhatNowApp.directive('userBar', function() {
         templateUrl: 'templates/user-bar.html',
         scope: {
             users: '&',
-            tagged: '=selection'
+            tagged: '='
         },
         controller: "userBarCtrl"
     };

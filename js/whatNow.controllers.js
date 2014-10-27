@@ -15,7 +15,7 @@ angular.module('whatNow.controllers', ['firebase'])
     $scope.filtersSelected = {
         context: undefined
     };
-    $scope.selection = [];
+    $scope.userTags = [];
 
     //Add or Edit an Activity Modal
     $ionicModal.fromTemplateUrl('templates/activity-form.html', function(modal){
@@ -33,6 +33,7 @@ angular.module('whatNow.controllers', ['firebase'])
             $scope.activity = firebaseService.activities[id];
         }else { //add new activity
             $scope.editMode = false;
+            $scope.forUsers = [];
             $scope.activity = activityFactory.newActivity();
 
         }
@@ -51,7 +52,6 @@ angular.module('whatNow.controllers', ['firebase'])
             $scope.formModal.hide();
         };
     };
-
 
     $scope.forUsers = []; //grabbing owners of the task
     $scope.toggleUser = function(user){
