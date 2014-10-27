@@ -90,7 +90,24 @@ angular.module('whatNow.controllers', ['firebase'])
     $scope.id = id;
     $scope.activity = firebaseService.activities[id];
 //    $scope.activity = activityFactory.newActivity(); //for developing
-    $scope.status = activityFactory.getStatus($scope.activity);
+
+    //very similar to pick up benefactors
+    $scope.doers = []; //grabbing owners of the task
+    $scope.toggleDoer = function(user){
+        $scope.activity.completion.by = toggleInArray($scope.doers, user);
+    };
+
+    //exact same exists in parent scope WhatNowCtrl
+    var toggleInArray= function(array, string){
+        var pos = array.indexOf(string);
+        if(pos > -1) { //selection exists in the array
+            array.splice(pos, 1);
+        }else{
+            array.push(string);
+        }
+        return array;
+    };
+
 
     $scope.saveActivity = function () {
         firebaseService.activities[id] = $scope.activity;
@@ -123,11 +140,11 @@ angular.module('whatNow.controllers', ['firebase'])
                 if (res) {
                     assignPoints();
                     $scope.activity.completion.on = Firebase.ServerValue.TIMESTAMP;
-                    $scope.status = activityFactory.getStatus($scope.activity);
+                    $scope.activity.status = activityFactory.getStatus($scope.activity);
                     $scope.saveActivity();
 //                    $state.go("done");
                 } else {
-                    $scope.activity.completion = null;
+                    $scope.activity.completion = activityFactory.newCompletion();
                 }
             });
         }else {//reopening a done activity
@@ -139,9 +156,9 @@ angular.module('whatNow.controllers', ['firebase'])
             confirmPopup.then(function (res) {
                 if (res) {
                     resetPoints();
-                    $scope.activity.completion = null;
+                    $scope.activity.completion = activityFactory.newCompletion();
+                    $scope.activity.status = activityFactory.getStatus($scope.activity);
                     $scope.saveActivity();
-                    $scope.status = activityFactory.getStatus($scope.activity);
                 } else {
 //                    console.log('Cancel Delete');
                 }
@@ -150,13 +167,11 @@ angular.module('whatNow.controllers', ['firebase'])
     };
 
     var assignPoints = function(){
-        angular.forEach($scope.activity.completion.by, function(user, name){
-            if(user){
-                var points = determinePoints();
-                $scope.activity.completion.ptsGiven = points;
-                $scope.users[name].points += points;
-                firebaseService.users.$save(); //saving all the users in db
-            }
+        angular.forEach($scope.activity.completion.by, function(doer){
+            var points = determinePoints();
+            $scope.activity.completion.ptsGiven = points;
+            $scope.users[doer].points += points;
+            firebaseService.users.$save(); //saving all the users in db
         });
     };
 
@@ -196,11 +211,9 @@ angular.module('whatNow.controllers', ['firebase'])
     var resetPoints = function(){
         //when user reopens and activity, subtract the points already assigned
         var points = $scope.activity.completion.ptsGiven;
-        angular.forEach($scope.activity.completion.by, function(user, name){
-            if(user){
-                $scope.users[name].points -= points;
-                firebaseService.users.$save();
-            }
+        angular.forEach($scope.activity.completion.by, function(doer){
+            $scope.users[doer].points -= points;
+            firebaseService.users.$save();
         });
     };
 

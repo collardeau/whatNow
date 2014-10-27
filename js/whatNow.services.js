@@ -35,10 +35,7 @@ angular.module('whatNow.services', ['firebase'])
                 important: false,
                 private: false,
                 duration: 1, //15 minutes increments
-                completion: {
-                    doers: undefined, //should be an array
-                    ptsGiven: 0
-                },
+                completion: this.newCompletion(),
                 context: undefined,
                 users: [],
                 instructions: undefined
@@ -58,6 +55,15 @@ angular.module('whatNow.services', ['firebase'])
 //            delete activity.completedBy;
 //            delete activity.forUsers;
             return activity;
+        },
+
+        newCompletion: function(){
+            return {
+                done: false,
+                by: [],
+                on: undefined,
+                ptsGiven: 0
+            }
         },
 
         getStatus: function(activity){

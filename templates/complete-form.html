@@ -3,11 +3,11 @@
 <form name="activityForm" ng-submit="activityForm.$valid && addEditActivity()" novalidate>
     <div class="list">
 
-        <li class="item item-checkbox" ng-repeat="(name, user) in users">
+        <li class="item item-checkbox" ng-repeat="user in users">
             <label class="checkbox">
-                <input type="checkbox" ng-model="activity.completion.by[name]">
+                <input type="checkbox" ng-change="toggleDoer(user.name)" ng-model="doers[user.name]">
             </label>
-            <i class="icon ion-{{user.icon}}"></i> {{name}}
+            <i class="icon ion-{{user.icon}}"></i> {{user.name}}
         </li>
 
     </div>
