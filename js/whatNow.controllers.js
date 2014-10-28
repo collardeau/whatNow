@@ -6,13 +6,13 @@
 
 angular.module('whatNow.controllers', ['firebase'])
 
-.controller('WhatNowCtrl', function($scope, firebaseService, activityFactory, $ionicModal, $stateParams, $filter) {
+.controller('WhatNowCtrl', function($scope, firebaseService, activityFactory, $ionicModal, $stateParams) {
 
     $scope.activities = firebaseService.activities;
     $scope.users = firebaseService.users;
 
+    //for ordering and filtering
     $scope.actieOrdering = ['-urgent', '-important', 'duration'];
-    //for filtering
     $scope.userTags = [];
     $scope.contextTag = undefined;
 
@@ -25,16 +25,18 @@ angular.module('whatNow.controllers', ['firebase'])
     });
     $scope.openActivityForm = function(){
 
+        $scope.forUsers = [];
         //are we creating or editing an activity?
         if($stateParams.activityId){ //can only edit in single activity url
             $scope.editMode = true;
             var id = $stateParams.activityId;
             $scope.activity = firebaseService.activities[id];
+            angular.forEach($scope.activity.users, function(user){
+                $scope.forUsers[user] = true;
+            });
         }else { //add new activity
             $scope.editMode = false;
-            $scope.forUsers = [];
             $scope.activity = activityFactory.newActivity();
-
         }
 
         $scope.formModal.show();
@@ -50,63 +52,32 @@ angular.module('whatNow.controllers', ['firebase'])
             }
             $scope.formModal.hide();
         };
-    };
 
-    $scope.forUsers = []; //grabbing owners of the task
-    $scope.toggleUser = function(user){
-        $scope.activity.users = toggleInArray($scope.forUsers, user);
-    };
-
-    //dealing with done page, filters to see who did what?
-    $scope.isSelfless = function(activity){
-        return activityFactory.isSelfless(activity);
-    }
-
-    $scope.toggleDoneFilter = function(user){
-        var toggle = $scope.doneFilter.indexOf(user);
-        if(toggle > -1) {
-            $scope.doneFilter.splice(toggle, 1);
-        }else{
-            $scope.doneFilter.push(user);
-        }
-    };
-
-    var toggleInArray= function(array, string){
-        var pos = array.indexOf(string);
-        if(pos > -1) { //selection exists in the array
-            array.splice(pos, 1);
-        }else{
-            array.push(string);
-        }
-        return array;
+        $scope.toggleUser = function(user){
+            $scope.activity.users = toggleInArray($scope.forUsers, user);
+        };
+        var toggleInArray= function(array, string){
+            var pos = array.indexOf(string);
+            if(pos > -1) { //selection exists in the array
+                array.splice(pos, 1);
+            }else{
+                array.push(string);
+            }
+            return array;
+        };
     };
 
 })
 
 .controller("ActivityCtrl", function($scope, activityFactory, firebaseService, $state, $stateParams, $ionicModal, $ionicPopup) {
 
-    var id = $stateParams.activityId;
-    $scope.id = id;
-    $scope.activity = firebaseService.activities[id];
-//    $scope.activity = activityFactory.newActivity(); //for developing
-
-    //very similar to pick up benefactors
-    $scope.doers = []; //grabbing owners of the task
-    $scope.toggleDoer = function(user){
-        $scope.activity.completion.by = toggleInArray($scope.doers, user);
-    };
-
-    //exact same exists in parent scope WhatNowCtrl
-    var toggleInArray= function(array, string){
-        var pos = array.indexOf(string);
-        if(pos > -1) { //selection exists in the array
-            array.splice(pos, 1);
-        }else{
-            array.push(string);
-        }
-        return array;
-    };
-
+     var id; //get the current activity id
+     if($stateParams.activityId) { //grab activity from url if there is one
+        id = $stateParams.activityId;
+        $scope.activity = firebaseService.activities[id];
+     }else{ //from ng-repeat directive
+        id = $scope.activity.$id;
+     }
 
     $scope.saveActivity = function () {
         firebaseService.activities[id] = $scope.activity;
@@ -165,6 +136,10 @@ angular.module('whatNow.controllers', ['firebase'])
         }
     };
 
+    $scope.isSelfless = function(activity){
+        return activityFactory.isSelfless(activity);
+    }
+
     var assignPoints = function(){
         angular.forEach($scope.activity.completion.by, function(doer){
             var points = determinePoints();
@@ -216,8 +191,24 @@ angular.module('whatNow.controllers', ['firebase'])
         });
     };
 
-})
+    //very similar to pick up benefactors
+    $scope.doers = []; //grabbing owners of the task
+    $scope.toggleDoer = function(user){
+        $scope.activity.completion.by = toggleInArray($scope.doers, user);
+    };
+    var toggleInArray= function(array, string){
+        var pos = array.indexOf(string);
+        if(pos > -1) { //selection exists in the array
+            array.splice(pos, 1);
+        }else{
+            array.push(string);
+        }
+        return array;
+    };
 
+
+
+    })
 ;
 
 console.log("end of whatNow.controllers.js");

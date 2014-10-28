@@ -35,5 +35,19 @@ WhatNowApp.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
 })
 
+.directive('activityOpenItem', function(){
+    return {
+        restrict: 'E',
+        templateUrl: "templates/activity-open-item.html"
+    };
+})
+
+.directive('activityDoneItem', function(){
+    return {
+        restrict: 'E',
+        templateUrl: "templates/activity-done-item.html",
+        controller: "ActivityCtrl"
+    };
+})
 ;
 

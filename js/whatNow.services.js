@@ -49,11 +49,6 @@ angular.module('whatNow.services', ['firebase'])
                 activity.date = Firebase.ServerValue.TIMESTAMP;
             }
             activity.status  = this.getStatus(activity);
-            //cleansing old activities
-//            delete activity.urgency;
-//            delete activity.completed;
-//            delete activity.completedBy;
-//            delete activity.forUsers;
             return activity;
         },
 
@@ -104,22 +99,18 @@ angular.module('whatNow.services', ['firebase'])
 
         isSelfless: function(activity){
             //if a doer
-            var owners = this.getTrueKeys(activity.owners);
-            var doers = [];
-            if (angular.isObject(activity.completion)){
-                doers = this.getTrueKeys(activity.completion.by);
-            }
+            var users = activity.users;
+            var doers = activity.completion.by;
 
             for(var i=0; i<doers.length;i++){
-                for(var j=0; j<owners.length; j++){
-                    if(doers[i] === owners[j]){
-                        console.log("is not selfless");
+                for(var j=0; j<users.length; j++){
+                    if(doers[i] === users[j]){
+//                        console.log("is not selfless");
                         return false;
                     }
                 }
             }
-
-            console.log("is selfless");
+//            console.log("is selfless");
             return true;
         },
 

@@ -1,0 +1,11 @@
+<span ng-show="activity.private"><i class='icon ion-key'></i></span>
+
+<span ng-show="activity.status===2"><i class='icon ion-ios7-timer'></i></span>
+<span ng-show="activity.status===3"><i class='icon ion-flame'></i></span>
+<span ng-show="activity.status===4"><i class='icon ion-fireball'></i></span>
+
+<span> {{activity.title}}</span>
+<span class="item-note">{{activity.duration * 15}} min</span>
+<br />for {{activity.users}}<br />
+
+<!--status {{activity.status}}<br />-->
