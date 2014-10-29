@@ -62,23 +62,18 @@ angular.module('whatNow.services', ['firebase'])
         },
 
         getStatus: function(activity){
-            //0: open
-            //1: completed
-            //2: urgent
-            //3: important
-            //4: urgent and important
             if(angular.isObject(activity.completion) && activity.completion.done){
-                return 1;
+                return 1; //1: completed
             }
             else if(activity.urgent || activity.important) {
                 if(!activity.important){
-                    return 2;
+                    return 2; //2: urgent
                 }else if (!activity.urgent && activity.important){
-                    return 3;
+                    return 3; //3: important
                 }
-                return 4;
+                return 4; //4: urgent and important
             }
-            return 0;
+            return 0; //0: open
         },
 
         isFun : function(activity){
@@ -112,6 +107,16 @@ angular.module('whatNow.services', ['firebase'])
             }
 //            console.log("is selfless");
             return true;
+        },
+
+        toggleInArray: function(array, string){
+            var pos = array.indexOf(string);
+            if(pos > -1) { //selection exists in the array
+                array.splice(pos, 1);
+            }else{
+                array.push(string);
+            }
+            return array;
         },
 
         getTrueKeys: function(object){

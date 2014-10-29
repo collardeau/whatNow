@@ -2,7 +2,6 @@
 
 <form name="activityForm" ng-submit="activityForm.$valid && addEditActivity()" novalidate>
     <div class="list">
-
         <li class="item item-checkbox" ng-repeat="user in users">
             <label class="checkbox">
                 <input type="checkbox" ng-change="toggleDoer(user.name)" ng-model="doers[user.name]">

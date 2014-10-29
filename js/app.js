@@ -18,7 +18,8 @@ WhatNowApp.config(function($stateProvider, $urlRouterProvider) {
 
         .state('/', {
             url: "/",
-            templateUrl: "templates/activities.html"
+            templateUrl: "templates/activities.html",
+            controller: 'ActivitiesCtrl'
         })
 
         .state('activity', {
@@ -29,7 +30,8 @@ WhatNowApp.config(function($stateProvider, $urlRouterProvider) {
 
         .state('done', {
             url: "/done",
-            templateUrl: "templates/done.html"
+            templateUrl: "templates/done.html",
+            controller: 'ActivitiesCtrl'
         });
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/');

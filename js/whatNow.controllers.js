@@ -6,11 +6,12 @@
 
 angular.module('whatNow.controllers', ['firebase'])
 
-.controller('WhatNowCtrl', function($scope, firebaseService, activityFactory, $ionicModal, $stateParams) {
-
+.controller('WhatNowCtrl', function($scope, firebaseService, activityFactory){
     $scope.activities = firebaseService.activities;
     $scope.users = firebaseService.users;
+})
 
+.controller('ActivitiesCtrl', function($scope, firebaseService, activityFactory, $ionicModal, $stateParams) {
     //for ordering and filtering
     $scope.actieOrdering = ['-urgent', '-important', 'duration'];
     $scope.userTags = [];
@@ -54,20 +55,11 @@ angular.module('whatNow.controllers', ['firebase'])
         };
 
         $scope.toggleUser = function(user){
-            $scope.activity.users = toggleInArray($scope.forUsers, user);
-        };
-        var toggleInArray= function(array, string){
-            var pos = array.indexOf(string);
-            if(pos > -1) { //selection exists in the array
-                array.splice(pos, 1);
-            }else{
-                array.push(string);
-            }
-            return array;
+            $scope.activity.users = activityFactory.toggleInArray($scope.forUsers, user);
         };
     };
-
 })
+
 
 .controller("ActivityCtrl", function($scope, activityFactory, firebaseService, $state, $stateParams, $ionicModal, $ionicPopup) {
 
@@ -134,81 +126,69 @@ angular.module('whatNow.controllers', ['firebase'])
                 }
             });
         }
+
+        var assignPoints = function(){
+            angular.forEach($scope.activity.completion.by, function(doer){
+                var points = determinePoints();
+                $scope.activity.completion.ptsGiven = points;
+                $scope.users[doer].points += points;
+                firebaseService.users.$save(); //saving all the users in db
+            });
+        };
+
+        var determinePoints = function(){ //this should be in in the activity service
+
+            if(activityFactory.isFun($scope.activity) || $scope.activity.personal){
+                return 0;
+            }
+
+            var basePoints = 0;
+            var difficultyPoints = 0;
+            var extraPoints = 0;
+
+            //intent
+            if(activityFactory.isSelfless($scope.activity)){
+                basePoints = 3;
+            }else if (activityFactory.isSelfish($scope.activity)){
+                basePoints = 0;
+            }else {
+                basePoints = 1;
+            }
+
+            //difficulty
+            var difficultyPoints = $scope.activity.duration;
+
+            //extra (important + urgency)
+            if($scope.activity.important && $scope.activity.urgent){
+                extraPoints = 2;
+            }else if ($scope.activity.important || $scope.activity.urgent){
+                extraPoints = 1;
+            }
+
+            var points = basePoints + difficultyPoints + extraPoints;
+            return points;
+        };
+
+        var resetPoints = function(){
+            //when user reopens and activity, subtract the points already assigned
+            var points = $scope.activity.completion.ptsGiven;
+            angular.forEach($scope.activity.completion.by, function(doer){
+                $scope.users[doer].points -= points;
+                firebaseService.users.$save();
+            });
+        };
+
+        $scope.doers = []; //grabbing owners of the task
+        $scope.toggleDoer = function(user){
+            $scope.activity.completion.by = activityFactory.toggleInArray($scope.doers, user);
+        };
     };
 
     $scope.isSelfless = function(activity){
         return activityFactory.isSelfless(activity);
     }
 
-    var assignPoints = function(){
-        angular.forEach($scope.activity.completion.by, function(doer){
-            var points = determinePoints();
-            $scope.activity.completion.ptsGiven = points;
-            $scope.users[doer].points += points;
-            firebaseService.users.$save(); //saving all the users in db
-        });
-    };
-
-    var determinePoints = function(){ //this should be in in the activity service
-
-        if(activityFactory.isFun($scope.activity) || $scope.activity.personal){
-            return 0;
-        }
-
-        var basePoints = 0;
-        var difficultyPoints = 0;
-        var extraPoints = 0;
-
-        //intent
-        if(activityFactory.isSelfless($scope.activity)){
-            basePoints = 3;
-        }else if (activityFactory.isSelfish($scope.activity)){
-            basePoints = 0;
-        }else {
-            basePoints = 1;
-        }
-
-        //difficulty
-        var difficultyPoints = $scope.activity.duration;
-
-        //extra (important + urgency)
-        if($scope.activity.important && $scope.activity.urgent){
-            extraPoints = 2;
-        }else if ($scope.activity.important || $scope.activity.urgent){
-            extraPoints = 1;
-        }
-
-        var points = basePoints + difficultyPoints + extraPoints;
-        return points;
-    };
-
-    var resetPoints = function(){
-        //when user reopens and activity, subtract the points already assigned
-        var points = $scope.activity.completion.ptsGiven;
-        angular.forEach($scope.activity.completion.by, function(doer){
-            $scope.users[doer].points -= points;
-            firebaseService.users.$save();
-        });
-    };
-
-    //very similar to pick up benefactors
-    $scope.doers = []; //grabbing owners of the task
-    $scope.toggleDoer = function(user){
-        $scope.activity.completion.by = toggleInArray($scope.doers, user);
-    };
-    var toggleInArray= function(array, string){
-        var pos = array.indexOf(string);
-        if(pos > -1) { //selection exists in the array
-            array.splice(pos, 1);
-        }else{
-            array.push(string);
-        }
-        return array;
-    };
-
-
-
-    })
+})
 ;
 
 console.log("end of whatNow.controllers.js");
