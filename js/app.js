@@ -51,5 +51,19 @@ WhatNowApp.config(function($stateProvider, $urlRouterProvider) {
         controller: "ActivityCtrl"
     };
 })
+
+.directive('owners', function(){ //list out the owners
+    return {
+        restrict: 'E',
+        template: '<span ng-repeat="user in activity.users"><b>{{user}}</b><span ng-hide="$last"> & </span></span>'
+    }
+})
+
+.directive('doers', function(){ //list out the owners
+return {
+    restrict: 'E',
+    template: '<span ng-repeat="user in activity.completion.by"><b>{{user}}</b><span ng-hide="$last"> & </span></span>'
+}
+})
 ;
 

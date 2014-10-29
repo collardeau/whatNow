@@ -19,8 +19,7 @@
                 <div class="col-80">
                     <h2>{{activity.title}}</h2>
                     <div class="activityUserDetails">
-                        for
-                        <span ng-repeat="(key, owner) in activity.owners" ng-show="owner"> {{key}}<span ng-show="!$last "> and </span></span>
+                        for <owners></owners>
                     </div>
                 </div>
                 <div class="col col-20">
@@ -57,19 +56,9 @@
                 </div>
                 <div class="col">
                     <i class="icon ion-checkmark-round balanced"></i>
-                    <span ng-repeat="(name, user) in activity.completion.by" ng-show="activity.completion.by[name]">
-                        {{name}}<span ng-hide="$last"> and </span>
-                    </span>
+                    <doers></doers>
                 </div>
             </div>
-            <!--<div class="row">-->
-                <!--<div class="col col-25">-->
-                    <!--On:-->
-                <!--</div>-->
-                <!--<div class="col">-->
-                    <!--{{activity.completion.on | date}}-->
-                <!--</div>-->
-            <!--</div>-->
 
             <div class="row">
                 <div class="col col-25">
@@ -79,8 +68,6 @@
                     {{activity.completion.ptsGiven}}
                 </div>
             </div>
-
-
         </div>
 
         <div class="activityDetails" ng-class="{greyOut: status===1}">

@@ -6,7 +6,7 @@
 
 angular.module('whatNow.controllers', ['firebase'])
 
-.controller('WhatNowCtrl', function($scope, firebaseService, activityFactory){
+.controller('WhatNowCtrl', function($scope, firebaseService){
     $scope.activities = firebaseService.activities;
     $scope.users = firebaseService.users;
 })
@@ -189,6 +189,6 @@ angular.module('whatNow.controllers', ['firebase'])
     }
 
 })
-;
 
+;
 console.log("end of whatNow.controllers.js");

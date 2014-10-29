@@ -5,22 +5,15 @@
         <i class="icon ion-checkmark balanced"></i>
     </div>
     <div class="col col-90">
-                     <span ng-repeat="user in activity.completion.by">
-                            <b>{{user}}</b><span ng-hide="$last"> & </span>
-                    </span>
-        for
-                    <span ng-repeat="user in activity.users">
-                        {{user}}
-                        <span ng-hide="$last"> & </span>
-                    </span>
+        <doers></doers> for <owners></owners>
     </div>
 </div>
 
-<!--<div class="row" ng-show="isSelfless(activity)">-->
-    <!--<div class="col col-10"></div>-->
-    <!--<div class="col col-90 assertive">Wow, a selfless act!</div>-->
-    <!--</div>-->
-<!--</div>-->
+<div class="row" ng-show="isSelfless(activity)">
+    <div class="col col-10"></div>
+    <div class="col col-90 assertive">Wow, a selfless act!</div>
+    </div>
+</div>
 
 <span class="badge badge-light">
     <span ng-show="activity.context === 'fun'">
@@ -30,5 +23,3 @@
         {{ activity.completion.ptsGiven || 0}}
     </span>
 </span>
-
-<span ng-click="deleteActivity()">Delete</span>
