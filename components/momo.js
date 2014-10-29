@@ -2,8 +2,8 @@
  * Created by thomascollardeau on 10/29/14.
  */
 //var momoApp = angular.module('momoApp', ['$ionic']);
-
-WhatNowApp.directive('momo', function(){
+angular.module('momoApp', ['ionic'])
+.directive('momo', function(){
     return {
         restrict: 'E',
         replace: true,

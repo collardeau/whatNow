@@ -3,7 +3,7 @@
  */
 
 
-var WhatNowApp = angular.module('whatNow', ['ionic', 'whatNow.services', 'whatNowFilters']);
+var WhatNowApp = angular.module('whatNow', ['ionic', 'whatNow.services', 'whatNowFilters', 'momoApp']);
 
 WhatNowApp.config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
