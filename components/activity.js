@@ -154,4 +154,12 @@ WhatNowApp.controller("ActivityCtrl", function($scope, activityFactory, firebase
         restrict: 'E',
         template: '<span ng-repeat="user in activity.completion.by"><b>{{user}}</b><span ng-hide="$last"> & </span></span>'
     }
-    });
+    })
+
+.directive('filteredUsers', function(){
+    return {
+        restrict: 'E',
+        template: '<span ng-repeat="user in userTags"><b>{{user}}</b><span ng-hide="$last"> and </span></span>'
+    }
+})
+;

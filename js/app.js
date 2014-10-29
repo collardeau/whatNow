@@ -10,14 +10,12 @@ WhatNowApp.config(function($stateProvider, $urlRouterProvider) {
 
         .state('/', {
             url: "/open",
-            templateUrl: "templates/activities.html",
-            controller: 'ActivitiesCtrl'
+            templateUrl: "templates/activities.html"
         })
 
         .state('completed', {
             url: "/done",
-            templateUrl: "templates/activities-completed.html",
-            controller: 'ActivitiesCtrl'
+            templateUrl: "templates/activities-completed.html"
         })
 
         .state('activity', {
@@ -33,7 +31,11 @@ WhatNowApp.config(function($stateProvider, $urlRouterProvider) {
     $scope.activities = firebaseService.activities;
     $scope.users = firebaseService.users;
 
-    //Add or Edit an Activity Modal, refactor into a service?
+    $scope.actieOrdering = ['-urgent', '-important', 'duration'];
+    $scope.userTags = [];
+    $scope.contextTag = undefined;
+
+        //Add or Edit an Activity Modal, refactor into a service?
     $ionicModal.fromTemplateUrl('templates/form-activity.html', function(modal){
         $scope.formModal = modal;
     },{

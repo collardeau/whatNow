@@ -1,6 +1,17 @@
 <ion-header-bar class="bar-positive">
     <a ng-click="goToCompleted()"><button class="button button-icon ion-checkmark"></button></a>
-    <h1 class="title">What Now</h1>
+    <h1 class="title">
+
+        <span ng-hide="userTags.length > 0 || contextTag">What Now</span>
+
+        <span ng-show="userTags.length > 0">
+            for <filtered-users></filtered-users>
+        </span>
+        <span ng-show="contextTag">
+            as <b>{{contextTag}}</b>
+        </span>
+
+    </h1>
        <button class="button button-icon ion-compose" ng-click="openActivityForm()"></button>
 </ion-header-bar>
 
@@ -9,9 +20,8 @@
 <ion-content id="activities" class="has-header has-subheader">
     <!--<p><input type="text" ng-model="test"></p>-->
     <ion-list>
-        {{userTags}} {{contextTag}}
-        <ion-item ng-repeat="activity in activities | orderByPriority | uncomplete | acties:'benefactors':userTags | context:contextTag | orderBy: actieOrdering" href="#/activity/{{activity.$id}}">
-            <activity-open-item activity="activity"></activity-open-item>
+        <ion-item ng-repeat="activity in activities | orderByPriority | uncomplete | acties:'benefactors':userTags | context:contextTag | orderBy: actieOrdering">
+            <activity-open-item activity="activity" ng-click="goToActivity(activity.$id)"></activity-open-item>
         </ion-item>
     </ion-list>
 </ion-content>

@@ -1,19 +1,30 @@
-<span class="crossedOut">{{activity.title}}</span>
+
 
 <div class="row">
     <div class="col col-10">
         <i class="icon ion-checkmark balanced"></i>
     </div>
     <div class="col col-90">
-        <doers></doers> for <owners></owners>
+        <span class="crossedOut">{{activity.title}}</span>
     </div>
+</div>
+<div class="row">
+    <div class="col col-10">
+    </div>
+    <div class="col col-70">
+        <doers></doers> for <owners></owners><br />
+    </div>
+    <div class="col col">
+        <span ng-show="isSelfless(activity)" class="balanced">selfless</span>
+    </div>
+
 </div>
 
-<div class="row" ng-show="isSelfless(activity)">
-    <div class="col col-10"></div>
-    <div class="col col-90 assertive">Wow, a selfless act!</div>
-    </div>
-</div>
+<!--<div class="row" ng-show="isSelfless(activity)">-->
+    <!--<div class="col col-10"></div>-->
+    <!--<div class="col col-90 assertive">Wow, a selfless act!</div>-->
+    <!--</div>-->
+<!--</div>-->
 
 <span class="badge badge-light">
     <span ng-show="activity.context === 'fun'">

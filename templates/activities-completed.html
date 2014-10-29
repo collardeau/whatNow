@@ -1,6 +1,6 @@
 <ion-header-bar class="bar-positive">
     <a ng-click="goHome()"><button class="button button-icon ion-ios7-circle-outline"></button></a>
-    <h1 class="title">Done and Dusted</h1>
+    <h1 class="title">Done</h1>
     <button class="button button-icon ion-compose" ng-click="openActivityForm()"></button>
 </ion-header-bar>
 
@@ -8,9 +8,8 @@
 
 <ion-content id="doneActivities" class="has-header has-subheader">
     <ion-list>
-        {{userTags}}
-        <ion-item ng-repeat="activity in activities | orderByPriority | complete | acties:'doers':userTags| orderBy: '-completion.on'" ng-click="goToActivity(activity.$id)">
-           <activity-complete-item activity="activity"></activity-complete-item>
+        <ion-item ng-repeat="activity in activities | orderByPriority | complete | acties:'doers':userTags| orderBy: '-completion.on'">
+           <activity-complete-item activity="activity" ng-click="goToActivity(activity.$id)"></activity-complete-item>
         </ion-item>
     </ion-list>
 </ion-content>
