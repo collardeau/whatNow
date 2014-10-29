@@ -1,6 +1,12 @@
 <ion-header-bar class="bar-positive">
     <a ng-click="goHome()"><button class="button button-icon ion-ios7-circle-outline"></button></a>
-    <h1 class="title">Done</h1>
+    <h1 class="title">
+        Done
+
+        <span ng-show="userTags.length > 0">
+            by <filtered-users></filtered-users>
+        </span>
+    </h1>
     <button class="button button-icon ion-compose" ng-click="openActivityForm()"></button>
 </ion-header-bar>
 
