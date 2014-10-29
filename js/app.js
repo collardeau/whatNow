@@ -11,14 +11,20 @@
 //change time range input
 //add a search field
 
-var WhatNowApp = angular.module('whatNow', ['ionic', 'whatNow.controllers', 'whatNow.services', 'whatNowFilters']);
+var WhatNowApp = angular.module('whatNow', ['ionic', 'whatNow.services', 'whatNowFilters']);
 
 WhatNowApp.config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
 
         .state('/', {
-            url: "/",
+            url: "/open",
             templateUrl: "templates/activities.html",
+            controller: 'ActivitiesCtrl'
+        })
+
+        .state('done', {
+            url: "/done",
+            templateUrl: "templates/done.html",
             controller: 'ActivitiesCtrl'
         })
 
@@ -26,44 +32,13 @@ WhatNowApp.config(function($stateProvider, $urlRouterProvider) {
             url: "/activity/:activityId",
             templateUrl: "templates/activity.html",
             controller: 'ActivityCtrl'
-        })
-
-        .state('done', {
-            url: "/done",
-            templateUrl: "templates/done.html",
-            controller: 'ActivitiesCtrl'
         });
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/open');
 })
 
-.directive('activityOpenItem', function(){
-    return {
-        restrict: 'E',
-        templateUrl: "templates/activity-open-item.html"
-    };
-})
-
-.directive('activityDoneItem', function(){
-    return {
-        restrict: 'E',
-        templateUrl: "templates/activity-done-item.html",
-        controller: "ActivityCtrl"
-    };
-})
-
-.directive('owners', function(){ //list out the owners
-    return {
-        restrict: 'E',
-        template: '<span ng-repeat="user in activity.users"><b>{{user}}</b><span ng-hide="$last"> & </span></span>'
-    }
-})
-
-.directive('doers', function(){ //list out the owners
-return {
-    restrict: 'E',
-    template: '<span ng-repeat="user in activity.completion.by"><b>{{user}}</b><span ng-hide="$last"> & </span></span>'
-}
-})
-;
+.controller('WhatNowCtrl', function($scope, firebaseService){
+    $scope.activities = firebaseService.activities;
+    $scope.users = firebaseService.users;
+});
 

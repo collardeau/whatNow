@@ -1,75 +1,12 @@
-/**
- * Created by thomascollardeau on 10/17/14.
- */
+WhatNowApp.controller("ActivityCtrl", function($scope, activityFactory, firebaseService, $state, $stateParams, $ionicModal, $ionicPopup) {
 
-
-
-angular.module('whatNow.controllers', ['firebase'])
-
-.controller('WhatNowCtrl', function($scope, firebaseService){
-    $scope.activities = firebaseService.activities;
-    $scope.users = firebaseService.users;
-})
-
-.controller('ActivitiesCtrl', function($scope, firebaseService, activityFactory, $ionicModal, $stateParams) {
-    //for ordering and filtering
-    $scope.actieOrdering = ['-urgent', '-important', 'duration'];
-    $scope.userTags = [];
-    $scope.contextTag = undefined;
-
-    //Add or Edit an Activity Modal
-    $ionicModal.fromTemplateUrl('templates/activity-form.html', function(modal){
-        $scope.formModal = modal;
-    },{
-        scope: $scope,
-        animation: 'slide-in-up'
-    });
-    $scope.openActivityForm = function(){
-
-        $scope.forUsers = [];
-        //are we creating or editing an activity?
-        if($stateParams.activityId){ //can only edit in single activity url
-            $scope.editMode = true;
-            var id = $stateParams.activityId;
-            $scope.activity = firebaseService.activities[id];
-            angular.forEach($scope.activity.users, function(user){
-                $scope.forUsers[user] = true;
-            });
-        }else { //add new activity
-            $scope.editMode = false;
-            $scope.activity = activityFactory.newActivity();
-        }
-
-        $scope.formModal.show();
-
-        $scope.addEditActivity = function () {
-            var activity = (activityFactory.prep($scope.activity));
-            if(!$scope.editMode) { //add new activity
-                firebaseService.add(activity);
-            }else { //edit one based on url
-                firebaseService.activities[id] = $scope.activity;
-//                firebaseService.add(activity); //TEMP for rebuilding database
-                firebaseService.activities.$save(id);
-            }
-            $scope.formModal.hide();
-        };
-
-        $scope.toggleUser = function(user){
-            $scope.activity.users = activityFactory.toggleInArray($scope.forUsers, user);
-        };
-    };
-})
-
-
-.controller("ActivityCtrl", function($scope, activityFactory, firebaseService, $state, $stateParams, $ionicModal, $ionicPopup) {
-
-     var id; //get the current activity id
-     if($stateParams.activityId) { //grab activity from url if there is one
+    var id; //get the current activity id
+    if($stateParams.activityId) { //grab activity from url if there is one
         id = $stateParams.activityId;
         $scope.activity = firebaseService.activities[id];
-     }else{ //from ng-repeat directive
+    }else{ //from ng-repeat directive
         id = $scope.activity.$id;
-     }
+    }
 
     $scope.saveActivity = function () {
         firebaseService.activities[id] = $scope.activity;
@@ -190,5 +127,31 @@ angular.module('whatNow.controllers', ['firebase'])
 
 })
 
-;
-console.log("end of whatNow.controllers.js");
+.directive('activityOpenItem', function(){
+    return {
+        restrict: 'E',
+        templateUrl: "templates/activity-open-item.html"
+    };
+})
+
+.directive('activityDoneItem', function(){
+    return {
+        restrict: 'E',
+        templateUrl: "templates/activity-done-item.html",
+        controller: "ActivityCtrl" //to check act for selfishness
+    };
+})
+
+.directive('owners', function(){ //list out the owners
+    return {
+        restrict: 'E',
+        template: '<span ng-repeat="user in activity.users"><b>{{user}}</b><span ng-hide="$last"> & </span></span>'
+    }
+})
+
+.directive('doers', function(){
+    return {
+        restrict: 'E',
+        template: '<span ng-repeat="user in activity.completion.by"><b>{{user}}</b><span ng-hide="$last"> & </span></span>'
+    }
+    });
