@@ -2,14 +2,14 @@
  * Created by thomascollardeau on 10/29/14.
  */
 
-WhatNowApp.controller('ActivitiesCtrl', function($scope, firebaseService, activityFactory, $ionicModal, $stateParams) {
+WhatNowApp.controller('ActivitiesCtrl', function($scope, firebaseService, activityFactory, $ionicModal, $state, $stateParams) {
 
     $scope.actieOrdering = ['-urgent', '-important', 'duration'];
     $scope.userTags = [];
     $scope.contextTag = undefined;
 
     //Add or Edit an Activity Modal
-    $ionicModal.fromTemplateUrl('templates/activity-form.html', function(modal){
+    $ionicModal.fromTemplateUrl('templates/form-activity.html', function(modal){
         $scope.formModal = modal;
     },{
         scope: $scope,
@@ -49,4 +49,6 @@ WhatNowApp.controller('ActivitiesCtrl', function($scope, firebaseService, activi
             $scope.activity.users = activityFactory.toggleInArray($scope.forUsers, user);
         };
     };
+
+
 });

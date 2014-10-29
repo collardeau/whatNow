@@ -32,7 +32,7 @@ WhatNowApp.controller("ActivityCtrl", function($scope, activityFactory, firebase
         if($scope.activity.completion.done) { //newly done activity
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Nice!',
-                templateUrl: 'templates/complete-form.html',
+                templateUrl: 'templates/form-complete.html',
                 scope: $scope
             });
             confirmPopup.then(function (res) {
@@ -134,10 +134,10 @@ WhatNowApp.controller("ActivityCtrl", function($scope, activityFactory, firebase
     };
 })
 
-.directive('activityDoneItem', function(){
+.directive('activityCompleteItem', function(){
     return {
         restrict: 'E',
-        templateUrl: "templates/activity-done-item.html",
+        templateUrl: "templates/activity-complete-item.html",
         controller: "ActivityCtrl" //to check act for selfishness
     };
 })

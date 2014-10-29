@@ -1,5 +1,5 @@
 <ion-header-bar class="bar-positive">
-    <a href="#"><button class="button button-icon ion-home"></button></a>
+    <a ng-click="goHome()"><button class="button button-icon ion-home"></button></a>
     <h1 class="title">Completed Activities</h1>
     <button class="button button-icon ion-compose" ng-click="openActivityForm()"></button>
 </ion-header-bar>
@@ -9,8 +9,8 @@
 <ion-content id="doneActivities" class="has-header has-subheader">
     <ion-list>
         {{userTags}}
-        <ion-item ng-repeat="activity in activities | orderByPriority | complete | acties:'doers':userTags| orderBy: '-completion.on'" href="#/activity/{{activity.$id}}">
-           <activity-done-item activity="activity"></activity-done-item>
+        <ion-item ng-repeat="activity in activities | orderByPriority | complete | acties:'doers':userTags| orderBy: '-completion.on'" ng-click="goToActivity(activity.$id)">
+           <activity-complete-item activity="activity"></activity-complete-item>
         </ion-item>
     </ion-list>
 </ion-content>

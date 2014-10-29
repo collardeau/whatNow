@@ -22,9 +22,9 @@ WhatNowApp.config(function($stateProvider, $urlRouterProvider) {
             controller: 'ActivitiesCtrl'
         })
 
-        .state('done', {
+        .state('completed', {
             url: "/done",
-            templateUrl: "templates/done.html",
+            templateUrl: "templates/activities-completed.html",
             controller: 'ActivitiesCtrl'
         })
 
@@ -37,8 +37,23 @@ WhatNowApp.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/open');
 })
 
-.controller('WhatNowCtrl', function($scope, firebaseService){
+.controller('WhatNowCtrl', function($scope, firebaseService, $state){
     $scope.activities = firebaseService.activities;
     $scope.users = firebaseService.users;
+
+    $scope.goToActivity = function(activityId){
+        $state.go("activity", {activityId: activityId});
+    }
+
+    $scope.goToCompleted = function(){
+        $state.go("completed");
+    }
+
+    $scope.goHome = function(){
+        $state.go("/");
+    }
+
 });
+
+console.log("ran the app");
 
