@@ -2,18 +2,30 @@
  * Created by thomascollardeau on 10/29/14.
  */
 //var momoApp = angular.module('momoApp', ['$ionic']);
-angular.module('momoApp', ['ionic'])
+angular.module('momoApp', ['ionic', 'firebase'])
+
+.factory('momoFactory', function($firebase) {
+        var url = 'https://what-now.firebaseio.com';
+        var fireRef = new Firebase(url);
+
+        return {
+            momo: $firebase(fireRef.child('momo'))
+        }
+
+})
+
 .directive('momo', function(){
     return {
         restrict: 'E',
         replace: true,
-        templateUrl: 'templates/momo.html',
-        controller: 'momoCtrl'
+        controller: 'momoCtrl',
+        template: '<a class="tab-item has-badge" ng-click="showMomo()"><span class="badge badge-energized">{{momo.points}}</span><i class="icon ion-ios7-paw"></i> Momo</a>'
     }
 })
 
-.controller('momoCtrl', function($scope, $ionicPopup){
-    $scope.momo = 0;
+.controller('momoCtrl', function($scope, momoFactory, $ionicPopup){
+
+    $scope.momo = momoFactory.momo;
 
     $scope.showMomo = function(){
         var random = Math.floor((Math.random() * 15) + 1);
@@ -28,10 +40,14 @@ angular.module('momoApp', ['ionic'])
         });
         myPopup.then(function (res) {
             if (!res) {
-                $scope.momo += 1;
+                $scope.momo.points += 1;
+                momoFactory.momo.$save('points');
             } else {
-                console.log("give Momo no point");
+//                console.log("give Momo no point");
             }
         });
     };
-});
+})
+
+
+;
