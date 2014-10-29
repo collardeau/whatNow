@@ -8,7 +8,7 @@ WhatNowApp.controller('ActivitiesCtrl', function($scope, firebaseService, activi
     $scope.userTags = [];
     $scope.contextTag = undefined;
 
-    //Add or Edit an Activity Modal
+    //Add or Edit an Activity Modal, refactor into a service?
     $ionicModal.fromTemplateUrl('templates/form-activity.html', function(modal){
         $scope.formModal = modal;
     },{
