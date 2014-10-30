@@ -1,7 +1,7 @@
-<div class="tabs tabs-bottom tabs-icon-only tabs-positive">
+<div class="tabs tabs-bottom tabs-icon-only tabs-neutral">
     <a ng-repeat='context in contexts' class="tab-item"
        ng-click="pickContext(context.name)"
-       ng-class="{assertive: tagged === context.name}">
+       ng-class="{positive: tagged === context.name}">
         <i class="icon {{context.icon}}"></i>
     </a>
 </div>

@@ -9,7 +9,7 @@
         <form name="activityForm" ng-submit="activityForm.$valid && addEditActivity()" novalidate>
             <div class="list">
                 <label class="item item-input">
-                    <span class="input-label">Activity</span>
+                    <span class="input-label">Actie</span>
                     <input ng-model="activity.title" type="text" placeholder="Action you want to take" required>
                 </label>
 
@@ -59,9 +59,18 @@
                     <i class="radio-icon ion-happy"></i>
                 </label>
 
+                <li class="item item-divider">
+                   Breakdown List
+                </li>
+
+                <label class="item item-input item-icon-right">
+                    <i class="icon ion-ios7-plus-empty"></i>
+                    <!--<span class="input-label">List</span>-->
+                    <input ng-model="activity.list" type="text" placeholder="item">
+                </label>
 
                 <li class="item item-divider">
-                    For:
+                    Benefits:
                 </li>
 
                 <li class="item item-checkbox" ng-repeat="user in users">
@@ -98,7 +107,7 @@
                         <!--<div class="track">-->
                             <!--<div class="handle"></div>-->
                         <!--</div>-->
-                    <!--</label>Private-->
+                    <!--</label>Personal - only I can do this-->
                 <!--</li>-->
 
 

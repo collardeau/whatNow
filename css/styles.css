@@ -29,10 +29,10 @@ ion-nav-view {
     padding: 0;
 
 }
-.bar-subheader .badge {
-    position: absolute !important;
-    right: 2.6em !important;
-}
+/*.bar-subheader .badge {*/
+    /*position: absolute !important;*/
+    /*right: 2.6em !important;*/
+/*}*/
 
 .sorting {
     font-size: 0.9em;
