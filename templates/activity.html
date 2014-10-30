@@ -17,7 +17,7 @@
 
             <div class="row">
                 <div class="col-80">
-                    <h2>{{activity.title}}</h2>
+                    <h2 ng-class="{crossedOut: activity.status===1}">{{activity.title}}</h2>
                     <div class="activityUserDetails">
                         for <owners></owners>
                     </div>
@@ -33,25 +33,53 @@
 
             </div>
         </div>
+    </div>
 
-        <div class="item">
-            <div class="row status">
-                <!--<div class="col col-25">-->
-                    <!--Status:-->
-                <!--</div>-->
-                <div class="col">
-                    <span ng-show="activity.status === 0">Open</span>
-                    <span ng-show="activity.status === 1" class="balanced">Completed</span>
-                    <span ng-show="activity.status === 2" class="assertive">Urgent</span>
-                    <span ng-show="activity.status === 3" class="assertive">Important</span>
-                    <span ng-show="activity.status === 4" class="assertive">Urgent & Important</span>
-                </div>
-                <!--<div class="col"></div>-->
-            </div>
+    <!--<div class="card completionDetails" ng-if="activity.status === 1">-->
+    <div class="card completionDetails">
+        <div class="item item-divider">
+            <span ng-show="activity.status === 0">Open</span>
+            <span ng-show="activity.status === 1" class="balanced">Completed</span>
+            <span ng-show="activity.status === 2" class="assertive">Urgent</span>
+            <span ng-show="activity.status === 3" class="assertive">Important</span>
+            <span ng-show="activity.status === 4" class="assertive">Urgent & Important</span>
+
         </div>
-        <!--<div class="item">-->
-                <!--{{activity.list}}-->
-        <!--</div>-->
+        <div class="item" ng-if="activity.status === 1">
+            <div class="row">
+                <div class="col col-33">
+                    By:
+                </div>
+                <div class="col">
+                    <doers></doers>
+                    <br /><span ng-show="isSelfless(activity)" class="balanced">selfless!</span>
+                </div>
+            </div>
+
+            <div class="row" ng-if="activity.status === 1">
+                <div class="col col-33">
+                    Points:
+                </div>
+                <div class="col">
+                    {{activity.completion.ptsGiven}}
+                </div>
+            </div>
+
+            <!--<div class="row">-->
+                <!--<div class="col col-20">-->
+                    <!--On:-->
+                <!--</div>-->
+                <!--<div class="col">-->
+                    <!--{{activity.completion.on | date}}-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+    </div>
+
+    <div class="card" ng-show="activity.list" ng-class="{greyOut: activity.status===1}">
+        <div class="item item-divider">
+            Breaking it down
+        </div>
 
         <div class="list">
             <a ng-repeat="item in activity.list" href="#" class="item">
@@ -59,62 +87,47 @@
             </a>
         </div>
 
-        <div class="item completionDetails" ng-show="activity.completion.done">
-            <div class="row doers">
-                <div class="col col-25">
-                    By:
-                </div>
-                <div class="col">
-                    <i class="icon ion-checkmark-round balanced"></i>
-                    <doers></doers>
-                </div>
+    </div>
+
+    <div class="card activityDetails" ng-class="{greyOut: activity.status===1}">
+
+        <div class="item item-divider">
+            Overview
+        </div>
+
+        <div class="item">
+
+            <div class="row">
+                <div class="col col-33">Duration:</div>
+                <div class="col">{{activity.duration  * 15 }} minutes</div>
             </div>
 
             <div class="row">
-                <div class="col col-25">
-                    Points:
-                </div>
+                <div class="col col-33">Context:</div>
+                <div class="col">{{activity.context}}</div>
+            </div>
+
+            <div class="row">
+                <div class="col col-33">Added on:</div>
                 <div class="col">
-                    {{activity.completion.ptsGiven}}
+                    {{activity.date | date}}
                 </div>
             </div>
         </div>
 
-        <div class="activityDetails" ng-class="{greyOut: status===1}">
-
-            <div class="item" ng-hide="!activity.instructions">
-                <div class="row">
-                    <div class="col col-100"><b>Instructions:</b></div>
-                </div>
-                <div class="row">
-                    <div class="col col-100">
-                        {{ activity.instructions || "none" }}
-                    </div>
+        <div class="item" ng-hide="!activity.instructions">
+            <div class="row">
+                <div class="col col-100"><b>Instructions:</b></div>
+            </div>
+            <div class="row">
+                <div class="col col-100">
+                    {{ activity.instructions || "none" }}
                 </div>
             </div>
-
-            <div class="item">
-
-                <div class="row">
-                    <div class="col col-25">Duration:</div>
-                    <div class="col">{{activity.duration  * 15 }} minutes</div>
-                </div>
-
-                <div class="row">
-                    <div class="col col-25">Context:</div>
-                    <div class="col">{{activity.context}}</div>
-                </div>
-
-                <div class="row">
-                    <div class="col col-25">Added on:</div>
-                    <div class="col">
-                        {{activity.date | date}}
-                    </div>
-                </div>
-            </div>
-
         </div>
+
     </div>
+
     <!--<div>-->
         <!--<p>points given: {{activity.completion.points}}</p>-->
         <!--<p>Evi has {{users.evi.points}} points.<br />-->

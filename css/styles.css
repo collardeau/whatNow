@@ -3,6 +3,10 @@ ion-nav-view {
     background-color: white !important;
 }
 
+h2 {
+    font-size: 1.2em !important;
+}
+
 .greyOut {
     color: #c0c0c0;
     opacity: 0.5;
@@ -10,6 +14,7 @@ ion-nav-view {
 
 .crossedOut {
     text-decoration: line-through;
+    opacity: 0.9;
 }
 
 .addList {

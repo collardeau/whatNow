@@ -5,17 +5,18 @@
         <i class="icon ion-checkmark balanced"></i>
     </div>
     <div class="col col-90">
-        <span>{{activity.title}}</span>
+        <span ng-class="{crossedOut: activity.status===1}">{{activity.title}}</span>
     </div>
 </div>
 <div class="row">
     <div class="col col-10">
     </div>
-    <div class="col col-70">
-        <doers></doers> for <owners></owners><br />
+    <div class="col col-50">
+        <doers></doers>
+        for <owners></owners><br />
     </div>
-    <div class="col col">
-        <span ng-show="isSelfless(activity)" class="energized">selfless!</span>
+    <div class="col">
+        <span ng-show="isSelfless(activity)" class="balanced">selfless!</span>
     </div>
 
 </div>
