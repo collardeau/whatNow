@@ -12,6 +12,10 @@ ion-nav-view {
     text-decoration: line-through;
 }
 
+/*.instr {*/
+    /*overflow: scroll;*/
+    /*display: block;*/
+/*}*/
 
 #activity .badge {
     /*position: relative; right: 1.3em !important;*/

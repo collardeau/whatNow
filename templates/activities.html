@@ -3,13 +3,13 @@
     <h1 class="title">
 
         <span ng-hide="userTags.length > 0 || contextTag">What Now</span>
-
+        <span ng-show="contextTag">
+            <b>{{contextTag}}</b>
+        </span>
         <span ng-show="userTags.length > 0">
             for <filtered-users></filtered-users>
         </span>
-        <span ng-show="contextTag">
-            as <b>{{contextTag}}</b>
-        </span>
+
 
     </h1>
        <button class="button button-icon ion-compose" ng-click="openActivityForm()"></button>
