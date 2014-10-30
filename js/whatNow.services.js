@@ -38,7 +38,8 @@ angular.module('whatNow.services', ['firebase'])
                 completion: this.newCompletion(),
                 context: undefined,
                 users: [],
-                instructions: undefined
+                instructions: undefined,
+                list: []
             };
         },
 

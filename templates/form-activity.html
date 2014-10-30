@@ -6,10 +6,10 @@
         <button class="button button-clear button-positive" ng-click="formModal.hide()">Cancel</button>
     </ion-header-bar>
     <ion-content id="activityForm">
-        <form name="activityForm" ng-submit="activityForm.$valid && addEditActivity()" novalidate>
+        <form name="activityForm" novalidate>
             <div class="list">
                 <label class="item item-input">
-                    <span class="input-label">Actie</span>
+                    <span class="input-label">Activity</span>
                     <input ng-model="activity.title" type="text" placeholder="Action you want to take" required>
                 </label>
 
@@ -60,16 +60,6 @@
                 </label>
 
                 <li class="item item-divider">
-                   Breakdown List
-                </li>
-
-                <label class="item item-input item-icon-right">
-                    <i class="icon ion-ios7-plus-empty"></i>
-                    <!--<span class="input-label">List</span>-->
-                    <input ng-model="activity.list" type="text" placeholder="item">
-                </label>
-
-                <li class="item item-divider">
                     Benefits:
                 </li>
 
@@ -80,11 +70,17 @@
                     <i class="icon ion-{{user.icon}}"></i> {{user.name}}
                 </li>
 
-                <label class="item item-input item-stacked-label">
-                    <span class="input-label">Instructions</span>
-                    <!--<input type="text" placeholder="john@suhr.com">-->
-                    <textarea placeholder="how would you delegate this?" ng-model="activity.instructions"></textarea>
-                </label>
+                <breakdown-list list="activity.list"></breakdown-list>
+                <!--<breakdown-list></breakdown-list>-->
+
+
+                <!--<li class="item item-divider">-->
+                    <!--Instructions-->
+                <!--</li>-->
+                <!--<label class="item item-input item-stacked-label">-->
+                    <!--&lt;!&ndash;<input type="text" placeholder="john@suhr.com">&ndash;&gt;-->
+                    <!--<textarea placeholder="how would you delegate this?" ng-model="activity.instructions"></textarea>-->
+                <!--</label>-->
 
                 <li class="item item-item-input">
                     <label class="toggle toggle-assertive">
@@ -113,8 +109,8 @@
 
 
                 <label class="item">
-                    <button ng-hide="editMode" class="button button-block button-positive" type="submit">Add</button>
-                    <button ng-show="editMode" class="button button-block button-positive" type="submit">Save</button>
+                    <button ng-click="activityForm.$valid && addEditActivity()" ng-hide="editMode" class="button button-block button-positive" type="button">Add</button>
+                    <button ng-click="activityForm.$valid && addEditActivity()" ng-show="editMode" class="button button-block button-positive" type="buttont">Save</button>
                 </label>
             </div>
 

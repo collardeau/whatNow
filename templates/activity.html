@@ -49,6 +49,16 @@
                 <!--<div class="col"></div>-->
             </div>
         </div>
+        <!--<div class="item">-->
+                <!--{{activity.list}}-->
+        <!--</div>-->
+
+        <div class="list">
+            <a ng-repeat="item in activity.list" href="#" class="item">
+               {{item}}
+            </a>
+        </div>
+
         <div class="item completionDetails" ng-show="activity.completion.done">
             <div class="row doers">
                 <div class="col col-25">

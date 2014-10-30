@@ -12,6 +12,12 @@ ion-nav-view {
     text-decoration: line-through;
 }
 
+.addList {
+    /*position: absolute !important;*/
+    /*top: 2em !important;*/
+    margin-top: 0.4em;
+}
+
 /*.instr {*/
     /*overflow: scroll;*/
     /*display: block;*/
