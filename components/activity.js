@@ -8,6 +8,21 @@ WhatNowApp.controller("ActivityCtrl", function($scope, activityFactory, firebase
         id = $scope.activity.$id;
     }
 
+    $scope.statusColor = function(status){
+        var color;
+        switch(status) {
+            case 0:
+                color = "positive"
+                break;
+            case 1:
+                color = "balanced"
+                break;
+            default:
+                color = "assertive"
+        }
+        return color;
+    }
+
     $scope.saveActivity = function () {
         firebaseService.activities[id] = $scope.activity;
         firebaseService.activities.$save(id);
