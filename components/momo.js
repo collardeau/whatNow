@@ -1,7 +1,7 @@
 /**
  * Created by thomascollardeau on 10/29/14.
  */
-//var momoApp = angular.module('momoApp', ['$ionic']);
+
 angular.module('momoApp', ['ionic', 'firebase'])
 
 .factory('momoFactory', function($firebase) {

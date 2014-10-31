@@ -27,7 +27,7 @@ WhatNowApp.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/open');
 })
 
-.controller('WhatNowCtrl', function($scope, firebaseService, activityFactory, $ionicModal, $state, $stateParams){
+.controller('WhatNowCtrl', function($scope, firebaseService, activityFactory, $ionicModal, $state){
     $scope.activities = firebaseService.activities;
     $scope.users = firebaseService.users;
 
