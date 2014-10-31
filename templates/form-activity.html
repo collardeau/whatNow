@@ -26,44 +26,6 @@
                     </label>
                 </div>
 
-                <div class="activityContext">
-                    <li class="item item-divider">
-                        Best Context:
-                    </li>
-
-                    <label class="item item-radio">
-                        <input type="radio" name="group" value="home" ng-model="activity.context">
-                        <div class="item-content">
-                            <i class="icon ion-home"></i> From Home
-                        </div>
-                        <i class="radio-icon ion-checkmark"></i>
-                    </label>
-
-                    <label class="item item-radio">
-                        <input type="radio" name="group" value="errand" ng-model="activity.context">
-                        <div class="item-content">
-                            <i class="icon ion-bag"></i> On Errands
-                        </div>
-                        <i class="radio-icon ion-checkmark"></i>
-                    </label>
-
-                    <label class="item item-radio">
-                        <input type="radio" name="group" value="computer" ng-model="activity.context">
-                        <div class="item-content">
-                            <i class="icon ion-monitor"></i> At Computer
-                        </div>
-                        <i class="radio-icon ion-checkmark"></i>
-                    </label>
-
-                    <label class="item item-radio">
-                        <input type="radio" name="group" value="fun" ng-model="activity.context">
-                        <div class="item-content">
-                            <i class="icon ion-happy"></i>  For Fun
-                        </div>
-                        <i class="radio-icon ion-happy"></i>
-                    </label>
-                </div>
-
                 <div class="activityUsers">
 
                     <li class="item item-divider">
@@ -80,16 +42,55 @@
                     </li>
                 </div>
 
+                <div class="activityContext">
+                    <li class="item item-divider">
+                        Best Context:
+                    </li>
+
+                    <label class="item item-radio">
+                        <input type="radio" name="group" value="home" ng-model="activity.context">
+                        <div class="item-content">
+                            <i class="icon ion-home"></i> From Home
+                        </div>
+                        <i class="radio-icon ion-checkmark positive"></i>
+                    </label>
+
+                    <label class="item item-radio">
+                        <input type="radio" name="group" value="errand" ng-model="activity.context">
+                        <div class="item-content">
+                            <i class="icon ion-bag"></i> On Errands
+                        </div>
+                        <i class="radio-icon ion-checkmark positive"></i>
+                    </label>
+
+                    <label class="item item-radio">
+                        <input type="radio" name="group" value="computer" ng-model="activity.context">
+                        <div class="item-content">
+                            <i class="icon ion-monitor"></i> At Computer
+                        </div>
+                        <i class="radio-icon ion-checkmark positive"></i>
+                    </label>
+
+                    <label class="item item-radio">
+                        <input type="radio" name="group" value="fun" ng-model="activity.context">
+                        <div class="item-content">
+                            <i class="icon ion-happy"></i>  For Fun
+                        </div>
+                        <i class="radio-icon ion-checkmark energized"></i>
+                    </label>
+                </div>
+
                 <breakdown-list list="activity.list"></breakdown-list>
 
+                <li class="item item-divider">
+                    More Instructions?
+                </li>
+                <label class="item item-input item-stacked-label">
+                    <!--<input type="text" placeholder="john@suhr.com">-->
+                    <textarea placeholder="how would you delegate this?" ng-model="activity.instructions"></textarea>
+                </label>
+
                 <div class="activityMore">
-                    <!--<li class="item item-divider">-->
-                        <!--Instructions-->
-                    <!--</li>-->
-                    <!--<label class="item item-input item-stacked-label">-->
-                        <!--&lt;!&ndash;<input type="text" placeholder="john@suhr.com">&ndash;&gt;-->
-                        <!--<textarea placeholder="how would you delegate this?" ng-model="activity.instructions"></textarea>-->
-                    <!--</label>-->
 
                     <li class="item item-item-input">
                         <label class="toggle toggle-assertive">
@@ -106,14 +107,14 @@
                         </label>Important
                     </li>
 
-                    <!--<li class="item item-item-input">-->
-                        <!--<label class="toggle toggle-assertive">-->
-                            <!--<input type="checkbox" ng-model="activity.private">-->
-                            <!--<div class="track">-->
-                                <!--<div class="handle"></div>-->
-                            <!--</div>-->
-                        <!--</label>Personal - only I can do this-->
-                    <!--</li>-->
+                    <li class="item item-item-input">
+                        <label class="toggle toggle-assertive">
+                            <input type="checkbox" ng-model="activity.private">
+                            <div class="track">
+                                <div class="handle"></div>
+                            </div>
+                        </label>Personal - only I can do this
+                    </li>
                 </div>
 
                 <label class="item">

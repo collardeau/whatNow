@@ -1,13 +1,6 @@
 <li class="item item-divider">
-    Make a list?
+    Need a list?
 </li>
-
-
-<!--<label class="item item-input item-icon-right">-->
-    <!---->
-    <!--<span ><i ng-click="addListItem()" class="icon ion-ios7-plus-empty"></i></span>-->
-
-<!--</label>-->
 
 <div class="item item-button-right">
     <input ng-model="newListItem" type="text" placeholder="break it down">
@@ -16,10 +9,16 @@
     </button>
 </div>
 
-<div ng-repeat="item in list" class="item item-button-right">
-    {{item}}
-    <button type="button" ng-click="deleteListItem(item)" class="button button-light">
+<div ng-hide="editMode" ng-repeat="item in list" class="item item-button-right">
+    <span ng-click="edit()">{{item}}</span>
+    <button type="button" ng-click="deleteListItem($index)" class="button button-light">
         <i class="icon ion-ios7-minus-empty"></i>
     </button>
+</div>
 
+<div ng-show="editMode" ng-repeat="item in list" class="item item-button-right">
+    <input ng-model="item" type="text">
+    <button type="button" ng-click="editListItem($index, item)" class="addList button button-light">
+        <i class="icon ion-ios7-plus-empty"></i>
+    </button>
 </div>

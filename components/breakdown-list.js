@@ -10,32 +10,32 @@ WhatNowApp.directive('breakdownList', function(){
         },
         templateUrl: 'templates/breakdown-list.html',
         controller: 'BreakDownCtrl'
-
     }
 })
 
 .controller('BreakDownCtrl', function($scope){
-   $scope.addListItem = function(newItem){
-       if(newItem) {
+
+    $scope.editMode = false;
+
+    $scope.edit = function(){
+      $scope.editMode = true;
+    },
+
+    $scope.addListItem = function(newItem){
+       if(angular.isString('newItem') && newItem) {
            $scope.list.push($scope.newListItem);
            $scope.newListItem = undefined;
        }
    };
 
-    $scope.deleteListItem = function(item){
-        toggleInArray($scope.list, item);
+   $scope.editListItem = function(itemId, item){
+       console.log("trying to edit my list item");
+       $scope.list[itemId] = item;
+       $scope.editMode = false;
+   }
+
+    $scope.deleteListItem = function(itemId){
+        $scope.list.splice(itemId, 1);
     };
-
-     var toggleInArray = function(array, string){
-        var pos = array.indexOf(string);
-        if(pos > -1) { //selection exists in the array
-            array.splice(pos, 1);
-        }else{
-            array.push(string);
-        }
-        return array;
-    };
-
-
 
 });
