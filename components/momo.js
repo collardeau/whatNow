@@ -28,7 +28,7 @@ angular.module('momoApp', ['ionic', 'firebase'])
     $scope.momo = momoFactory.momo;
 
     $scope.showMomo = function(){
-        var random = Math.floor((Math.random() * 15) + 1);
+        var random = Math.floor((Math.random() * 20) + 1);
         var myPopup = $ionicPopup.confirm({
             template: '<img src="img/momo-' + random + '.jpg" width="100%" height="auto"/>',
             title: 'The Great Momo',
