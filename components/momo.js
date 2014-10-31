@@ -19,7 +19,10 @@ angular.module('momoApp', ['ionic', 'firebase'])
         restrict: 'E',
         replace: true,
         controller: 'momoCtrl',
-        template: '<a class="tab-item has-badge" ng-click="showMomo()"><span class="badge badge-energized">{{momo.points}}</span><i class="icon ion-ios7-paw"></i> Momo</a>'
+        template: '' +
+            '<a class="tab-item has-badge" ng-click="showMomo()">' +
+            '<span class="badge badge-energized">{{momo.points}}</span>' +
+            '<i class="icon ion-ios7-paw"></i> Momo</a>'
     }
 })
 
@@ -38,6 +41,7 @@ angular.module('momoApp', ['ionic', 'firebase'])
                 { text: 'I love Momo!' }
             ]
         });
+
         myPopup.then(function (res) {
             if (!res) {
                 $scope.momo.points += 1;
