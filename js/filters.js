@@ -31,6 +31,36 @@ angular.module('whatNowFilters', [])
     };
 })
 
+.filter('duration', function(){
+        return function (unit){
+            var unit = parseInt(unit);
+            switch(unit) {
+                case 0:
+                    duration = 0;
+                    break;
+                case 1:
+                    duration = 10;
+                    break;
+                case 2:
+                    duration = 30;
+                    break;
+                case 3:
+                    duration = 60;
+                    break;
+                case 4:
+                    duration = 90;
+                    break;
+                case 5:
+                    duration = 120;
+                    break;
+                default:
+                    duration = 10;
+            }
+            return duration;
+        }
+
+})
+
 .filter('context', function () {
     return function (items, context) {
         if(context) {

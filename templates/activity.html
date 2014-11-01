@@ -81,7 +81,7 @@
         </div>
 
         <div class="list">
-            <a ng-repeat="item in activity.list" href="#" class="item">
+            <a ng-repeat="item in activity.list" class="item">
                {{item}}
             </a>
         </div>
@@ -98,7 +98,7 @@
 
             <div class="row">
                 <div class="col col-33">Duration:</div>
-                <div class="col">{{activity.duration  * 15 }} minutes</div>
+                <div class="col"><span ng-show="activity.duration !== 5">less than</span> {{activity.duration  | duration }} minutes</div>
             </div>
 
             <div class="row">

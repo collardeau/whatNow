@@ -19,8 +19,8 @@
                     <label class="item item-input">
                         <span class="input-label">Max Duration</span>
                         <div class="range range-positive">
-                            <input type="range" ng-model="activity.duration" min="0" max="8" value="1"> {{activity.duration * 15}}
-                            <span ng-show="activity.duration == 8">+ </span> min
+                            <input type="range" ng-model="activity.duration" min="0" max="5" value="1"> {{activity.duration | duration}}
+                            <span ng-show="activity.duration == 5">+ </span> min
                         </div>
                         <!--<div ng-hide="activity.duration == 8">max</div>-->
                     </label>
@@ -91,6 +91,14 @@
                 </label>
 
                 <div class="activityMore">
+                    <li class="item item-item-input">
+                        <label class="toggle toggle-assertive">
+                            <input type="checkbox" ng-model="activity.private">
+                            <div class="track">
+                                <div class="handle"></div>
+                            </div>
+                        </label>Personal - only I can do this
+                    </li>
 
                     <li class="item item-item-input">
                         <label class="toggle toggle-assertive">
@@ -105,15 +113,6 @@
                                 <div class="handle"></div>
                             </div>
                         </label>Important
-                    </li>
-
-                    <li class="item item-item-input">
-                        <label class="toggle toggle-assertive">
-                            <input type="checkbox" ng-model="activity.private">
-                            <div class="track">
-                                <div class="handle"></div>
-                            </div>
-                        </label>Personal - only I can do this
                     </li>
                 </div>
 

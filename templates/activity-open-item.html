@@ -10,7 +10,6 @@
     <div class="col-90">
         <span> {{activity.title}}</span>
         <!--<br />for <owners></owners>-->
-        <span class="item-note">{{activity.duration * 15}} min</span>
-
+        <span class="item-note">{{activity.duration | duration}} min</span>
     </div>
 </div>
