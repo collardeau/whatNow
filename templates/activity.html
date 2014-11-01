@@ -75,17 +75,20 @@
         </div>
     </div>
 
-    <div class="card" ng-show="activity.list" ng-class="{greyOut: activity.status===1}">
+    <div class="card activityList" ng-show="activity.list" ng-class="{greyOut: activity.status===1}">
         <div class="item item-divider">
             Itemize
         </div>
 
         <div class="list">
-            <a ng-repeat="item in activity.list" class="item">
-               {{item.title}}
-            </a>
+            <label ng-repeat="item in activity.list" class="item item-radio">
+                <input type="checkbox" ng-model="item.completed" ng-change="saveActivity()">
+                <div class="item-content">
+                    {{item.title}}
+                </div>
+                <i class="radio-icon ion-checkmark"></i>
+            </label>
         </div>
-
     </div>
 
     <div class="card activityDetails" ng-class="{greyOut: activity.status===1}">

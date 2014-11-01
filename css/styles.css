@@ -40,22 +40,10 @@ h2 {
     padding: 0;
 
 }
-/*.bar-subheader .badge {*/
-    /*position: absolute !important;*/
-    /*right: 2.6em !important;*/
-/*}*/
 
-.sorting {
-    font-size: 0.9em;
-    font-weight: normal;
-    text-align: right;
+#doneActivities h2 {
+    font-size: 1.1em;
 }
-
-.sorting a {
-    color: #000;
-    /*text-decoration: dotted;*/
-}
-
 .doneDetails {
     font-size: 0.9em;
     color: #666;
@@ -69,7 +57,7 @@ h2 {
     font-size: 1.3em;
 }
 
-.item-checkbox i, .item-radio i {
+#activityForm .item-checkbox i, #activityForm .item-radio i {
     font-size: 1.61em;
     margin-right: 0.3em;
 }
@@ -84,9 +72,26 @@ h2 {
     font-weight: normal;
 }
 
-#doneActivities h2 {
-    font-size: 1.1em;
-}
+/*.sorting {*/
+    /*font-size: 0.9em;*/
+    /*font-weight: normal;*/
+    /*text-align: right;*/
+/*}*/
+
+/*.sorting a {*/
+    /*color: #000;*/
+    /*text-decoration: dotted;*/
+/*}*/
+
+/*.bar-subheader .badge {*/
+/*position: absolute !important;*/
+/*right: 2.6em !important;*/
+/*}*/
+
+
+
+
+
 
 
 
