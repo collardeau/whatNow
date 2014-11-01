@@ -15,15 +15,14 @@ WhatNowApp.directive('breakdownList', function(){
 
 .controller('BreakDownCtrl', function($scope){
 
-    $scope.editMode = false;
+    $scope.editable = [];
 
-    $scope.edit = function(){
-      $scope.editMode = true;
-    },
+    $scope.edit = function(index){
+      $scope.editable[index] = true;
+    };
 
     $scope.addListItem = function(newItem){
        if(angular.isString('newItem') && newItem) {
-
            var item = {
                title: newItem,
                completed: false
@@ -33,13 +32,30 @@ WhatNowApp.directive('breakdownList', function(){
        }
    };
 
-   $scope.editListItem = function(itemId, item){
-       $scope.list[itemId] = item;
-       $scope.editMode = false;
+   $scope.saveListItem = function(index, item){
+       $scope.list[index] = item;
+       $scope.editable[index] = false;
    }
 
-    $scope.deleteListItem = function(itemId){
-        $scope.list.splice(itemId, 1);
+    $scope.deleteListItem = function(index){
+        $scope.list.splice(index, 1);
     };
 
+})
+
+.directive('focusMe', function($timeout) {
+    return {
+        link: function(scope, element, attrs) {
+            scope.$watch(attrs.focusMe, function(value) {
+                if(value === true) {
+                    $timeout(function() {
+                        element[0].focus();
+                    });
+                }
+            });
+        }
+    };
 });
+
+
+;

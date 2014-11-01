@@ -3,22 +3,28 @@
 </li>
 
 <div class="item item-button-right">
-    <input ng-model="newListItem" type="text" placeholder="break it down">
-    <button type="button" ng-click="addListItem(newListItem)" class="addList button button-light">
+    <input ng-model="newListItem" type="text" placeholder="break it down" focus>
+    <button type="submit" ng-click="addListItem(newListItem)" class="addList button button-light">
         <i class="icon ion-ios7-plus-empty"></i>
     </button>
 </div>
 
-<div ng-hide="editMode" ng-repeat="item in list" class="item item-button-right">
-    <span ng-click="edit()">{{item.title}}</span>
-    <button type="button" ng-click="deleteListItem($index)" class="button button-light">
+<div ng-repeat="item in list" class="item item-button-right">
+
+    <span ng-hide="editable[$index]" ng-click="edit($index)">{{item.title}}</span>
+    <button ng-hide="editable[$index]" type="button" ng-click="deleteListItem($index)" class="button button-light">
         <i class="icon ion-ios7-minus-empty"></i>
     </button>
-</div>
 
-<div ng-show="editMode" ng-repeat="item in list" class="item item-button-right">
-    <input ng-model="item.title" type="text">
-    <button type="button" ng-click="editListItem($index, item)" class="addList button button-light">
+    <input ng-show="editable[$index]" ng-model="item.title" type="text" focus-me="editable[$index]">
+    <button ng-show="editable[$index]" type="button" ng-click="saveListItem($index, item)" class="addList button button-neutral">
         <i class="icon ion-ios7-plus-empty"></i>
     </button>
 </div>
+
+<!--<div ng-show="editMode" ng-repeat="item in list" class="item item-button-right">-->
+    <!--<input ng-model="item.title" type="text">-->
+    <!--<button type="button" ng-click="editListItem($index, item)" class="addList button button-light">-->
+        <!--<i class="icon ion-ios7-plus-empty"></i>-->
+    <!--</button>-->
+<!--</div>-->
