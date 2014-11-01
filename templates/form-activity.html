@@ -36,7 +36,7 @@
 
                     <li class="item item-checkbox" ng-repeat="user in users">
                         <label class="checkbox">
-                            <input type="checkbox" ng-change="toggleUser(user.name)" ng-model="forUsers[user.name]">
+                            <input type="checkbox" ng-change="toggleUser(user.name)" ng-model="forUsers[user.name]" ng-required="!someSelected(forUsers)">
                         </label>
                         <i class="icon ion-{{user.icon}}"></i> {{user.name}}
                     </li>
@@ -117,8 +117,10 @@
                 </div>
 
                 <label class="item">
-                    <button ng-click="activityForm.$valid && addEditActivity()" ng-hide="editMode" class="button button-block button-positive" type="button">Add</button>
-                    <button ng-click="activityForm.$valid && addEditActivity()" ng-show="editMode" class="button button-block button-positive" type="buttont">Save</button>
+                    <button type="button"  class="button button-block button-positive"
+                            ng-click="activityForm.$valid && addEditActivity()"
+                            ng-class="{'disabled': !activityForm.$valid }">{{editMode ? 'Save' : 'Add'}}
+                    </button>
                 </label>
             </div>
 

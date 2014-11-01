@@ -53,6 +53,12 @@ WhatNowApp.controller('FormCtrl', function($scope, $ionicModal, $stateParams, ac
         activityFactory.toggleInArray($scope.activity.users, user);
     };
 
+    $scope.someSelected = function (object) {
+        return Object.keys(object).some(function (key) {
+            return object[key];
+        });
+    };
+
     var inEditMode = function(){
         //if a specific id in the url, we are in edit mode
         if($stateParams.activityId){
@@ -60,8 +66,6 @@ WhatNowApp.controller('FormCtrl', function($scope, $ionicModal, $stateParams, ac
         }
         return false;
     };
-
-
 
     $ionicModal.fromTemplateUrl('templates/form-activity.html', function(modal){
         $scope.formModal = modal;
