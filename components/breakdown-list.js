@@ -13,7 +13,7 @@ WhatNowApp.directive('breakdownList', function(){
     }
 })
 
-.controller('BreakDownCtrl', function($scope){
+.controller('BreakDownCtrl', function($scope, $ionicPopup){
 
     $scope.editable = [];
 
@@ -38,7 +38,19 @@ WhatNowApp.directive('breakdownList', function(){
    }
 
     $scope.deleteListItem = function(index){
-        $scope.list.splice(index, 1);
+        var confirmPopup = $ionicPopup.confirm({
+            title: 'Delete this item?',
+            template: $scope.list[index].title
+        });
+        confirmPopup.then(function (res) {
+            if (res) {
+                $scope.list.splice(index, 1);
+            } else {
+                console.log('Cancel Delete');
+            }
+        });
+
+
     };
 
 })
