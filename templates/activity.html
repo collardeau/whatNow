@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <div class="col col-20">
-                    <label class="toggle toggle-balanced">
+                    <label class="toggle toggle-light">
                         <input type="checkbox" ng-model="activity.completion.done" ng-change="toggleCompletion()">
                         <div class="track">
                             <div class="handle"></div>
@@ -77,12 +77,12 @@
 
     <div class="card" ng-show="activity.list" ng-class="{greyOut: activity.status===1}">
         <div class="item item-divider">
-            Breaking it down
+            Itemize
         </div>
 
         <div class="list">
             <a ng-repeat="item in activity.list" class="item">
-               {{item}}
+               {{item.title}}
             </a>
         </div>
 

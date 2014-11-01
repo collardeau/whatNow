@@ -24,7 +24,7 @@ WhatNowApp.controller('FormCtrl', function($scope, $ionicModal, $stateParams, ac
 
         //get the proper activity start values to fill the form
         if(!$scope.editMode){ //brand new form
-            $scope.activity = activityFactory.newActivity();
+            $scope.activity = activityFactory.newActivity;
         }else { //editing an existing activity
             var id = $stateParams.activityId;
             $scope.activity = firebaseService.activities[id];

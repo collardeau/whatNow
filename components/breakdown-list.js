@@ -23,13 +23,17 @@ WhatNowApp.directive('breakdownList', function(){
 
     $scope.addListItem = function(newItem){
        if(angular.isString('newItem') && newItem) {
-           $scope.list.push($scope.newListItem);
+
+           var item = {
+               title: newItem,
+               completed: false
+           }
+           $scope.list.push(item);
            $scope.newListItem = undefined;
        }
    };
 
    $scope.editListItem = function(itemId, item){
-       console.log("trying to edit my list item");
        $scope.list[itemId] = item;
        $scope.editMode = false;
    }

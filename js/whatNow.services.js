@@ -25,23 +25,32 @@ angular.module('whatNow.services', ['firebase'])
     })
 
 .factory('activityFactory', function() {
+
+    function Activity() {
+        this.title= undefined;
+        this.status= 0;
+        this.urgent= false;
+        this.important= false;
+        this.private= false;
+        this.duration= 1; //10 min
+        this.completion= new ActivityCompletion();
+        this.context= undefined;
+        this.users= [];
+        this.instructions= undefined;
+        this.list= [];
+    }
+
+    function ActivityCompletion(){
+        this.done = false;
+        this.by = [];
+        on: undefined;
+        ptsGiven: 0;
+    }
+
     return {
          //should call new on it, proper function class?
-        newActivity: function(){
-            return {
-                title: undefined,
-                status: 0,
-                urgent: false,
-                important: false,
-                private: false,
-                duration: 1, //15 minutes increments
-                completion: this.newCompletion(),
-                context: undefined,
-                users: [],
-                instructions: undefined,
-                list: []
-            };
-        },
+        newActivity: new Activity(),
+        newCompletion: new ActivityCompletion(),
 
         prep: function(activity){
             activity.title = activity.title.trim();
@@ -51,15 +60,6 @@ angular.module('whatNow.services', ['firebase'])
             }
             activity.status  = this.getStatus(activity);
             return activity;
-        },
-
-        newCompletion: function(){
-            return {
-                done: false,
-                by: [],
-                on: undefined,
-                ptsGiven: 0
-            }
         },
 
         getStatus: function(activity){

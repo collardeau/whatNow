@@ -1,6 +1,7 @@
 WhatNowApp.controller("ActivityCtrl", function($scope, activityFactory, firebaseService, $state, $stateParams, $ionicModal, $ionicPopup) {
 
-    var id; //get the current activity id
+    //which activity
+    var id;
     if($stateParams.activityId) { //grab activity from url if there is one
         id = $stateParams.activityId;
         $scope.activity = firebaseService.activities[id];
@@ -70,7 +71,7 @@ WhatNowApp.controller("ActivityCtrl", function($scope, activityFactory, firebase
             confirmPopup.then(function (res) {
                 if (res) {
                     resetPoints();
-                    $scope.activity.completion = activityFactory.newCompletion();
+                    $scope.activity.completion = activityFactory.newCompletion;
                     $scope.activity.status = activityFactory.getStatus($scope.activity);
                     $scope.saveActivity();
                 } else {
